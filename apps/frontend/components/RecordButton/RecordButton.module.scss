@@ -1,0 +1,38 @@
+$outer-button-size: 3px; // red outer circle
+$border-button-size: 14px; // white border circle
+$inner-button-size: 34px; // inner red circle
+$inner-button-stop-size: 20px; // inner red circle when recording(stop button)
+
+.recButton {
+  background: rgb(255, 255, 255);
+  position: relative;
+  cursor: pointer;
+  border: $outer-button-size solid rgb(255, 0, 0);
+  border-radius: 50%;
+  width: $inner-button-size + $border-button-size;
+  height: $inner-button-size + $border-button-size;
+
+  &::after{
+    transition: all 0.2s  ease-out;
+    content: "";
+    position: absolute;
+    top: $border-button-size/2 - $outer-button-size;
+    left: $border-button-size/2 - $outer-button-size;
+    width: $inner-button-size;
+    height:$inner-button-size;
+    border-radius: 50%;
+    background: rgb(255, 0, 0);
+  }
+
+  &.recording {
+    &::after{
+      top: (($inner-button-size + $border-button-size) - $inner-button-stop-size)/2 - $outer-button-size;
+      left: (($inner-button-size + $border-button-size) - $inner-button-stop-size)/2 - $outer-button-size;
+      width: $inner-button-stop-size;
+      height: $inner-button-stop-size;
+      border-radius: 20%;
+    }
+  }
+}
+
+
