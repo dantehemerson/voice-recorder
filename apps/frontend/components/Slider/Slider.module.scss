@@ -1,0 +1,41 @@
+.input {
+  width: 100%;
+}
+
+@mixin slider-thumb {
+  -webkit-appearance: none;
+  border: 2px solid #000000;
+  height: 36px;
+  width: 16px;
+  border-radius: 3px;
+  background: #ffffff;
+  cursor: pointer;
+  // margin-top: -14px; /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
+  // box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d; /* Add cool effects to your sliders! */
+}
+
+.input::-webkit-slider-thumb {
+  @include slider-thumb;
+}
+
+/* All the same stuff for Firefox */
+.input::-moz-range-thumb {
+  @include slider-thumb;
+}
+
+/* All the same stuff for IE */
+.input::-ms-thumb {
+  @include slider-thumb;
+}
+
+.audio {
+  width: 100%;
+}
+
+.audio::-webkit-media-controls-panel {
+  background-color: white;
+}
+
+.audio::-webkit-media-controls-current-time-display {
+  color: black;
+}
