@@ -1,4 +1,5 @@
-import { RecordButton } from '../components/RecordButton/RecordButton';
+import { HomeContextProvider } from '../contexts/home.context';
+import { Home } from '../views/Home/Home';
 import styles from './index.module.scss';
 
 export function Index() {
@@ -8,13 +9,15 @@ export function Index() {
    * Note: The corresponding styles are in the ./index.scss file.
    */
   return (
-    <div className={styles.page}>
-      <div className="wrapper">
-        <div className="container">
-          <RecordButton />
+    <HomeContextProvider>
+      <div className={styles.page}>
+        <div className="wrapper">
+          <div className="container">
+            <Home />
+          </div>
         </div>
       </div>
-    </div>
+    </HomeContextProvider>
   );
 }
 

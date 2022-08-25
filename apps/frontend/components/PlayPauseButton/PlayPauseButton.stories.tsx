@@ -10,11 +10,11 @@ export default {
 const Template: ComponentStory<typeof PlayPauseButton> = (
   args: PlayPauseButtonProps
 ) => {
-  const [playing, setPlaying] = React.useState(args.playing);
+  const [playing, setPlaying] = React.useState(args.paused);
 
   return (
     <div onClick={() => setPlaying(!playing)}>
-      <PlayPauseButton {...args} playing={playing} />
+      <PlayPauseButton {...args} paused={playing} />
     </div>
   );
 };

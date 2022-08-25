@@ -1,16 +1,21 @@
 import clsx from 'clsx';
 import React from 'react';
+import { RecorderStatus } from '../../contexts/reducers/home-context.reducer';
 import styles from './RecordButton.module.scss';
 
 type RecordButtonProps = {
-  stopped: boolean;
+  onClick: (newStatus: RecorderStatus) => void;
+  recording: boolean;
 };
 
-export function RecordButton({ stopped }: RecordButtonProps) {
+export function RecordButton({ recording, onClick }: RecordButtonProps) {
+  const handleClick = () => {
+    onClick(recording ? RecorderStatus.Recorded : RecorderStatus.Recording);
+  };
   return (
     <div
-      // onClick={() => setIsRecording(!isRecording)}
-      className={clsx(styles.recButton, stopped && styles.recording)}
+      onClick={handleClick}
+      className={clsx(styles.recButton, recording && styles.recording)}
     ></div>
   );
 }
