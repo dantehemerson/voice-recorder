@@ -30,7 +30,7 @@ export function initRecorder({ mic }: InitRecorderOptions): MediaStream {
     options.numberOfAudioChannels = 2;
   }
 
-  const recorder = Recorder(mic, {});
+  const recorder = Recorder(mic, options);
 
   return recorder;
 }

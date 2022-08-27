@@ -21,8 +21,10 @@ type HomeContextProviderProps = {
 
 function HomeContextProvider({ children }: HomeContextProviderProps) {
   const [homeState, dispatchHomeEvent] = useReducer(homeContextReducer, {
-    state: RecorderStatus.Stopped,
+    state: RecorderStatus.Ready,
     recorder: undefined,
+    mic: undefined,
+    blobUrl: undefined,
   });
 
   const value: HomeContextValue = {
