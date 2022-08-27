@@ -1,8 +1,8 @@
 import React, { useReducer } from 'react';
 import {
+  HomeAction,
   homeContextReducer,
   HomeState,
-  HomeAction,
   RecorderStatus,
 } from './reducers/home-context.reducer';
 
@@ -16,13 +16,14 @@ const HomeContext = React.createContext<HomeContextValue | undefined>(
 );
 
 type HomeContextProviderProps = {
-  children: React.ElementRef<any>;
+  children: JSX.Element;
 };
 
 function HomeContextProvider({ children }: HomeContextProviderProps) {
   const [homeState, dispatchHomeEvent] = useReducer(homeContextReducer, {
     state: RecorderStatus.Stopped,
-  } as HomeState);
+    recorder: undefined,
+  });
 
   const value: HomeContextValue = {
     homeState,

@@ -1,3 +1,6 @@
+import { initRecorder } from '../../helpers/mic/init-recorder.helper';
+import { RecordRTC } from '../../helpers/recordrtc';
+
 export enum RecorderStatus {
   Stopped = 'stopped',
   Recording = 'recording',
@@ -7,9 +10,14 @@ export enum RecorderStatus {
 
 export type HomeState = {
   state: RecorderStatus;
+  recorder: RecordRTC;
 };
 
 export type HomeAction =
+  | {
+      type: HomeActionType.INIT;
+      mic: MediaStream;
+    }
   | {
       type: HomeActionType.START_RECORDING;
     }
@@ -19,6 +27,7 @@ export type HomeAction =
     };
 
 export enum HomeActionType {
+  INIT = 'INIT',
   START_RECORDING = 'START_RECORDING',
   UPDATE_STATE = 'UPDATE_STATE',
 }
@@ -28,6 +37,29 @@ export function homeContextReducer(
   action: HomeAction
 ): HomeState {
   switch (action.type) {
+    case HomeActionType.INIT:
+      try {
+        let recorder;
+
+        if (state.recorder) {
+          recorder = state.recorder;
+          recorder.reset();
+        } else {
+          recorder = initRecorder({ mic: action.mic });
+        }
+
+        return {
+          ...state,
+          recorder,
+        };
+      } catch (error) {
+        alert(
+          'An error occured while initializing the recorder, check console'
+        );
+        console.error(error);
+        return state;
+      }
+      break;
     case HomeActionType.START_RECORDING:
       return {
         ...state,
