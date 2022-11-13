@@ -5,6 +5,7 @@
   "scripts": {
     "start": "nx serve",
     "start:all": "nx run-many --parallel --target=serve --projects=frontend,api",
+    "storybook": "nx storybook --projects=frontend",
     "build": "nx build",
     "test": "nx test"
   },

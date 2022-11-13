@@ -28,7 +28,10 @@ export type HomeAction =
       mic: MediaStream;
     }
   | {
-      type: HomeActionType.START_RECORDING;
+      type:
+        | HomeActionType.START_RECORDING
+        | HomeActionType.PAUSE_RECORDING
+        | HomeActionType.RESUME_RECORDING;
     }
   | {
       type: HomeActionType.STOP_RECORDING;
@@ -44,6 +47,8 @@ export enum HomeActionType {
   START_RECORDING = 'START_RECORDING',
   UPDATE_STATE = 'UPDATE_STATE',
   STOP_RECORDING = 'STOP_RECORDING',
+  PAUSE_RECORDING = 'PAUSE_RECORDING',
+  RESUME_RECORDING = 'RESUME_RECORDING',
 }
 
 export function homeContextReducer(
@@ -87,6 +92,18 @@ export function homeContextReducer(
       };
 
     case HomeActionType.START_RECORDING:
+      return {
+        ...state,
+        state: RecorderStatus.Recording,
+      };
+
+    case HomeActionType.PAUSE_RECORDING:
+      return {
+        ...state,
+        state: RecorderStatus.Paused,
+      };
+
+    case HomeActionType.RESUME_RECORDING:
       return {
         ...state,
         state: RecorderStatus.Recording,

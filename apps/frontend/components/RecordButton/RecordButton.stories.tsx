@@ -12,6 +12,4 @@ const Template: ComponentStory<typeof RecordButton> = (args) => (
 
 export const Primary = Template.bind({});
 
-Primary.args = {
-  stopped: true,
-};
+Primary.args = {};
