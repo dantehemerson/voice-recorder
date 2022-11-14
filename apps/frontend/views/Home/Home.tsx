@@ -1,5 +1,4 @@
 import { useContext } from 'react';
-import { Slider } from '../../components/Slider/Slider';
 import { HomeContext } from '../../contexts/home.context';
 import {
   HomeActionType,
