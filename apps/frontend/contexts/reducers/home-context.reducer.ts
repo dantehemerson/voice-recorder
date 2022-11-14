@@ -87,10 +87,20 @@ export function homeContextReducer(
       break;
 
     case HomeActionType.STOP_RECORDING:
+      try {
+        /** Release microphone */
+        state.mic.getAudioTracks()?.[0]?.stop();
+        state.recorder?.destroy();
+      } catch (error) {
+        console.error('Error while stopping mic', error);
+      }
+
       return {
         ...state,
+        recorder: undefined,
         state: RecorderStatus.Stopped,
         blobUrl: action.blobUrl,
+        mic: undefined,
       };
 
     case HomeActionType.START_RECORDING:

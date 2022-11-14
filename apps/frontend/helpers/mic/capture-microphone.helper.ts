@@ -1,10 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { isEdge } from '../browser/browser.helpers';
 
-/**
- *
- * @returns
- */
 export async function captureMicrophone(): Promise<MediaStream> {
   try {
     if (
