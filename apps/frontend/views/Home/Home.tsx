@@ -7,6 +7,7 @@ import {
 } from '../../contexts/reducers/home-context.reducer';
 import { captureMicrophone } from '../../helpers/mic/capture-microphone.helper';
 import { InitialView } from './InitialView';
+import { RecordFinishedView } from './RecordFinishedView';
 import { RecordingView } from './RecordingView';
 
 export function Home() {
@@ -34,6 +35,12 @@ export function Home() {
     });
   }
 
+  async function handleClickNewRecording() {
+    dispatchHomeEvent({
+      type: HomeActionType.START_NEW_RECORDING,
+    });
+  }
+
   const isRecording =
     state === RecorderStatus.Recording || state === RecorderStatus.Paused;
 
@@ -43,7 +50,12 @@ export function Home() {
         <InitialView onClick={() => startRecording()} />
       )}
       {isRecording && <RecordingView onClick={() => stopRecording()} />}
-      {state === RecorderStatus.Stopped && <Slider src={homeState.blobUrl} />}
+      {state === RecorderStatus.Stopped && (
+        <RecordFinishedView
+          blobUrl={homeState.blobUrl}
+          onClickNewRecording={handleClickNewRecording}
+        />
+      )}
     </div>
   );
 }

@@ -2,7 +2,6 @@ import { PauseButton } from '../../components/PauseButton/PauseButton';
 import { StopButton } from '../../components/StopButton/StopButton';
 import { Timer } from '../../components/Timer/Timer';
 import styles from './RecordingView.module.scss';
-console.log(styles);
 
 type RecordingViewProps = {
   onClick: () => void;

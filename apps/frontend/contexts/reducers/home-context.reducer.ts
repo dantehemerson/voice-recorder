@@ -31,7 +31,8 @@ export type HomeAction =
       type:
         | HomeActionType.START_RECORDING
         | HomeActionType.PAUSE_RECORDING
-        | HomeActionType.RESUME_RECORDING;
+        | HomeActionType.RESUME_RECORDING
+        | HomeActionType.START_NEW_RECORDING;
     }
   | {
       type: HomeActionType.STOP_RECORDING;
@@ -49,6 +50,7 @@ export enum HomeActionType {
   STOP_RECORDING = 'STOP_RECORDING',
   PAUSE_RECORDING = 'PAUSE_RECORDING',
   RESUME_RECORDING = 'RESUME_RECORDING',
+  START_NEW_RECORDING = 'START_NEW_RECORDING',
 }
 
 export function homeContextReducer(
@@ -113,6 +115,12 @@ export function homeContextReducer(
       return {
         ...state,
         state: action.newState,
+      };
+    case HomeActionType.START_NEW_RECORDING:
+      return {
+        ...state,
+        state: RecorderStatus.Ready,
+        blobUrl: undefined,
       };
 
     default:
