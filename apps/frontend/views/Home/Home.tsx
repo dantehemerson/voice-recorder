@@ -1,7 +1,5 @@
 import { useContext } from 'react';
 import { Slider } from '../../components/Slider/Slider';
-import { StopButton } from '../../components/StopButton/StopButton';
-import { Timer } from '../../components/Timer/Timer';
 import { HomeContext } from '../../contexts/home.context';
 import {
   HomeActionType,
@@ -9,13 +7,11 @@ import {
 } from '../../contexts/reducers/home-context.reducer';
 import { captureMicrophone } from '../../helpers/mic/capture-microphone.helper';
 import { InitialView } from './InitialView';
+import { RecordingView } from './RecordingView';
 
 export function Home() {
   const { dispatchHomeEvent, homeState } = useContext(HomeContext);
   const { state } = homeState;
-
-  const isRecording =
-    state === RecorderStatus.Recording || state === RecorderStatus.Paused;
 
   async function startRecording() {
     const mic = homeState.mic ?? (await captureMicrophone());
@@ -38,11 +34,15 @@ export function Home() {
     });
   }
 
+  const isRecording =
+    state === RecorderStatus.Recording || state === RecorderStatus.Paused;
+
   return (
     <div>
-      <Timer mm={10} ss={11} hideMs={true} />
-      {!isRecording && <InitialView onClick={() => startRecording()} />}
-      {isRecording && <StopButton onClick={() => stopRecording()} />}
+      {state === RecorderStatus.Ready && (
+        <InitialView onClick={() => startRecording()} />
+      )}
+      {isRecording && <RecordingView onClick={() => stopRecording()} />}
       {state === RecorderStatus.Stopped && <Slider src={homeState.blobUrl} />}
     </div>
   );

@@ -1,0 +1,22 @@
+.RecordingView {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid red;
+  height: 100%;
+  width: 100%;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+
+.timerContainer {
+  display: flex;
+  height: 50px;
+  align-items: center;
+}
+
+.buttonsContainer {
+  display: flex;
+}

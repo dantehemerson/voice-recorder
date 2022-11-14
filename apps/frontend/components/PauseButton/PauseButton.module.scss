@@ -1,5 +1,5 @@
-.recButton {
-  background: #FF3341;
+.pauseButton {
+  background: #F4F4F6;
   width: 3.5rem;
   height: 3.5rem;
   display: flex;
@@ -11,9 +11,8 @@
   transition: all 0.3s ease-in-out;
 
   &:hover {
-    background: #ed2e3a;
+    background: #e6e6e6;
     box-shadow: 0px 0px 3px 0px #525252;
   }
 }
-
 
