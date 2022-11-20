@@ -21,7 +21,7 @@ export function Home() {
       const settings = track.getSettings();
       console.log('🤫 Dante ➤ startRecording ➤ settings', settings);
 
-      const audioContext = new AudioContext();
+      let audioContext = new AudioContext();
       await audioContext.audioWorklet.addModule('/processor.js');
 
       console.log('audio context', audioContext);
@@ -45,6 +45,7 @@ export function Home() {
       );
 
       const worker = new Worker(url);
+      const audioData = [];
 
       worker.onmessage = (event) => {
         switch (event.data.message) {
@@ -57,7 +58,10 @@ export function Home() {
           case 'data':
             // event.data.jobId in Ss &&
             //   Ss[e.data.jobId].ondataavailable(e.data.data);
-            console.log('DATA', event);
+            if (event.data.data.length > 0) {
+              console.log('DATA', event);
+              audioData.push(event.data.data);
+            }
             break;
           case 'stopped':
             console.log('STOPPED', event);
@@ -106,11 +110,25 @@ export function Home() {
         },
       });
 
+      let audioBlob;
+      let audioBlobUrl;
+
       setTimeout(() => {
+        /** Stop recording */
         worker.postMessage({
           command: 'stop',
           jobId,
         });
+        /** destroyAudioContext audioRecorder */
+        audioRecorder.port.onmessage = null;
+        audioRecorder.disconnect();
+        audioContext.close();
+        audioContext = undefined;
+
+        audioBlob = new Blob(audioData, { type: 'audio/mpeg' });
+        audioBlobUrl = URL.createObjectURL(audioBlob);
+
+        console.log(audioBlobUrl);
       }, 3000);
 
       // const blob = encodeAudio(buffers, settings); // <11>
