@@ -20,6 +20,7 @@ export async function captureMicrophone(): Promise<MediaStream> {
         : {
             echoCancellation: false,
           },
+      video: false,
     });
 
     return mic;

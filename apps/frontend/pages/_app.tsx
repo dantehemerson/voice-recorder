@@ -1,8 +1,9 @@
+import { config } from '@fortawesome/fontawesome-svg-core';
+import '@fortawesome/fontawesome-svg-core/styles.css';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
 import './styles.css';
-import { config } from '@fortawesome/fontawesome-svg-core';
-import '@fortawesome/fontawesome-svg-core/styles.css';
+
 config.autoAddCss = false;
 
 function CustomApp({ Component, pageProps }: AppProps) {

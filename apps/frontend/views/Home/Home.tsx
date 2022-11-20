@@ -14,9 +14,116 @@ export function Home() {
   const { state } = homeState;
 
   async function startRecording() {
-    const mic = homeState.mic ?? (await captureMicrophone());
+    try {
+      const stream = homeState.mic ?? (await captureMicrophone());
 
-    dispatchHomeEvent({ type: HomeActionType.INIT, mic });
+      const [track] = stream.getAudioTracks();
+      const settings = track.getSettings();
+      console.log('🤫 Dante ➤ startRecording ➤ settings', settings);
+
+      const audioContext = new AudioContext();
+      await audioContext.audioWorklet.addModule('/processor.js');
+
+      console.log('audio context', audioContext);
+      const sourceNode = audioContext.createMediaStreamSource(stream);
+
+      const audioRecorder = new AudioWorkletNode(
+        audioContext,
+        'script-processor-replacement'
+      );
+
+      sourceNode.connect(audioRecorder);
+      audioRecorder.connect(audioContext.destination);
+
+      const scriptT = 'importScripts("'.concat(
+        'http://localhost:4200/mp3worker.min.js',
+        '");'
+      );
+
+      const url = URL.createObjectURL(
+        new Blob([scriptT], { type: 'application/javascript' })
+      );
+
+      const worker = new Worker(url);
+
+      worker.onmessage = (event) => {
+        switch (event.data.message) {
+          case 'ready':
+            // dispatchHomeEvent({
+            //   ready: 'ready'
+            // })
+            console.log('READY');
+            break;
+          case 'data':
+            // event.data.jobId in Ss &&
+            //   Ss[e.data.jobId].ondataavailable(e.data.data);
+            console.log('DATA', event);
+            break;
+          case 'stopped':
+            console.log('STOPPED', event);
+            // e.data.jobId in Ss && Ss[e.data.jobId].onstopped();
+            break;
+        }
+        // const blob = new Blob(event.data, { type: 'audio/mpeg' });
+        // const url = URL.createObjectURL(blob);
+      };
+
+      audioRecorder.port.onmessage = (event) => {
+        // console.log('🤫 Dante ➤ startRecording ➤ event', event);
+        worker.postMessage({
+          command: 'data',
+          jobId,
+          buffers: event.data,
+        });
+      };
+
+      // worker.ondataavailable = () => {}
+
+      worker.onerror = (error) => {
+        console.log('Error worker', error);
+      };
+
+      const jobId = 'bf651b55-464f-44e8-97f8-69e937edafde';
+
+      console.log(worker);
+
+      /** start  */
+      worker.postMessage({
+        command: 'start',
+        jobId,
+        config: {
+          recordingGain: 1,
+          numberOfChannels: 1,
+          bufferSize: 4096,
+          constraints: {
+            autoGainControl: true,
+            echoCancellation: true,
+            noiseSuppression: true,
+          },
+          useAudioWorklet: false,
+          encoderBitRate: 96,
+          originalSampleRate: 44100,
+        },
+      });
+
+      setTimeout(() => {
+        worker.postMessage({
+          command: 'stop',
+          jobId,
+        });
+      }, 3000);
+
+      // const blob = encodeAudio(buffers, settings); // <11>
+      // const url = URL.createObjectURL(blob);
+
+      // const mediaSourceStream = audioContext.createMediaStreamSource(mic);
+
+      // dispatchHomeEvent({ type: HomeActionType.INIT, mic });
+    } catch (error) {
+      console.log(error);
+
+      console.log('🤫 Dante ➤ startRecording ➤ error', error);
+    }
   }
 
   async function stopRecording() {
