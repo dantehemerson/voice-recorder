@@ -1,4 +1,3 @@
-import { collapseTextChangeRangesAcrossMultipleVersions } from 'typescript';
 import { isEdge } from '../helpers/browser/browser.helpers';
 import { AudioEncoder } from './audio-encoder';
 import { RecorderStatus } from './enums/recorder-status.enum';
@@ -105,5 +104,64 @@ export class Recorder {
     };
 
     await this.encoder.start();
+  }
+
+  private async destroyAudioContext() {
+    if (this.audioContext.audioWorklet) {
+      this.scriptProcessorNode.port.onmessage = null;
+      this.scriptProcessorNode.disconnect();
+    }
+
+    this.sourceNode.disconnect();
+    this.audioContext.close();
+    delete this.audioContext;
+  }
+
+  stop() {
+    if (
+      this.state === RecorderStatus.RECORDING ||
+      this.state === RecorderStatus.PAUSED
+    ) {
+      this.state = RecorderStatus.STOPPED;
+      this.encoder.stop();
+      this.destroyAudioContext();
+      this.destroyStream();
+    } else if (this.state === RecorderStatus.STARTING) {
+      /** TODO: Add cancelStartCallback here */
+      this.state = RecorderStatus.STOPPED;
+    }
+  }
+
+  destroyStream() {
+    this.stopStream();
+    delete this.stream;
+  }
+
+  stopStream() {
+    this.stream.getTracks().forEach((track) => {
+      track.stop();
+    });
+  }
+
+  pause() {
+    if (this.state === RecorderStatus.RECORDING) {
+      this.state = RecorderStatus.PAUSED;
+    }
+  }
+
+  resume() {
+    if (this.state === RecorderStatus.PAUSED) {
+      this.state = RecorderStatus.RECORDING;
+    }
+  }
+
+  isRecordingSupported(): boolean {
+    return Boolean(
+      navigator && navigator.mediaDevices && navigator.mediaDevices.getUserMedia
+    );
+  }
+
+  preload() {
+    throw new Error('Method not implemented.');
   }
 }
