@@ -5,13 +5,11 @@ import { Home } from '../views/Home/Home';
 export default function Index() {
   return (
     <HomeContextProvider>
-      <div>
-        <Wrapper>
-          <Container>
-            <Home />
-          </Container>
-        </Wrapper>
-      </div>
+      <Wrapper>
+        <Container>
+          <Home />
+        </Container>
+      </Wrapper>
     </HomeContextProvider>
   );
 }
