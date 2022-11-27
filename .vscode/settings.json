@@ -1,3 +1,22 @@
 {
+  "editor.formatOnSave": true,
+  "workbench.iconTheme": "vscode-icons",
+  "vsicons.presets.nestjs": true,
+  "search.exclude": {
+    "dist/**": true,
+    "public/**": true,
+    "node_modules/**": false
+  },
+  "files.exclude": {
+    "**/dist": true,
+    "**/node_modules": true,
+    "**/yarn.lock": true,
+    "**/.cache": true,
+    "**/.next": true,
+    "**/public": true
+  },
+  "files.associations": {
+    "**/*.env*": "dotenv"
+  },
   "typescript.preferences.importModuleSpecifier": "relative",
 }
