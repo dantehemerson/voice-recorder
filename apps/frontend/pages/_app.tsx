@@ -10,7 +10,7 @@ function CustomApp({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
-        <title>Welcome to frontend!</title>
+        <title>Voice Recorder</title>
       </Head>
       <main className="app">
         <Component {...pageProps} />

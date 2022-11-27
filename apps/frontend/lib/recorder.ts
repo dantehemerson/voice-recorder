@@ -17,6 +17,7 @@ export class Recorder {
   public onError: (error: Error) => void;
 
   constructor(config) {
+    console.log('Creating instance of Recorder');
     this.state = RecorderStatus.STOPPED;
     this.config = Object.assign(
       {
@@ -35,8 +36,6 @@ export class Recorder {
       this.state = RecorderStatus.STARTING;
 
       try {
-        await this.encoder.waitForWorker();
-
         this.stream = await navigator.mediaDevices.getUserMedia({
           audio: isEdge()
             ? true
@@ -71,10 +70,7 @@ export class Recorder {
 
     this.scriptProcessorNode = new AudioWorkletNode(
       this.audioContext,
-      'script-processor-replacement',
-      {
-        numberOfOutputs: 0,
-      }
+      'script-processor-replacement'
     );
 
     this.scriptProcessorNode.port.onmessage = (event) => {
@@ -94,6 +90,8 @@ export class Recorder {
         originalSampleRate: this.audioContext.sampleRate,
       })
     );
+
+    await this.encoder.waitForWorker();
 
     this.encoder.onDataAvailable = (data) => {
       this.onDataAvailable?.(data);

@@ -18,6 +18,8 @@ export enum RecorderStatus {
 export type HomeState = {
   state: RecorderStatus;
   recorder: RecordRTC;
+  audioBlob: string;
+  audioBlobUrl: string;
   mic: MediaStream;
   blobUrl: string;
 };
