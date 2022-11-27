@@ -1,7 +1,7 @@
+import styled from 'styled-components';
 import { PauseButton } from '../../components/PauseButton/PauseButton';
 import { StopButton } from '../../components/StopButton/StopButton';
 import { Timer } from '../../components/Timer/Timer';
-import styles from './RecordingView.module.scss';
 
 type RecordingViewProps = {
   onClick: () => void;
@@ -9,14 +9,36 @@ type RecordingViewProps = {
 
 export function RecordingView({ onClick }: RecordingViewProps) {
   return (
-    <div className={styles.RecordingView}>
-      <div className={styles.timerContainer}>
+    <Container>
+      <TimerContainer>
         <Timer mm={10} ss={11} hideMs={true} />
-      </div>
-      <div className={styles.buttonsContainer}>
+      </TimerContainer>
+      <ButtonsContainer>
         <PauseButton onClick={onClick} />
         <StopButton onClick={onClick} />
-      </div>
-    </div>
+      </ButtonsContainer>
+    </Container>
   );
 }
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid red;
+  height: 100%;
+  width: 100%;
+  padding: 0 20px;
+  box-sizing: border-box;
+`;
+
+const TimerContainer = styled.div`
+  display: flex;
+  height: 50px;
+  align-items: center;
+`;
+
+const ButtonsContainer = styled.div`
+  display: flex;
+`;

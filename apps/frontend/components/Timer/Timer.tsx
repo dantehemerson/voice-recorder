@@ -1,4 +1,4 @@
-import styles from './Timer.module.scss';
+import styled from 'styled-components';
 
 export type TimerProps = {
   /** Should hide */
@@ -10,7 +10,7 @@ export type TimerProps = {
 
 export function Timer({ hideMs = false, mm, ss, ms }: TimerProps) {
   return (
-    <div className={styles.container}>
+    <Wrapper>
       <div>{mm?.toString().padStart(2, '0')}</div>
       <span>:</span>
       <div>{ss?.toString().padStart(2, '0')}</div>
@@ -20,6 +20,13 @@ export function Timer({ hideMs = false, mm, ss, ms }: TimerProps) {
           <div>{ms?.toString().padStart(3, '0')}</div>
         </>
       )}
-    </div>
+    </Wrapper>
   );
 }
+
+const Wrapper = styled.div`
+  display: flex;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 20px;
+  font-weight: 400;
+`;

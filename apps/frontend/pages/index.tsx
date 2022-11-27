@@ -1,24 +1,34 @@
+import styled from 'styled-components';
 import { HomeContextProvider } from '../contexts/home.context';
 import { Home } from '../views/Home/Home';
-import styles from './index.module.scss';
 
-export function Index() {
-  /*
-   * Replace the elements below with your own.
-   *
-   * Note: The corresponding styles are in the ./index.scss file.
-   */
+export default function Index() {
   return (
     <HomeContextProvider>
-      <div className={styles.page}>
-        <div className="wrapper">
-          <div className="container">
+      <div>
+        <Wrapper>
+          <Container>
             <Home />
-          </div>
-        </div>
+          </Container>
+        </Wrapper>
       </div>
     </HomeContextProvider>
   );
 }
 
-export default Index;
+const Container = styled.div`
+  background-color: red;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 768px;
+  padding-bottom: 3rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  color: rgba(55, 65, 81, 1);
+  width: 100%;
+`;
+
+const Wrapper = styled.div`
+  margin-top: 50px;
+  width: 100%;
+`;

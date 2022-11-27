@@ -30,13 +30,16 @@ export function Home() {
     recorder.onStop = () => {
       console.log('recorder stopped');
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   async function startRecording() {
     recorder.start();
   }
 
-  async function stopRecording() {}
+  async function stopRecording() {
+    console.log('Stopped');
+  }
 
   async function handleClickNewRecording() {
     dispatchHomeEvent({

@@ -1,4 +1,4 @@
-import styles from './Slider.module.scss';
+import styled from 'styled-components';
 
 export type SliderProps = {
   src: string;
@@ -6,8 +6,20 @@ export type SliderProps = {
 
 export function Slider({ src }: SliderProps) {
   return (
-    <audio className={styles.audio} controls>
+    <Audio controls>
       <source src={src} type="audio/ogg"></source>
-    </audio>
+    </Audio>
   );
 }
+
+const Audio = styled.audio`
+  width: 100%;
+
+  &::-webkit-media-controls-panel {
+    background-color: white;
+  }
+
+  &::-webkit-media-controls-current-time-display {
+    color: black;
+  }
+`;

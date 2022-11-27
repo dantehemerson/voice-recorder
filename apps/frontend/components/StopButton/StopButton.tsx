@@ -1,6 +1,6 @@
 import { faStop } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import styles from './StopButton.module.scss';
+import styled from 'styled-components';
 
 type StopButtonProps = {
   onClick: () => void;
@@ -8,8 +8,26 @@ type StopButtonProps = {
 
 export function StopButton({ onClick }: StopButtonProps) {
   return (
-    <div onClick={() => onClick()} className={styles.stopButton}>
+    <Wrapper onClick={() => onClick()}>
       <FontAwesomeIcon icon={faStop} size="2x" color="white" />
-    </div>
+    </Wrapper>
   );
 }
+
+const Wrapper = styled.div`
+  background: #ff3341;
+  width: 3.5rem;
+  height: 3.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0px 0px 3px 0px #525252;
+  transition: all 0.3s ease-in-out;
+
+  &:hover {
+    background: #ed2e3a;
+    box-shadow: 0px 0px 3px 0px #525252;
+  }
+`;
