@@ -1,10 +1,11 @@
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { HomeContext } from '../../contexts/home.context';
 import {
   HomeActionType,
   RecorderStatus,
 } from '../../contexts/reducers/home-context.reducer';
 import { useRecorder } from '../../hooks/use-recorder.hook';
+import { useRecordingStore } from '../../hooks/use-recording-store.hook';
 import { InitialView } from './InitialView';
 import { RecordFinishedView } from './RecordFinishedView';
 import { RecordingView } from './RecordingView';
@@ -12,11 +13,16 @@ import { RecordingView } from './RecordingView';
 export function Home() {
   const { dispatchHomeEvent, homeState } = useContext(HomeContext);
   const recorder = useRecorder();
+  const recordingStore = useRecordingStore();
+
   const { state } = homeState;
 
   useEffect(() => {
     recorder.onDataAvailable = (blob) => {
-      console.log('blob', blob);
+      recordingStore.appendData(blob);
+      console.log('blob', blob, {
+        recordingData: recordingStore.getAudioData(),
+      });
     };
 
     recorder.onStart = () => {
@@ -34,11 +40,11 @@ export function Home() {
   }, []);
 
   async function startRecording() {
-    recorder.start();
+    await recorder.start();
   }
 
   async function stopRecording() {
-    console.log('Stopped');
+    recorder.stop();
   }
 
   async function handleClickNewRecording() {
@@ -50,6 +56,7 @@ export function Home() {
   const isRecording =
     state === RecorderStatus.Recording || state === RecorderStatus.Paused;
 
+  console.log('Rendering Home');
   return (
     <div>
       {state === RecorderStatus.Ready && (

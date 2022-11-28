@@ -1,6 +1,3 @@
-import { initRecorder } from '../../helpers/mic/init-recorder.helper';
-import { RecordRTC } from '../../helpers/recordrtc';
-
 export enum RecorderStatus {
   // Initial state, when load page
   Ready = 'ready',
@@ -17,11 +14,8 @@ export enum RecorderStatus {
 
 export type HomeState = {
   state: RecorderStatus;
-  recorder: RecordRTC;
   audioBlob: string;
   audioBlobUrl: string;
-  mic: MediaStream;
-  blobUrl: string;
 };
 
 export type HomeAction =
@@ -62,22 +56,9 @@ export function homeContextReducer(
   switch (action.type) {
     case HomeActionType.INIT:
       try {
-        let recorder;
-
-        if (state.recorder) {
-          recorder = state.recorder;
-          recorder.reset();
-        } else {
-          recorder = initRecorder({ mic: action.mic });
-        }
-
-        recorder.startRecording();
-
         return {
           ...state,
           state: RecorderStatus.Recording,
-          mic: state.mic ?? action.mic,
-          recorder,
         };
       } catch (error) {
         alert(
@@ -91,18 +72,13 @@ export function homeContextReducer(
     case HomeActionType.STOP_RECORDING:
       try {
         /** Release microphone */
-        state.mic.getAudioTracks()?.[0]?.stop();
-        state.recorder?.destroy();
       } catch (error) {
         console.error('Error while stopping mic', error);
       }
 
       return {
         ...state,
-        recorder: undefined,
         state: RecorderStatus.Stopped,
-        blobUrl: action.blobUrl,
-        mic: undefined,
       };
 
     case HomeActionType.START_RECORDING:
@@ -132,7 +108,6 @@ export function homeContextReducer(
       return {
         ...state,
         state: RecorderStatus.Ready,
-        blobUrl: undefined,
       };
 
     default:
