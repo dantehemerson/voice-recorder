@@ -1,9 +1,5 @@
-import { useContext, useEffect, useState } from 'react';
-import { HomeContext } from '../../contexts/home.context';
-import {
-  HomeActionType,
-  RecorderStatus,
-} from '../../contexts/reducers/home-context.reducer';
+import { useEffect } from 'react';
+import { RecorderStatus, useHomeState } from '../../contexts/home.context';
 import { useRecorder } from '../../hooks/use-recorder.hook';
 import { useRecordingStore } from '../../hooks/use-recording-store.hook';
 import { InitialView } from './InitialView';
@@ -11,7 +7,8 @@ import { RecordFinishedView } from './RecordFinishedView';
 import { RecordingView } from './RecordingView';
 
 export function Home() {
-  const { dispatchHomeEvent, homeState } = useContext(HomeContext);
+  const { homeState, dispatch } = useHomeState();
+
   const recorder = useRecorder();
   const recordingStore = useRecordingStore();
 
@@ -34,13 +31,18 @@ export function Home() {
     };
 
     recorder.onStop = () => {
-      console.log('recorder stopped');
+      dispatch.stopRecording();
+      console.log('recording finished', {
+        recordingData: recordingStore.getAudioData(),
+        audioUrl: recordingStore.generateAudioBlobUrl(),
+      });
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   async function startRecording() {
     await recorder.start();
+    dispatch.startRecording();
   }
 
   async function stopRecording() {
@@ -48,9 +50,7 @@ export function Home() {
   }
 
   async function handleClickNewRecording() {
-    dispatchHomeEvent({
-      type: HomeActionType.START_NEW_RECORDING,
-    });
+    dispatch.startNewRecording();
   }
 
   const isRecording =
@@ -65,7 +65,7 @@ export function Home() {
       {isRecording && <RecordingView onClick={() => stopRecording()} />}
       {state === RecorderStatus.Stopped && (
         <RecordFinishedView
-          blobUrl={homeState.blobUrl}
+          blobUrl={homeState.audioBlobUrl}
           onClickNewRecording={handleClickNewRecording}
         />
       )}
