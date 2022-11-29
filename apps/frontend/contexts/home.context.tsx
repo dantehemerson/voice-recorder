@@ -9,17 +9,26 @@ export enum RecorderStatus {
 
 type HomeState = {
   state: RecorderStatus;
-  audioBlob: string;
   audioBlobUrl: string;
 };
 
-type HomeAction = {
-  type: HomeActionType.UPDATE_STATE;
-  newState: RecorderStatus;
-};
+type HomeAction =
+  | {
+      type: HomeActionType.START_NEW_RECORDING;
+    }
+  | {
+      type: HomeActionType.UPDATE_STATE;
+      newState: RecorderStatus;
+    }
+  | {
+      type: HomeActionType.RECORD_RESULT;
+      audioBlobUrl: string;
+    };
 
 enum HomeActionType {
   UPDATE_STATE = 'UPDATE_STATE',
+  RECORD_RESULT = 'RECORD_RESULT',
+  START_NEW_RECORDING = 'START_NEW_RECORDING',
 }
 
 type HomeContextValue = {
@@ -34,6 +43,19 @@ function homeContextReducer(state: HomeState, action: HomeAction): HomeState {
         ...state,
         state: action.newState,
       };
+
+    case HomeActionType.START_NEW_RECORDING:
+      return {
+        ...state,
+        state: RecorderStatus.Ready,
+        audioBlobUrl: undefined,
+      };
+
+    case HomeActionType.RECORD_RESULT:
+      return {
+        ...state,
+        audioBlobUrl: action.audioBlobUrl,
+      };
     default:
       return state;
   }
@@ -47,7 +69,6 @@ export function HomeContextProvider({ children }) {
   const [homeState, dispatchHomeEvent] = useReducer(homeContextReducer, {
     state: RecorderStatus.Ready,
     audioBlobUrl: undefined,
-    audioBlob: undefined,
   });
 
   const value: HomeContextValue = {
@@ -84,16 +105,19 @@ export function useHomeState() {
         newState: RecorderStatus.Recording,
       });
     },
-    stopRecording: () => {
+    stopRecording: (data: Pick<HomeState, 'audioBlobUrl'>) => {
       context.dispatchHomeEvent({
         type: HomeActionType.UPDATE_STATE,
         newState: RecorderStatus.Stopped,
       });
+      context.dispatchHomeEvent({
+        type: HomeActionType.RECORD_RESULT,
+        audioBlobUrl: data.audioBlobUrl,
+      });
     },
     startNewRecording: () => {
       context.dispatchHomeEvent({
-        type: HomeActionType.UPDATE_STATE,
-        newState: RecorderStatus.Ready,
+        type: HomeActionType.START_NEW_RECORDING,
       });
     },
   };

@@ -17,9 +17,6 @@ export function Home() {
   useEffect(() => {
     recorder.onDataAvailable = (blob) => {
       recordingStore.appendData(blob);
-      console.log('blob', blob, {
-        recordingData: recordingStore.getAudioData(),
-      });
     };
 
     recorder.onStart = () => {
@@ -31,10 +28,8 @@ export function Home() {
     };
 
     recorder.onStop = () => {
-      dispatch.stopRecording();
-      console.log('recording finished', {
-        recordingData: recordingStore.getAudioData(),
-        audioUrl: recordingStore.generateAudioBlobUrl(),
+      dispatch.stopRecording({
+        audioBlobUrl: recordingStore.generateAudioBlobUrl(),
       });
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -56,11 +51,14 @@ export function Home() {
   const isRecording =
     state === RecorderStatus.Recording || state === RecorderStatus.Paused;
 
-  console.log('Rendering Home');
+  switch(state) {
+    case RecorderStatus.Ready:
+return  <InitialView onClick={() => startRecording()} />
+  }
   return (
     <div>
       {state === RecorderStatus.Ready && (
-        <InitialView onClick={() => startRecording()} />
+
       )}
       {isRecording && <RecordingView onClick={() => stopRecording()} />}
       {state === RecorderStatus.Stopped && (
