@@ -1,56 +1,58 @@
 import React, { useReducer } from 'react';
 
-export enum HomeViewState {
-  Ready = 'ready',
-  Recording = 'recording',
-  Stopped = 'stopped',
+export enum HomeScreen {
+  INITIAL,
+  RECORDING,
+  PAUSED,
+  PREVIEWING,
+  ENCODING,
 }
 
 type HomeState = {
-  state: HomeViewState;
+  screen: HomeScreen;
   audioBlobUrl: string;
 };
 
-type HomeAction =
+enum HomeAction {
+  CHANGE_SCREEN,
+  RECORD_RESULT,
+  START_NEW_RECORDING,
+}
+
+type HomeEvent =
   | {
-      type: HomeActionType.START_NEW_RECORDING;
+      type: HomeAction.START_NEW_RECORDING;
     }
   | {
-      type: HomeActionType.UPDATE_STATE;
-      newState: HomeViewState;
+      type: HomeAction.CHANGE_SCREEN;
+      newScreen: HomeScreen;
     }
   | {
-      type: HomeActionType.RECORD_RESULT;
+      type: HomeAction.RECORD_RESULT;
       audioBlobUrl: string;
     };
 
-enum HomeActionType {
-  UPDATE_STATE = 'UPDATE_STATE',
-  RECORD_RESULT = 'RECORD_RESULT',
-  START_NEW_RECORDING = 'START_NEW_RECORDING',
-}
-
 type HomeContextValue = {
   homeState: HomeState;
-  dispatchHomeEvent: React.Dispatch<HomeAction>;
+  dispatchHomeEvent: React.Dispatch<HomeEvent>;
 };
 
-function homeContextReducer(state: HomeState, action: HomeAction): HomeState {
+function homeContextReducer(state: HomeState, action: HomeEvent): HomeState {
   switch (action.type) {
-    case HomeActionType.UPDATE_STATE:
+    case HomeAction.CHANGE_SCREEN:
       return {
         ...state,
-        state: action.newState,
+        screen: action.newScreen,
       };
 
-    case HomeActionType.START_NEW_RECORDING:
+    case HomeAction.START_NEW_RECORDING:
       return {
         ...state,
-        state: HomeViewState.Ready,
+        screen: HomeScreen.INITIAL,
         audioBlobUrl: undefined,
       };
 
-    case HomeActionType.RECORD_RESULT:
+    case HomeAction.RECORD_RESULT:
       return {
         ...state,
         audioBlobUrl: action.audioBlobUrl,
@@ -66,7 +68,7 @@ const HomeContext = React.createContext<HomeContextValue | undefined>(
 
 export function HomeContextProvider({ children }) {
   const [homeState, dispatchHomeEvent] = useReducer(homeContextReducer, {
-    state: HomeViewState.Ready,
+    screen: HomeScreen.INITIAL,
     audioBlobUrl: undefined,
   });
 
@@ -88,23 +90,23 @@ export function useHomeState() {
   const actions = {
     startRecording: () => {
       context.dispatchHomeEvent({
-        type: HomeActionType.UPDATE_STATE,
-        newState: HomeViewState.Recording,
+        type: HomeAction.CHANGE_SCREEN,
+        newScreen: HomeScreen.RECORDING,
       });
     },
     stopRecording: (data: Pick<HomeState, 'audioBlobUrl'>) => {
       context.dispatchHomeEvent({
-        type: HomeActionType.UPDATE_STATE,
-        newState: HomeViewState.Stopped,
+        type: HomeAction.CHANGE_SCREEN,
+        newScreen: HomeScreen.PREVIEWING,
       });
       context.dispatchHomeEvent({
-        type: HomeActionType.RECORD_RESULT,
+        type: HomeAction.RECORD_RESULT,
         audioBlobUrl: data.audioBlobUrl,
       });
     },
     startNewRecording: () => {
       context.dispatchHomeEvent({
-        type: HomeActionType.START_NEW_RECORDING,
+        type: HomeAction.START_NEW_RECORDING,
       });
     },
   };

@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { Chronometer } from '../../components/Chronometer/Chronometer';
-import { HomeViewState, useHomeState } from '../../contexts/home.context';
+import { HomeScreen, useHomeState } from '../../contexts/home.context';
 import { useRecording } from '../../hooks/use-recording.hook';
 import { useTimer } from '../../hooks/use-timer.hook';
 import { Recorder } from '../../lib/recorder';
@@ -68,12 +68,11 @@ export function Home() {
     dispatch.startNewRecording();
   }
 
-  console.log('Rendering Home');
-  switch (homeState.state) {
-    case HomeViewState.Ready:
+  switch (homeState.screen) {
+    case HomeScreen.INITIAL:
       return <InitialView onClick={() => startRecording()} />;
 
-    case HomeViewState.Recording:
+    case HomeScreen.RECORDING:
       return (
         <RecordingView
           chronometer={<Chronometer timer={timer} />}
@@ -82,7 +81,7 @@ export function Home() {
         />
       );
 
-    case HomeViewState.Stopped:
+    case HomeScreen.PREVIEWING:
       return (
         <RecordFinishedView
           blobUrl={homeState.audioBlobUrl}
