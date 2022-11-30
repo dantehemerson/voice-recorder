@@ -2,14 +2,17 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import { PauseButton } from '../../components/PauseButton/PauseButton';
 import { StopButton } from '../../components/StopButton/StopButton';
-import { Timer } from '../../components/Timer/Timer';
+import { Chronometer } from '../../components/Chronometer/Chronometer';
+import { Timer } from '../../lib/timer';
 
 type RecordingViewProps = {
+  timer: Timer;
   onClickStop: () => void;
   onClickPlayPause: (pause: boolean) => void;
 };
 
 export function RecordingView({
+  timer,
   onClickStop,
   onClickPlayPause,
 }: RecordingViewProps) {
@@ -24,7 +27,7 @@ export function RecordingView({
   return (
     <Container>
       <TimerContainer>
-        <Timer mm={10} ss={11} hideMs={true} />
+        <Chronometer timer={timer} />
       </TimerContainer>
       <ButtonsContainer>
         <PauseButton isPaused={isPaused} onClick={handlePlayPause} />

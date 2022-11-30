@@ -21,10 +21,12 @@ export function Home() {
     };
 
     recording.onError = (error) => {
+      // TODO: Handle Error and show on the UI
       console.log('recorder errored', error);
     };
 
     recording.onStop = () => {
+      timer.stop();
       dispatch.stopRecording({
         audioBlobUrl: recording.getAudioBlobUrl(),
       });
@@ -59,7 +61,6 @@ export function Home() {
 
   async function handleStop() {
     recording.stop();
-    timer.stop();
   }
 
   async function handleClickNewRecording() {
@@ -74,6 +75,7 @@ export function Home() {
     case HomeViewState.Recording:
       return (
         <RecordingView
+          timer={timer}
           onClickPlayPause={handlePlayPause}
           onClickStop={handleStop}
         />
