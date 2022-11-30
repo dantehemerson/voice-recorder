@@ -1,72 +1,93 @@
 import { useEffect } from 'react';
-import { RecorderStatus, useHomeState } from '../../contexts/home.context';
-import { useRecorder } from '../../hooks/use-recorder.hook';
-import { useRecordingStore } from '../../hooks/use-recording-store.hook';
+import { HomeViewState, useHomeState } from '../../contexts/home.context';
+import { useRecording } from '../../hooks/use-recording.hook';
+import { useTimer } from '../../hooks/use-timer.hook';
+import { Recorder } from '../../lib/recorder';
 import { InitialView } from './InitialView';
 import { RecordFinishedView } from './RecordFinishedView';
 import { RecordingView } from './RecordingView';
 
 export function Home() {
   const { homeState, dispatch } = useHomeState();
-
-  const recorder = useRecorder();
-  const recordingStore = useRecordingStore();
-
-  const { state } = homeState;
+  const recording = useRecording();
+  const timer = useTimer();
 
   useEffect(() => {
-    recorder.onDataAvailable = (blob) => {
-      recordingStore.appendData(blob);
+    timer.reset();
+
+    recording.onStart = () => {
+      timer.resetAndStart();
+      dispatch.startRecording();
     };
 
-    recorder.onStart = () => {
-      console.log('recorder started');
-    };
-
-    recorder.onError = (error) => {
+    recording.onError = (error) => {
       console.log('recorder errored', error);
     };
 
-    recorder.onStop = () => {
+    recording.onStop = () => {
       dispatch.stopRecording({
-        audioBlobUrl: recordingStore.generateAudioBlobUrl(),
+        audioBlobUrl: recording.getAudioBlobUrl(),
       });
+    };
+
+    recording.onPause = () => {
+      timer.stop();
+    };
+
+    recording.onResume = () => {
+      timer.start();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   async function startRecording() {
-    await recorder.start();
-    dispatch.startRecording();
+    if (!Recorder.isRecordingSupported()) {
+      console.log(`Recording is not supported in this browser`);
+      return;
+    }
+
+    await recording.start();
   }
 
-  async function stopRecording() {
-    recorder.stop();
+  async function handlePlayPause(pause: boolean) {
+    if (pause) {
+      await recording.pause();
+    } else {
+      await recording.resume();
+    }
+  }
+
+  async function handleStop() {
+    recording.stop();
+    timer.stop();
   }
 
   async function handleClickNewRecording() {
     dispatch.startNewRecording();
   }
 
-  const isRecording =
-    state === RecorderStatus.Recording || state === RecorderStatus.Paused;
+  console.log('Rendering Home');
+  switch (homeState.state) {
+    case HomeViewState.Ready:
+      return <InitialView onClick={() => startRecording()} />;
 
-  switch(state) {
-    case RecorderStatus.Ready:
-return  <InitialView onClick={() => startRecording()} />
-  }
-  return (
-    <div>
-      {state === RecorderStatus.Ready && (
+    case HomeViewState.Recording:
+      return (
+        <RecordingView
+          onClickPlayPause={handlePlayPause}
+          onClickStop={handleStop}
+        />
+      );
 
-      )}
-      {isRecording && <RecordingView onClick={() => stopRecording()} />}
-      {state === RecorderStatus.Stopped && (
+    case HomeViewState.Stopped:
+      return (
         <RecordFinishedView
           blobUrl={homeState.audioBlobUrl}
           onClickNewRecording={handleClickNewRecording}
         />
-      )}
-    </div>
-  );
+      );
+
+    default:
+      throw new Error('Unknown state');
+  }
 }

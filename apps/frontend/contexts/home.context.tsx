@@ -1,14 +1,13 @@
 import React, { useReducer } from 'react';
 
-export enum RecorderStatus {
+export enum HomeViewState {
   Ready = 'ready',
   Recording = 'recording',
-  Paused = 'paused',
   Stopped = 'stopped',
 }
 
 type HomeState = {
-  state: RecorderStatus;
+  state: HomeViewState;
   audioBlobUrl: string;
 };
 
@@ -18,7 +17,7 @@ type HomeAction =
     }
   | {
       type: HomeActionType.UPDATE_STATE;
-      newState: RecorderStatus;
+      newState: HomeViewState;
     }
   | {
       type: HomeActionType.RECORD_RESULT;
@@ -47,7 +46,7 @@ function homeContextReducer(state: HomeState, action: HomeAction): HomeState {
     case HomeActionType.START_NEW_RECORDING:
       return {
         ...state,
-        state: RecorderStatus.Ready,
+        state: HomeViewState.Ready,
         audioBlobUrl: undefined,
       };
 
@@ -67,7 +66,7 @@ const HomeContext = React.createContext<HomeContextValue | undefined>(
 
 export function HomeContextProvider({ children }) {
   const [homeState, dispatchHomeEvent] = useReducer(homeContextReducer, {
-    state: RecorderStatus.Ready,
+    state: HomeViewState.Ready,
     audioBlobUrl: undefined,
   });
 
@@ -90,25 +89,13 @@ export function useHomeState() {
     startRecording: () => {
       context.dispatchHomeEvent({
         type: HomeActionType.UPDATE_STATE,
-        newState: RecorderStatus.Recording,
-      });
-    },
-    pauseRecording: () => {
-      context.dispatchHomeEvent({
-        type: HomeActionType.UPDATE_STATE,
-        newState: RecorderStatus.Paused,
-      });
-    },
-    resumeRecording: () => {
-      context.dispatchHomeEvent({
-        type: HomeActionType.UPDATE_STATE,
-        newState: RecorderStatus.Recording,
+        newState: HomeViewState.Recording,
       });
     },
     stopRecording: (data: Pick<HomeState, 'audioBlobUrl'>) => {
       context.dispatchHomeEvent({
         type: HomeActionType.UPDATE_STATE,
-        newState: RecorderStatus.Stopped,
+        newState: HomeViewState.Stopped,
       });
       context.dispatchHomeEvent({
         type: HomeActionType.RECORD_RESULT,

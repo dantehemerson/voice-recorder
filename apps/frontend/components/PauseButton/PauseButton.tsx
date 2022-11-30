@@ -1,15 +1,20 @@
-import { faPause } from '@fortawesome/free-solid-svg-icons';
+import { faPause, faPlay } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styled from 'styled-components';
 
 type PauseButtonProps = {
+  isPaused: boolean;
   onClick: () => void;
 };
 
-export function PauseButton({ onClick }: PauseButtonProps) {
+export function PauseButton({ isPaused, onClick }: PauseButtonProps) {
   return (
     <Wrapper onClick={() => onClick()}>
-      <FontAwesomeIcon icon={faPause} size="xl" color="red" />
+      {isPaused ? (
+        <FontAwesomeIcon icon={faPlay} size="xl" color="red" />
+      ) : (
+        <FontAwesomeIcon icon={faPause} size="xl" color="red" />
+      )}
     </Wrapper>
   );
 }

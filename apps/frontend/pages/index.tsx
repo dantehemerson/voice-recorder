@@ -15,7 +15,7 @@ export default function Index() {
 }
 
 const Container = styled.div`
-  background-color: red;
+  background-color: #dedede;
   margin-left: auto;
   margin-right: auto;
   max-width: 768px;

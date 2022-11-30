@@ -1,6 +1,10 @@
 export class RecordingStore {
   private audioData: Int8Array[] = [];
 
+  isEmpty(): boolean {
+    return this.audioData.length === 0;
+  }
+
   getAudioData(): Int8Array[] {
     return this.audioData;
   }
@@ -17,5 +21,9 @@ export class RecordingStore {
 
   generateAudioBlobUrl(): string {
     return URL.createObjectURL(this.generateAudioBlob());
+  }
+
+  reset() {
+    this.audioData = [];
   }
 }

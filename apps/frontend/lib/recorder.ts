@@ -25,7 +25,7 @@ export class Recorder {
         numberOfChannels: 1,
         bufferSize: 4096,
         constraints: {},
-        useAudioWorklet: !1,
+        useAudioWorklet: false,
       },
       config
     );
@@ -153,10 +153,8 @@ export class Recorder {
     }
   }
 
-  isRecordingSupported(): boolean {
-    return Boolean(
-      navigator && navigator.mediaDevices && navigator.mediaDevices.getUserMedia
-    );
+  static isRecordingSupported(): boolean {
+    return Boolean(navigator?.mediaDevices?.getUserMedia);
   }
 
   preload() {

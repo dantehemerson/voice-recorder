@@ -1,21 +1,34 @@
+import { useState } from 'react';
 import styled from 'styled-components';
 import { PauseButton } from '../../components/PauseButton/PauseButton';
 import { StopButton } from '../../components/StopButton/StopButton';
 import { Timer } from '../../components/Timer/Timer';
 
 type RecordingViewProps = {
-  onClick: () => void;
+  onClickStop: () => void;
+  onClickPlayPause: (pause: boolean) => void;
 };
 
-export function RecordingView({ onClick }: RecordingViewProps) {
+export function RecordingView({
+  onClickStop,
+  onClickPlayPause,
+}: RecordingViewProps) {
+  const [isPaused, setIsPaused] = useState(false);
+
+  function handlePlayPause() {
+    const pause = !isPaused ? true : false;
+    onClickPlayPause(pause);
+    setIsPaused(!isPaused);
+  }
+
   return (
     <Container>
       <TimerContainer>
         <Timer mm={10} ss={11} hideMs={true} />
       </TimerContainer>
       <ButtonsContainer>
-        <PauseButton onClick={onClick} />
-        <StopButton onClick={onClick} />
+        <PauseButton isPaused={isPaused} onClick={handlePlayPause} />
+        <StopButton onClick={onClickStop} />
       </ButtonsContainer>
     </Container>
   );
