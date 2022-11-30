@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { Chronometer } from '../../components/Chronometer/Chronometer';
 import { HomeViewState, useHomeState } from '../../contexts/home.context';
 import { useRecording } from '../../hooks/use-recording.hook';
 import { useTimer } from '../../hooks/use-timer.hook';
@@ -75,7 +76,7 @@ export function Home() {
     case HomeViewState.Recording:
       return (
         <RecordingView
-          timer={timer}
+          chronometer={<Chronometer timer={timer} />}
           onClickPlayPause={handlePlayPause}
           onClickStop={handleStop}
         />
