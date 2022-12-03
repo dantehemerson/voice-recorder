@@ -16,8 +16,7 @@ export class Recording {
   private wasNoChunksFoundError = false;
 
   public onStart: () => void;
-  public onDataAvailable: (data: Int8Array) => void;
-  public onStop: (sucess: boolean) => void;
+  public onStop: (success: boolean) => void;
   public onPause: () => void;
   public onResume: () => void;
   public onError: (error: Error) => void;
@@ -40,20 +39,23 @@ export class Recording {
     });
 
     this.recorder.onDataAvailable = this.onRecorderDataAvailable.bind(this);
-    this.recorder.onStart = this.onRecorderStart.bind(this);
-    this.recorder.onStop = this.onRecorderStop.bind(this);
-    this.recorder.onError = this.onRecorderError.bind(this);
+    this.recorder.onStart = this.onRecordingStarted.bind(this);
+    this.recorder.onStop = this.onRecordingStopped.bind(this);
+    this.recorder.onError = this.onRecordingError.bind(this);
   }
 
   getAudioBlobUrl(): string {
-    return this.store.generateAudioBlobUrl();
+    return (
+      this.audioBlobUrl ||
+      (this.audioBlobUrl = this.store.generateAudioBlobUrl())
+    );
   }
 
   createUploader() {
     this.destroyUploader();
     this.uploader = new Uploader();
 
-    this.uploader.onProgress = (progress) => {
+    this.uploader.onprogress = (progress) => {
       if (this.audioBlob) {
         this?.onsavepercent(
           Math.round((progress.bytesUploaded / this.audioBlob.size) * 100)
@@ -111,17 +113,19 @@ export class Recording {
     }
   }
 
-  onRecordingStarted() {
+  private onRecordingStarted() {
     this.store.reset();
-    this.unixTime = Date.now();
+    this.audioBlob = null;
     this.audioBlobUrl = null;
+    this.unixTime = Date.now();
     this.createUploader();
     this?.onStart();
   }
 
-  onRecordingStopped() {
+  private onRecordingStopped() {
     if (!this.store.isEmpty()) {
       this.uploader.complete();
+      this.audioBlob = this.store.generateAudioBlob();
       this.audioBlobUrl = this.store.generateAudioBlobUrl();
       this?.onStop(true);
     } else {
@@ -130,7 +134,7 @@ export class Recording {
     }
   }
 
-  onRecordingError(error: Error) {
+  private onRecordingError(error: Error) {
     if (error.name === 'WorkerError') {
       this.error(
         'WorkerError',
@@ -144,22 +148,14 @@ export class Recording {
     }
   }
 
-  error(message: string, details: string) {}
+  private error(name: string, details: string) {
+    const error = new Error(details);
+    error.name = name;
 
-  private onRecorderStart() {
-    this.store.reset();
-    this?.onStart();
-  }
-
-  private onRecorderStop() {
-    this?.onStop();
-  }
-
-  private onRecorderError(error) {
     this?.onError(error);
   }
 
-  public async start() {
+  async start() {
     if (!Recorder.isRecordingSupported()) {
       console.log(`Recording is not supported in this browser`);
       return;
@@ -177,16 +173,16 @@ export class Recording {
     await this.recorder.start();
   }
 
-  public async stop() {
+  async stop() {
     await this.recorder.stop();
   }
 
-  public async pause() {
+  async pause() {
     await this.recorder.pause();
     this?.onPause();
   }
 
-  public async resume() {
+  async resume() {
     await this.recorder.resume();
     this?.onResume();
   }

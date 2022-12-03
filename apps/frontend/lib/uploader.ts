@@ -15,6 +15,12 @@ export class Uploader {
   private uploadUrl = '/api/upload';
   private uploadURLWithId: string;
 
+  /** Listeners */
+  onsuccess: (options: any) => void;
+  onprogress: (options: any) => void;
+  onerror: (error: any) => void;
+  onfinalizeerror: (options: any) => void;
+
   constructor(private readonly options?: any) {
     this.uploadQueue = new UploadQueue(
       this.onUploadsFinished.bind(this),
@@ -134,7 +140,7 @@ export class Uploader {
     }
   }
 
-  onProgress(bytesUploaded) {
+  private onProgress(bytesUploaded) {
     if (!this.aborted) {
       this.onprogress({
         bytesUploaded,
@@ -156,9 +162,4 @@ export class Uploader {
       this.shouldFinalize = true;
     }
   }
-
-  onsuccess(options: any) {}
-  onprogress(options: any) {}
-  onerror(error: any) {}
-  onfinalizeerror(options: any) {}
 }

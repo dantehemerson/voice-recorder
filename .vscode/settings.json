@@ -3,8 +3,8 @@
   "workbench.iconTheme": "vscode-icons",
   "vsicons.presets.nestjs": true,
   "search.exclude": {
-    "dist/**": true,
-    "public/**": true,
+    // "dist/**": true,
+    // "public/**": true,
     "node_modules/**": false
   },
   "files.exclude": {

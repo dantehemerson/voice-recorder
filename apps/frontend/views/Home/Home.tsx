@@ -10,36 +10,49 @@ import { RecordingView } from './RecordingView';
 
 export function Home() {
   const { homeState, dispatch } = useHomeState();
-  const recording = useRecording();
+  const recorder = useRecording();
   const timer = useTimer();
+
+  function initRecording() {
+    console.log('starting app');
+    recorder.clearRecording();
+    recorder.initRecording();
+    timer.reset();
+
+    recorder.recording.onStart = () => {
+      timer.resetAndStart();
+    };
+
+    recorder.recording.onStop = (sucess) => {
+      if (sucess) {
+        dispatch.stopRecording({
+          audioBlobUrl: recorder.recording.getAudioBlobUrl(),
+        });
+      } else {
+        dispatch.startNewRecording();
+      }
+    };
+
+    recorder.recording.onPause = () => {
+      timer.stop();
+    };
+
+    recorder.recording.onResume = () => {
+      timer.start();
+    };
+
+    recorder.recording.onError = (error) => {
+      // TODO: Handle Error and show on the UI
+      console.log('recorder errored', error);
+      dispatch.startNewRecording();
+    };
+
+    console.log('recording started');
+  }
 
   useEffect(() => {
     timer.reset();
 
-    recording.onStart = () => {
-      timer.resetAndStart();
-      dispatch.startRecording();
-    };
-
-    recording.onError = (error) => {
-      // TODO: Handle Error and show on the UI
-      console.log('recorder errored', error);
-    };
-
-    recording.onStop = () => {
-      timer.stop();
-      dispatch.stopRecording({
-        audioBlobUrl: recording.getAudioBlobUrl(),
-      });
-    };
-
-    recording.onPause = () => {
-      timer.stop();
-    };
-
-    recording.onResume = () => {
-      timer.start();
-    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -49,19 +62,22 @@ export function Home() {
       return;
     }
 
-    await recording.start();
+    dispatch.startRecording();
+    initRecording();
+    await recorder.recording.start();
   }
 
   async function handlePlayPause(pause: boolean) {
     if (pause) {
-      await recording.pause();
+      await recorder.recording.pause();
     } else {
-      await recording.resume();
+      await recorder.recording.resume();
     }
   }
 
   async function handleStop() {
-    recording.stop();
+    recorder.recording.stop();
+    timer.stop();
   }
 
   async function handleClickNewRecording() {
