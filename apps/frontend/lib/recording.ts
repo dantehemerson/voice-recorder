@@ -57,7 +57,7 @@ export class Recording {
 
     this.uploader.onprogress = (progress) => {
       if (this.audioBlob) {
-        this?.onsavepercent(
+        this.onsavepercent?.(
           Math.round((progress.bytesUploaded / this.audioBlob.size) * 100)
         );
       }
@@ -69,7 +69,7 @@ export class Recording {
         ownerToken: response.ownerToken,
         time: this.unixTime,
       };
-      this?.onsavesuccess();
+      this.onsavesuccess?.();
     };
 
     this.uploader.onerror = (error: Error) => {
@@ -86,7 +86,7 @@ export class Recording {
         if (!(error.error instanceof SubmitError)) {
           this.destroyUploader();
         }
-        this?.onsaveerror(error.error);
+        this.onsaveerror?.(error.error);
       } else {
         this.wasNoChunksFoundError = true;
         this.createUploader();
@@ -119,7 +119,7 @@ export class Recording {
     this.audioBlobUrl = null;
     this.unixTime = Date.now();
     this.createUploader();
-    this?.onStart();
+    this.onStart?.();
   }
 
   private onRecordingStopped() {
@@ -127,10 +127,10 @@ export class Recording {
       this.uploader.complete();
       this.audioBlob = this.store.generateAudioBlob();
       this.audioBlobUrl = this.store.generateAudioBlobUrl();
-      this?.onStop(true);
+      this.onStop?.(true);
     } else {
       this.error('Nothing recorded', 'No audio data available');
-      this?.onStop(false);
+      this.onStop?.(false);
     }
   }
 
@@ -152,25 +152,24 @@ export class Recording {
     const error = new Error(details);
     error.name = name;
 
-    this?.onError(error);
+    this.onError?.(error);
   }
 
   async start() {
-    if (!Recorder.isRecordingSupported()) {
+    if (Recorder.isRecordingSupported()) {
       console.log(`Recording is not supported in this browser`);
-      return;
-    }
 
-    if (this.store.isEmpty() && !this.uploader && !this.media) {
-      this.recorder.start();
+      if (this.store.isEmpty() && !this.uploader && !this.media) {
+        await this.recorder.start();
+      }
+
+      return;
     }
 
     this.error(
       'RecordingNotSupported',
       'Your web browser does not support audio recording! Please update to a newer browser.'
     );
-
-    await this.recorder.start();
   }
 
   async stop() {
@@ -179,12 +178,12 @@ export class Recording {
 
   async pause() {
     await this.recorder.pause();
-    this?.onPause();
+    this.onPause?.();
   }
 
   async resume() {
     await this.recorder.resume();
-    this?.onResume();
+    this.onResume?.();
   }
 
   static preload() {
