@@ -8,13 +8,13 @@ import { UploaderOptions } from './interfaces/uploader-options.interface';
 import { UploadQueue } from './upload-queue';
 
 export class Uploader {
-  private aborted = false;
   private chunks: Blob[] = [];
 
   private uploadId = createUploadId();
   private uploadQueue: UploadQueue;
   private uploadURLWithId: string;
 
+  private aborted = false;
   private uploadsFinished = false;
   private shouldFinalize = false;
 
@@ -41,6 +41,8 @@ export class Uploader {
     );
 
     this.uploadQueue.onProgress = this.onProgress.bind(this);
+
+    this.alive();
   }
 
   alive() {
@@ -52,8 +54,6 @@ export class Uploader {
       try {
         this.uploadURLWithId = `${this.options.uploadUrl}/${this.uploadId}`;
         this.uploadQueue.start(this.uploadURLWithId);
-
-        aliveRequest.abort();
       } catch (error) {
         console.error('Error starting upload', { error });
       }
