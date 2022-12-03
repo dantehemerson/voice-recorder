@@ -50,7 +50,7 @@ export class Uploader {
       method: 'HEAD',
     });
 
-    aliveRequest.then(() => {
+    aliveRequest.then((reponse) => {
       try {
         this.uploadURLWithId = `${this.options.uploadUrl}/${this.uploadId}`;
         this.uploadQueue.start(this.uploadURLWithId);

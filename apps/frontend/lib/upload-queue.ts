@@ -17,7 +17,30 @@ export class UploadQueue {
     private readonly maxConcurrentUploads
   ) {}
 
-  async startChunkUpload(queueItem: QueueItem) {
+  start(uploadURLWithId: string) {
+    if (!this.started) {
+      this.started = true;
+      this.uploadURLWithId = uploadURLWithId;
+
+      if (this.queue.length) {
+        this.startUploads();
+      }
+    }
+  }
+
+  private startUploads() {
+    const toUpload = this.queue.splice(
+      0,
+      this.maxConcurrentUploads - this.inProgress
+    );
+    this.inProgress += toUpload.length;
+
+    for (const queueItem of toUpload) {
+      this.startChunkUpload(queueItem);
+    }
+  }
+
+  private async startChunkUpload(queueItem: QueueItem) {
     try {
       const data = new FormData();
       data.append('chunk', queueItem.chunk, 'chunk');
@@ -41,29 +64,6 @@ export class UploadQueue {
       }
     } catch (error) {
       console.error('Error uploading chunk', { error, queueItem });
-    }
-  }
-
-  startUploads() {
-    const toUpload = this.queue.splice(
-      0,
-      this.maxConcurrentUploads - this.inProgress
-    );
-    this.inProgress += toUpload.length;
-
-    for (const queueItem of toUpload) {
-      this.startChunkUpload(queueItem);
-    }
-  }
-
-  start(uploadURLWithId: string) {
-    if (!this.started) {
-      this.started = true;
-      this.uploadURLWithId = uploadURLWithId;
-
-      if (this.queue.length) {
-        this.startUploads();
-      }
     }
   }
 
