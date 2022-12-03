@@ -11,7 +11,7 @@ export class Recording {
   private uploader: Uploader;
   private unixTime: number;
   private audioBlob: Blob;
-  private audioBlobUrl: any;
+  private audioBlobUrl: string;
   private media;
   private wasNoChunksFoundError = false;
 
@@ -156,20 +156,17 @@ export class Recording {
   }
 
   async start() {
-    if (Recorder.isRecordingSupported()) {
-      console.log(`Recording is not supported in this browser`);
-
-      if (this.store.isEmpty() && !this.uploader && !this.media) {
-        await this.recorder.start();
-      }
-
+    if (!Recorder.isRecordingSupported()) {
+      this.error(
+        'RecordingNotSupported',
+        'Your web browser does not support audio recording! Please update to a newer browser.'
+      );
       return;
     }
 
-    this.error(
-      'RecordingNotSupported',
-      'Your web browser does not support audio recording! Please update to a newer browser.'
-    );
+    if (this.store.isEmpty() && !this.uploader && !this.media) {
+      await this.recorder.start();
+    }
   }
 
   async stop() {

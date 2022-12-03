@@ -3,7 +3,6 @@ import { Chronometer } from '../../components/Chronometer/Chronometer';
 import { HomeScreen, useHomeState } from '../../contexts/home.context';
 import { useRecording } from '../../hooks/use-recording.hook';
 import { useTimer } from '../../hooks/use-timer.hook';
-import { Recorder } from '../../lib/recorder';
 import { InitialView } from './InitialView';
 import { RecordFinishedView } from './RecordFinishedView';
 import { RecordingView } from './RecordingView';
@@ -14,7 +13,6 @@ export function Home() {
   const timer = useTimer();
 
   function initRecording() {
-    console.log('starting app');
     recorder.clearRecording();
     recorder.initRecording();
 
@@ -58,11 +56,6 @@ export function Home() {
   }, []);
 
   async function startRecording() {
-    if (!Recorder.isRecordingSupported()) {
-      console.log(`Recording is not supported in this browser`);
-      return;
-    }
-
     dispatch.startRecording();
     initRecording();
     await recorder.recordingRef.current.start();
