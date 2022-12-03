@@ -62,7 +62,7 @@ export class Recorder {
 
   private async createAudioContext() {
     const AudioContextRef =
-      window.AudioContext || (window as any).webkitAudioContext;
+      window.AudioContext || (window as WebkitWindow).webkitAudioContext;
 
     this.audioContext = new AudioContextRef();
 

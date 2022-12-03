@@ -1,19 +1,30 @@
+import { Utils } from '../helpers/utils.helper';
 import { MaxChunkCountError } from './errors/max-chunk-count.error';
 import { NoChunksFoundError } from './errors/no-chunk-found.error';
 import { SubmitError } from './errors/submit.error';
 import { createUploadId } from './helpers/create-upload-id.helper';
 import { retryableFetch } from './http/retryable-fetch.helper';
+import { UploaderOptions } from './interfaces/uploader-options.interface';
 import { UploadQueue } from './upload-queue';
 
 export class Uploader {
   private aborted = false;
   private chunks: Blob[] = [];
-  private uploadsFinished = false;
-  private shouldFinalize = false;
+
   private uploadId = createUploadId();
   private uploadQueue: UploadQueue;
-  private uploadUrl = '/api/upload';
   private uploadURLWithId: string;
+
+  private uploadsFinished = false;
+  private shouldFinalize = false;
+
+  private options: UploaderOptions;
+  private defaultOptions: UploaderOptions = {
+    chunkSize: 100000,
+    maxChunkCount: 5000,
+    maxConcurrentUploads: 3,
+    uploadUrl: '/api/upload',
+  };
 
   /** Listeners */
   onsuccess: (options: any) => void;
@@ -21,7 +32,9 @@ export class Uploader {
   onerror: (error: any) => void;
   onfinalizeerror: (options: any) => void;
 
-  constructor(private readonly options?: any) {
+  constructor(options?: UploaderOptions) {
+    this.options = Utils.mergeObjects(this.defaultOptions, options);
+
     this.uploadQueue = new UploadQueue(
       this.onUploadsFinished.bind(this),
       this.options.maxConcurrentUploads
@@ -31,13 +44,13 @@ export class Uploader {
   }
 
   alive() {
-    const aliveRequest = retryableFetch(this.uploadUrl + '/alive', {
+    const aliveRequest = retryableFetch(this.options.uploadUrl + '/alive', {
       method: 'HEAD',
     });
 
     aliveRequest.then(() => {
       try {
-        this.uploadURLWithId = `${this.uploadUrl}/${this.uploadId}`;
+        this.uploadURLWithId = `${this.options.uploadUrl}/${this.uploadId}`;
         this.uploadQueue.start(this.uploadURLWithId);
 
         aliveRequest.abort();
@@ -52,10 +65,27 @@ export class Uploader {
     this.aborted = true;
   }
 
-  addLatestChunk() {
+  complete() {
+    if (this.chunks.length !== 0 && this.chunks[0].size !== 0) {
+      this.addLatestChunk();
+      this.uploadQueue.complete();
+    }
+  }
+
+  finalize() {
+    if (this.uploadsFinished) {
+      this.remoteFinalize();
+    } else {
+      this.shouldFinalize = true;
+    }
+  }
+
+  private addLatestChunk() {
     if (this.chunks.length > this.options.maxChunkCount) {
       if (this.chunks.length === this.options.maxChunkCount + 1) {
-        this.onerror(new MaxChunkCountError('Max upload chunk count exceeded'));
+        this?.onerror(
+          new MaxChunkCountError('Max upload chunk count exceeded')
+        );
       }
     } else {
       this.uploadQueue.add(this.chunks[this.chunks.length - 1]);
@@ -93,7 +123,7 @@ export class Uploader {
     }
   }
 
-  async onUploadsFinished() {
+  private async onUploadsFinished() {
     this.uploadsFinished = true;
     if (this.shouldFinalize) {
       await this.remoteFinalize();
@@ -125,7 +155,7 @@ export class Uploader {
       }
 
       if (!this.aborted) {
-        this.onsuccess({
+        this?.onsuccess({
           mediaId: result.mediaId,
           ownerToken: result.ownerToken,
         });
@@ -133,7 +163,7 @@ export class Uploader {
     } catch (error) {
       console.error('Error finalizing upload', { error });
       if (!this.aborted) {
-        this.onfinalizeerror({
+        this?.onfinalizeerror({
           error,
         });
       }
@@ -142,24 +172,9 @@ export class Uploader {
 
   private onProgress(bytesUploaded) {
     if (!this.aborted) {
-      this.onprogress({
+      this?.onprogress({
         bytesUploaded,
       });
-    }
-  }
-
-  complete() {
-    if (this.chunks.length !== 0 && this.chunks[0].size !== 0) {
-      this.addLatestChunk();
-      this.uploadQueue.complete();
-    }
-  }
-
-  finalize() {
-    if (this.uploadsFinished) {
-      this.remoteFinalize();
-    } else {
-      this.shouldFinalize = true;
     }
   }
 }

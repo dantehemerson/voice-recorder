@@ -64,6 +64,7 @@ export class AudioEncoder {
     }
   }
 
+  // TODO: Start worker only once on app start
   private prestart() {
     this.state = EncoderStatus.LOADING;
 

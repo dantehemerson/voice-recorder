@@ -6,7 +6,7 @@ const base62 = baseX(BASE62);
 
 export function createUploadId(): string {
   const randomValues = (
-    window.crypto || (window as any).msCrypto
+    window.crypto || (window as MsWindow).msCrypto
   ).getRandomValues(new Uint8Array(16));
 
   return base62.encode(randomValues);
