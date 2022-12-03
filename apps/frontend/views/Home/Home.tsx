@@ -18,29 +18,29 @@ export function Home() {
 
     timer.reset();
 
-    recorder.recordingRef.current.onStart = () => {
+    recorder.recording.onStart = () => {
       timer.resetAndStart();
     };
 
-    recorder.recordingRef.current.onStop = (sucess) => {
+    recorder.recording.onStop = (sucess) => {
       if (sucess) {
         dispatch.stopRecording({
-          audioBlobUrl: recorder.recordingRef.current.getAudioBlobUrl(),
+          audioBlobUrl: recorder.recording.getAudioBlobUrl(),
         });
       } else {
         dispatch.startNewRecording();
       }
     };
 
-    recorder.recordingRef.current.onPause = () => {
+    recorder.recording.onPause = () => {
       timer.stop();
     };
 
-    recorder.recordingRef.current.onResume = () => {
+    recorder.recording.onResume = () => {
       timer.start();
     };
 
-    recorder.recordingRef.current.onError = (error) => {
+    recorder.recording.onError = (error) => {
       // TODO: Handle Error and show on the UI
       console.log('recorder errored', error);
       dispatch.startNewRecording();
@@ -58,19 +58,19 @@ export function Home() {
   async function startRecording() {
     dispatch.startRecording();
     initRecording();
-    await recorder.recordingRef.current.start();
+    await recorder.recording.start();
   }
 
   async function handlePlayPause(pause: boolean) {
     if (pause) {
-      await recorder.recordingRef.current.pause();
+      await recorder.recording.pause();
     } else {
-      await recorder.recordingRef.current.resume();
+      await recorder.recording.resume();
     }
   }
 
   async function handleStop() {
-    recorder.recordingRef.current.stop();
+    recorder.recording.stop();
     timer.stop();
   }
 
