@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Slider } from '../../components/Slider/Slider';
+import { Slider } from '../../components/Slider/Slider.components';
 
 type RecordFinishedViewProps = {
   blobUrl: string;

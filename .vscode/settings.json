@@ -3,11 +3,11 @@
   "workbench.iconTheme": "vscode-icons",
   "vsicons.presets.nestjs": true,
   "files.exclude": {
-    // "**/dist": true,
+    "**/dist": true,
     "**/node_modules": true,
     "**/yarn.lock": true,
     "**/.cache": true,
-    // "**/.next": true,
+    "**/.next": true,
     "**/public": true
   },
   "search.exclude": {
