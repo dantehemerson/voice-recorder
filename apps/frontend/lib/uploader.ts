@@ -93,32 +93,35 @@ export class Uploader {
   }
 
   addData(data) {
-    const blob = new Blob([data]);
-    if (blob.size !== 0) {
+    const newBlob = new Blob([data]);
+    if (newBlob.size !== 0) {
       if (this.chunks.length === 0) {
         this.chunks.push(new Blob());
+      }
 
-        for (let t = 0; t < data.size; ) {
-          const lastChunk = this.chunks[this.chunks.length - 1];
-          const lastChunkSize = lastChunk.size;
-          const o = this.options.chunkSize - lastChunkSize;
+      for (let t = 0; t < newBlob.size; ) {
+        const lastChunk = this.chunks[this.chunks.length - 1];
+        const lastChunkSize = lastChunk.size;
+        const missingChunkSize = this.options.chunkSize - lastChunkSize;
 
-          if (data.size - t <= o) {
-            this.chunks[this.chunks.length - 1] = new Blob([
-              lastChunk,
-              data.slice(t),
-            ]);
-            break;
-          }
-
-          const i = data.slice(t, t + o);
-          t += o;
-
-          this.chunks[this.chunks.length - 1] = new Blob([lastChunk, i]);
-
-          this.addLatestChunk();
-          this.chunks.push(new Blob());
+        if (newBlob.size - t <= missingChunkSize) {
+          this.chunks[this.chunks.length - 1] = new Blob([
+            lastChunk,
+            newBlob.slice(t),
+          ]);
+          break;
         }
+
+        const missingChunks = newBlob.slice(t, t + missingChunkSize);
+        t += missingChunkSize;
+
+        this.chunks[this.chunks.length - 1] = new Blob([
+          lastChunk,
+          missingChunks,
+        ]);
+
+        this.addLatestChunk();
+        this.chunks.push(new Blob());
       }
     }
   }
