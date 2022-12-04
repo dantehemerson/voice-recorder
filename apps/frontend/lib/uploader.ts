@@ -4,6 +4,8 @@ import { NoChunksFoundError } from './errors/no-chunk-found.error';
 import { SubmitError } from './errors/submit.error';
 import { createUploadId } from './helpers/create-upload-id.helper';
 import { retryableFetch } from './http/retryable-fetch.helper';
+import { MediaInfo } from './interfaces/media-info.interface';
+import { OnUploaderProgressPayload } from './interfaces/on-uploader-progress-payload.interface';
 import { UploaderOptions } from './interfaces/uploader-options.interface';
 import { UploadQueue } from './upload-queue';
 
@@ -26,11 +28,11 @@ export class Uploader {
     uploadUrl: '/api/upload',
   };
 
-  /** Listeners */
-  onsuccess: (options: any) => void;
-  onprogress: (options: any) => void;
-  onerror: (error: any) => void;
-  onfinalizeerror: (options: any) => void;
+  /** Upload Listeners */
+  public onSuccess: (data: Omit<MediaInfo, 'time'>) => void;
+  public onProgress: (data: OnUploaderProgressPayload) => void;
+  public onError: (error: Error) => void;
+  public onFinalizeError: (error: Error) => void;
 
   constructor(options?: UploaderOptions) {
     this.options = Utils.mergeObjects(this.defaultOptions, options);
@@ -40,7 +42,7 @@ export class Uploader {
       this.options.maxConcurrentUploads
     );
 
-    this.uploadQueue.onProgress = this.onProgress.bind(this);
+    this.uploadQueue.onProgress = this.onQueueProgress.bind(this);
 
     this.alive();
   }
@@ -83,7 +85,7 @@ export class Uploader {
   private addLatestChunk() {
     if (this.chunks.length > this.options.maxChunkCount) {
       if (this.chunks.length === this.options.maxChunkCount + 1) {
-        this?.onerror(
+        this.onError?.(
           new MaxChunkCountError(
             'Max upload chunk count exceeded(file too large)'
           )
@@ -163,7 +165,7 @@ export class Uploader {
       }
 
       if (!this.aborted) {
-        this?.onsuccess({
+        this.onSuccess?.({
           mediaId: result.mediaId,
           ownerToken: result.ownerToken,
         });
@@ -171,16 +173,14 @@ export class Uploader {
     } catch (error) {
       console.error('Error finalizing upload', { error });
       if (!this.aborted) {
-        this?.onfinalizeerror({
-          error,
-        });
+        this.onFinalizeError?.(error);
       }
     }
   }
 
-  private onProgress(bytesUploaded) {
+  private onQueueProgress(bytesUploaded: number) {
     if (!this.aborted) {
-      this?.onprogress({
+      this.onProgress?.({
         bytesUploaded,
       });
     }

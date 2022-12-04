@@ -1,5 +1,7 @@
 import { isEdge } from '../helpers/browser/browser.helpers';
-import { AudioEncoder } from './audio-encoder';
+import { Utils } from '../helpers/utils.helper';
+import { AudioEncoder } from './audio-encoding/audio-encoder';
+import { AudioEncoderConfig } from './audio-encoding/audio-encoder-config.interface';
 import { RecorderStatus } from './enums/recorder-status.enum';
 
 export class Recorder {
@@ -9,17 +11,16 @@ export class Recorder {
   private scriptProcessorNode: AudioWorkletNode;
   private sourceNode: MediaStreamAudioSourceNode;
   private stream: MediaStream;
-  private config;
+  private config: Partial<AudioEncoderConfig>;
 
   public onStart: () => void;
   public onDataAvailable: (data: Int8Array) => void;
   public onStop: () => void;
   public onError: (error: Error) => void;
 
-  constructor(config) {
-    console.log('Creating instance of Recorder');
+  constructor(config: Partial<AudioEncoderConfig>) {
     this.state = RecorderStatus.STOPPED;
-    this.config = Object.assign(
+    this.config = Utils.mergeObjects(
       {
         recordingGain: 1,
         numberOfChannels: 1,

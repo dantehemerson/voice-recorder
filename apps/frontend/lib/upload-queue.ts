@@ -10,11 +10,11 @@ export class UploadQueue {
   private totalUploadedBytes = 0;
   private started = false;
 
-  public onProgress: any;
+  public onProgress: (bytesUploaded: number) => void;
 
   constructor(
-    private onUploadsFinished,
-    private readonly maxConcurrentUploads
+    private onUploadsFinished: () => void,
+    private readonly maxConcurrentUploads: number
   ) {}
 
   start(uploadURLWithId: string) {
@@ -55,10 +55,10 @@ export class UploadQueue {
 
       this.inProgress--;
       this.totalUploadedBytes += queueItem.chunk.size;
-      this?.onProgress(this.totalUploadedBytes);
+      this.onProgress?.(this.totalUploadedBytes);
 
       if (this.completed && this.inProgress === 0) {
-        this?.onUploadsFinished();
+        this.onUploadsFinished?.();
       } else {
         this.startUploads();
       }
@@ -82,7 +82,7 @@ export class UploadQueue {
   complete() {
     this.completed = true;
     if (this.started && this.inProgress === 0) {
-      this?.onUploadsFinished();
+      this.onUploadsFinished?.();
     }
   }
 

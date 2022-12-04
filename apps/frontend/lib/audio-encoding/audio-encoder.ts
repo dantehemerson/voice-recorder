@@ -1,9 +1,9 @@
-import { EncoderStatus } from './enums/encoder-status.enum';
-import { generateRandomId } from './helpers/generate-random-id.helper';
-import { AudioEncoderConfig } from './interfaces/audio-encoder.config';
+import { EncoderStatus } from '../enums/encoder-status.enum';
+import { generateRandomId } from '../helpers/generate-random-id.helper';
+import { AudioEncoderConfig } from './audio-encoder-config.interface';
 
 export class AudioEncoder {
-  private config: AudioEncoderConfig;
+  private config: Partial<AudioEncoderConfig>;
   private jobId: string;
   private worker: Worker;
   private state: EncoderStatus;
@@ -11,7 +11,7 @@ export class AudioEncoder {
   public onDataAvailable: (data: Int8Array) => void;
   public onStopped: () => void;
 
-  constructor(config: AudioEncoderConfig) {
+  constructor(config: Partial<AudioEncoderConfig>) {
     this.jobId = generateRandomId();
     this.config = config;
     this.state = EncoderStatus.INACTIVE;

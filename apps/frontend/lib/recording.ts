@@ -1,6 +1,9 @@
+import { Utils } from '../helpers/utils.helper';
+import { AudioEncoderConstraints } from './audio-encoding/audio-encoder-config.interface';
 import { MaxChunkCountError } from './errors/max-chunk-count.error';
 import { NoChunksFoundError } from './errors/no-chunk-found.error';
 import { SubmitError } from './errors/submit.error';
+import { MediaInfo } from './interfaces/media-info.interface';
 import { Recorder } from './recorder';
 import { RecordingStore } from './recording-store';
 import { Uploader } from './uploader';
@@ -12,20 +15,31 @@ export class Recording {
   private unixTime: number;
   private audioBlob: Blob;
   private audioBlobUrl: string;
-  private media;
+  private media: MediaInfo;
   private wasNoChunksFoundError = false;
 
-  public onStart: () => void;
-  public onStop: (success: boolean) => void;
-  public onPause: () => void;
-  public onResume: () => void;
-  public onError: (error: Error) => void;
+  /** Recorder events */
+  public onStart?: () => void;
+  public onStop?: (success: boolean) => void;
+  public onPause?: () => void;
+  public onResume?: () => void;
+  public onError?: (error: Error) => void;
 
-  public onsavepercent: (percentage: number) => void;
-  public onsavesuccess: () => void;
-  public onsaveerror: (error: Error) => void;
+  /** Saving events */
+  public onSavePercent?: (percentage: number) => void;
+  public onSaveSuccess?: () => void;
+  public onSaveError?: (error: Error) => void;
 
-  constructor(private readonly options) {
+  constructor(private readonly options: Partial<AudioEncoderConstraints>) {
+    this.options = Utils.mergeObjects(
+      {
+        autoGainControl: true,
+        echoCancellation: true,
+        noiseSuppression: true,
+      },
+      options
+    );
+
     this.store = new RecordingStore();
     this.recorder = new Recorder({
       recordingGain: 1,
@@ -33,8 +47,8 @@ export class Recording {
       encoderBitRate: 96,
       constraints: {
         autoGainControl: this.options.autoGainControl,
-        echoCancellation: this.options.removeBackgroundNoise,
-        noiseSuppression: this.options.removeBackgroundNoise,
+        echoCancellation: this.options.echoCancellation,
+        noiseSuppression: this.options.noiseSuppression,
       },
     });
 
@@ -55,38 +69,38 @@ export class Recording {
     this.destroyUploader();
     this.uploader = new Uploader();
 
-    this.uploader.onprogress = (progress) => {
+    this.uploader.onProgress = (progress) => {
       if (this.audioBlob) {
-        this.onsavepercent?.(
+        this.onSavePercent?.(
           Math.round((progress.bytesUploaded / this.audioBlob.size) * 100)
         );
       }
     };
 
-    this.uploader.onsuccess = (response) => {
+    this.uploader.onSuccess = (response) => {
       this.media = {
         mediaId: response.mediaId,
         ownerToken: response.ownerToken,
         time: this.unixTime,
       };
-      this.onsavesuccess?.();
+      this.onSaveSuccess?.();
     };
 
-    this.uploader.onerror = (error: Error) => {
+    this.uploader.onError = (error: Error) => {
       if (error instanceof MaxChunkCountError) {
         this.stop();
       }
     };
 
-    this.uploader.onfinalizeerror = (error: { error: Error }) => {
+    this.uploader.onFinalizeError = (error: Error) => {
       if (
-        !(error.error instanceof NoChunksFoundError) ||
+        !(error instanceof NoChunksFoundError) ||
         this.wasNoChunksFoundError
       ) {
-        if (!(error.error instanceof SubmitError)) {
+        if (!(error instanceof SubmitError)) {
           this.destroyUploader();
         }
-        this.onsaveerror?.(error.error);
+        this.onSaveError?.(error);
       } else {
         this.wasNoChunksFoundError = true;
         this.createUploader();
@@ -99,9 +113,9 @@ export class Recording {
 
   destroyUploader() {
     if (this.uploader) {
-      this.uploader.onsuccess = null;
-      this.uploader.onfinalizeerror = null;
-      this.uploader.onprogress = null;
+      this.uploader.onSuccess = null;
+      this.uploader.onFinalizeError = null;
+      this.uploader.onProgress = null;
       this.uploader = null;
     }
   }
