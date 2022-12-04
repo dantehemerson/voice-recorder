@@ -1,4 +1,4 @@
-interface AudioEncoderConstraints {
+export interface AudioEncoderConstraints {
   autoGainControl: boolean;
   echoCancellation: boolean;
   noiseSuppression: boolean;
