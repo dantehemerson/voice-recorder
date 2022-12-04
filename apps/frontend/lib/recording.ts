@@ -183,6 +183,17 @@ export class Recording {
     this.onResume?.();
   }
 
+  save() {
+    if (this.uploader) {
+      this.uploader.finalize();
+    } else if (this.audioBlob) {
+      this.createUploader();
+      this.uploader.addData(this.audioBlob);
+      this.uploader.complete();
+      this.uploader.finalize();
+    }
+  }
+
   static preload() {
     // return Recorder.preload();
   }

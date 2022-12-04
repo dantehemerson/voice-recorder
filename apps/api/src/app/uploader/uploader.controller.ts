@@ -33,4 +33,12 @@ export class UploaderController {
       ok: true,
     };
   }
+
+  @Post('/:id/finalize')
+  finalize(@Param('id') id: string) {
+    console.log('finalize', id);
+    return {
+      ok: true,
+    };
+  }
 }

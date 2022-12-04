@@ -66,7 +66,7 @@ export class Uploader {
   }
 
   complete() {
-    if (this.chunks.length !== 0 && this.chunks[0].size !== 0) {
+    if (this.chunks.length >= 1 && this.chunks[0].size !== 0) {
       this.addLatestChunk();
       this.uploadQueue.complete();
     }
@@ -84,7 +84,9 @@ export class Uploader {
     if (this.chunks.length > this.options.maxChunkCount) {
       if (this.chunks.length === this.options.maxChunkCount + 1) {
         this?.onerror(
-          new MaxChunkCountError('Max upload chunk count exceeded')
+          new MaxChunkCountError(
+            'Max upload chunk count exceeded(file too large)'
+          )
         );
       }
     } else {
@@ -99,21 +101,24 @@ export class Uploader {
         this.chunks.push(new Blob());
       }
 
-      for (let t = 0; t < newBlob.size; ) {
+      for (let totalUploadedSize = 0; totalUploadedSize < newBlob.size; ) {
         const lastChunk = this.chunks[this.chunks.length - 1];
         const lastChunkSize = lastChunk.size;
         const missingChunkSize = this.options.chunkSize - lastChunkSize;
 
-        if (newBlob.size - t <= missingChunkSize) {
+        if (newBlob.size - totalUploadedSize <= missingChunkSize) {
           this.chunks[this.chunks.length - 1] = new Blob([
             lastChunk,
-            newBlob.slice(t),
+            newBlob.slice(totalUploadedSize),
           ]);
           break;
         }
 
-        const missingChunks = newBlob.slice(t, t + missingChunkSize);
-        t += missingChunkSize;
+        const missingChunks = newBlob.slice(
+          totalUploadedSize,
+          totalUploadedSize + missingChunkSize
+        );
+        totalUploadedSize += missingChunkSize;
 
         this.chunks[this.chunks.length - 1] = new Blob([
           lastChunk,
