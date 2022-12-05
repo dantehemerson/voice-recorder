@@ -36,8 +36,10 @@ export class UploaderController {
   }
 
   @Post('/:id/finalize')
-  finalize(@Param('id') id: string): MediaInfoDto {
+  async finalize(@Param('id') id: string): Promise<MediaInfoDto> {
     console.log('finalize', id);
+    await new Promise(resolve => setTimeout(resolve, 10000));
+
     return {
       status: 0,
       mediaId: '123',
