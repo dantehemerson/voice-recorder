@@ -69,7 +69,7 @@ export class Recording {
     this.destroyUploader();
     this.uploader = new Uploader();
 
-    this.uploader.onProgress = (progress) => {
+    this.uploader.onProgress = progress => {
       if (this.audioBlob) {
         this.onSavePercent?.(
           Math.round((progress.bytesUploaded / this.audioBlob.size) * 100)
@@ -77,7 +77,7 @@ export class Recording {
       }
     };
 
-    this.uploader.onSuccess = (response) => {
+    this.uploader.onSuccess = response => {
       this.media = {
         mediaId: response.mediaId,
         ownerToken: response.ownerToken,
@@ -195,6 +195,10 @@ export class Recording {
   async resume() {
     await this.recorder.resume();
     this.onResume?.();
+  }
+
+  getMedia(): MediaInfo {
+    return this.media;
   }
 
   save() {

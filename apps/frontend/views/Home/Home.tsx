@@ -1,8 +1,10 @@
-import { useEffect } from 'react';
+import { stringify } from 'querystring';
+import { useEffect, useState } from 'react';
 import { Chronometer } from '../../components/Chronometer/Chronometer.component';
 import { HomeScreen, useHomeState } from '../../contexts/home.context';
 import { useRecording } from '../../hooks/use-recording.hook';
 import { useTimer } from '../../hooks/use-timer.hook';
+import { MediaInfo } from '../../lib/interfaces/media-info.interface';
 import { InitialView } from './InitialView';
 import { RecordFinishedView } from './RecordFinishedView';
 import { RecordingView } from './RecordingView';
@@ -11,6 +13,7 @@ export function Home() {
   const { homeState, dispatch } = useHomeState();
   const recorder = useRecording();
   const timer = useTimer();
+  const [media, setMedia] = useState<MediaInfo>();
 
   function initRecording() {
     recorder.clearRecording();
@@ -22,7 +25,7 @@ export function Home() {
       timer.resetAndStart();
     };
 
-    recorder.recording.onStop = (sucess) => {
+    recorder.recording.onStop = sucess => {
       if (sucess) {
         dispatch.stopRecording({
           audioBlobUrl: recorder.recording.getAudioBlobUrl(),
@@ -40,7 +43,12 @@ export function Home() {
       timer.start();
     };
 
-    recorder.recording.onError = (error) => {
+    recorder.recording.onSaveSuccess = () => {
+      console.log('Sucesss');
+      setMedia(recorder.recording.getMedia());
+    };
+
+    recorder.recording.onError = error => {
       // TODO: Handle Error and show on the UI
       console.log('recorder errored', error);
       dispatch.startNewRecording();
@@ -93,10 +101,17 @@ export function Home() {
 
     case HomeScreen.PREVIEWING:
       return (
-        <RecordFinishedView
-          blobUrl={homeState.audioBlobUrl}
-          onClickNewRecording={handleClickNewRecording}
-        />
+        <>
+          {!media ? (
+            <RecordFinishedView
+              blobUrl={homeState.audioBlobUrl}
+              recording={recorder.recording}
+              onClickNewRecording={handleClickNewRecording}
+            />
+          ) : (
+            <div>{JSON.stringify(media)}</div>
+          )}
+        </>
       );
 
     default:

@@ -38,6 +38,7 @@ export class UploaderController {
   finalize(@Param('id') id: string) {
     console.log('finalize', id);
     return {
+      status: 0,
       ok: true,
     };
   }

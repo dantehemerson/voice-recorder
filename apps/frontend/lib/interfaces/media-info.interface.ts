@@ -3,3 +3,7 @@ export interface MediaInfo {
   ownerToken: string;
   time?: number;
 }
+
+export interface MediaInfoRequest extends MediaInfo {
+  status: number;
+}

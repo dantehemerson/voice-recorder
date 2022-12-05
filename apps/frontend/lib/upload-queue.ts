@@ -45,13 +45,13 @@ export class UploadQueue {
       const data = new FormData();
       data.append('chunk', queueItem.chunk, 'chunk');
 
-      await retryableFetch(
-        `${this.uploadURLWithId}/chunk/${queueItem.chunkIndex}`,
-        {
+      await retryableFetch({
+        input: `${this.uploadURLWithId}/chunk/${queueItem.chunkIndex}`,
+        init: {
           method: 'POST',
           body: data,
-        }
-      );
+        },
+      });
 
       this.inProgress--;
       this.totalUploadedBytes += queueItem.chunk.size;

@@ -24,7 +24,7 @@
     "browser-monads-ts": "^2.0.1",
     "clsx": "^1.2.1",
     "core-js": "^3.6.5",
-    "next": "12.2.3",
+    "next": "12.2.4-canary.9",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "reflect-metadata": "^0.1.13",

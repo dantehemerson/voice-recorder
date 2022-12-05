@@ -4,7 +4,7 @@ import { NoChunksFoundError } from './errors/no-chunk-found.error';
 import { SubmitError } from './errors/submit.error';
 import { createUploadId } from './helpers/create-upload-id.helper';
 import { retryableFetch } from './http/retryable-fetch.helper';
-import { MediaInfo } from './interfaces/media-info.interface';
+import { MediaInfo, MediaInfoRequest } from './interfaces/media-info.interface';
 import { OnUploaderProgressPayload } from './interfaces/on-uploader-progress-payload.interface';
 import { UploaderOptions } from './interfaces/uploader-options.interface';
 import { UploadQueue } from './upload-queue';
@@ -52,7 +52,7 @@ export class Uploader {
       method: 'HEAD',
     });
 
-    aliveRequest.then((reponse) => {
+    aliveRequest.then(() => {
       try {
         this.uploadURLWithId = `${this.options.uploadUrl}/${this.uploadId}`;
         this.uploadQueue.start(this.uploadURLWithId);
@@ -142,10 +142,13 @@ export class Uploader {
 
   async remoteFinalize() {
     try {
-      const result = await retryableFetch(`${this.uploadURLWithId}/finalize`, {
-        method: 'POST',
-        parseJson: true,
-      });
+      const result = await retryableFetch<MediaInfoRequest>(
+        `${this.uploadURLWithId}/finalize`,
+        {
+          method: 'POST',
+          parseJson: true,
+        }
+      );
 
       if (result.status !== 0) {
         if (result.status === 1) {

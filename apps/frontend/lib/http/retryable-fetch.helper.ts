@@ -2,10 +2,10 @@ import { AbortRequestError } from '../errors/abort-request.error';
 import { AbortablePromise } from '../interfaces/abortable-promise.interface';
 import { RetryableFetchInitOptions } from '../interfaces/retryable-fetch-init-options.interface';
 
-export function retryableFetch(
+export function retryableFetch<T = any>(
   input: RequestInfo | URL,
   init?: RetryableFetchInitOptions
-): AbortablePromise {
+): AbortablePromise<T> {
   let aborted = false;
   let abort: () => void;
 
@@ -13,18 +13,18 @@ export function retryableFetch(
 
   const promise = new AbortablePromise((resolve, reject) => {
     const u = cancellableRetryTimeout(
-      (retryMethod) => {
+      retryMethod => {
         fetch(input, init)
-          .then((response) => {
+          .then(response => {
             if (!aborted) {
               if (response.ok || resolveWhenNotOk) {
                 if (parseJson) {
                   response
                     .json()
-                    .then((json) => {
+                    .then(json => {
                       resolve(json);
                     })
-                    .catch((error) => {
+                    .catch(error => {
                       console.log('Error parsing json', error);
 
                       retryMethod();
@@ -37,7 +37,7 @@ export function retryableFetch(
               }
             }
           })
-          .catch((error) => {
+          .catch(error => {
             console.error(`Error on fetching ${input}`, error);
 
             if (!aborted) {
