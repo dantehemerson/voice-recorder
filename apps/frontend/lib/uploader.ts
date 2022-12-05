@@ -1,10 +1,11 @@
+import { MediaInfoDto } from '@voice-recorder/shared-types';
 import { Utils } from '../helpers/utils.helper';
 import { MaxChunkCountError } from './errors/max-chunk-count.error';
 import { NoChunksFoundError } from './errors/no-chunk-found.error';
 import { SubmitError } from './errors/submit.error';
 import { createUploadId } from './helpers/create-upload-id.helper';
 import { retryableFetch } from './http/retryable-fetch.helper';
-import { MediaInfo, MediaInfoRequest } from './interfaces/media-info.interface';
+import { MediaInfo } from './interfaces/media-info.interface';
 import { OnUploaderProgressPayload } from './interfaces/on-uploader-progress-payload.interface';
 import { UploaderOptions } from './interfaces/uploader-options.interface';
 import { UploadQueue } from './upload-queue';
@@ -142,7 +143,7 @@ export class Uploader {
 
   async remoteFinalize() {
     try {
-      const result = await retryableFetch<MediaInfoRequest>(
+      const result = await retryableFetch<MediaInfoDto>(
         `${this.uploadURLWithId}/finalize`,
         {
           method: 'POST',

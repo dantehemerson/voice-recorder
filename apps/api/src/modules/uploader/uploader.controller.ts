@@ -9,6 +9,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { MediaInfoDto } from '@voice-recorder/shared-types';
 
 @Controller('upload')
 export class UploaderController {
@@ -35,11 +36,12 @@ export class UploaderController {
   }
 
   @Post('/:id/finalize')
-  finalize(@Param('id') id: string) {
+  finalize(@Param('id') id: string): MediaInfoDto {
     console.log('finalize', id);
     return {
       status: 0,
-      ok: true,
+      mediaId: '123',
+      ownerToken: '123',
     };
   }
 }
