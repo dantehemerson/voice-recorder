@@ -1,4 +1,3 @@
-import { stringify } from 'querystring';
 import { useEffect, useState } from 'react';
 import { Chronometer } from '../../components/Chronometer/Chronometer.component';
 import { HomeScreen, useHomeState } from '../../contexts/home.context';

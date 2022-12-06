@@ -18,7 +18,7 @@ const Container = styled.div`
   background-color: #dedede;
   margin-left: auto;
   margin-right: auto;
-  max-width: 768px;
+  max-width: 688px;
   padding-bottom: 3rem;
   padding-left: 1rem;
   padding-right: 1rem;
