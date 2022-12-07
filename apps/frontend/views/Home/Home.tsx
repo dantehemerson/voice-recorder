@@ -1,6 +1,7 @@
 import { Chronometer } from '@components/atoms';
-import { useErrorStore } from '@lib/hooks/use-error-store.hook';
 import { MediaInfo } from '@lib/recording/interfaces/media-info.interface';
+import { errorStoreAtom } from '@lib/store/error.store';
+import { useSetAtom } from 'jotai';
 import { useEffect, useState } from 'react';
 import { HomeScreen, useHomeState } from '../../contexts/home.context';
 import { useRecording } from '../../hooks/use-recording.hook';
@@ -14,7 +15,8 @@ export function Home() {
   const recorder = useRecording();
   const timer = useTimer();
   const [media, setMedia] = useState<MediaInfo>();
-  const { setError, cleanErrorStore } = useErrorStore();
+
+  const setError = useSetAtom(errorStoreAtom);
 
   function initRecording() {
     recorder.clearRecording();
@@ -104,7 +106,7 @@ export function Home() {
             Launch Error Random
           </button>
 
-          <button onClick={() => cleanErrorStore()}>Clean Error Store</button>
+          <button onClick={() => setError(undefined)}>Clean Error Store</button>
         </>
       );
 

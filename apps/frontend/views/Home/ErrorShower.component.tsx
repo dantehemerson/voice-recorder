@@ -1,12 +1,13 @@
 import { Alert, AlertStatus } from '@components/atoms/Alert';
-import { useErrorStore } from '@lib/hooks/use-error-store.hook';
+import { errorStoreAtom } from '@lib/store/error.store';
+import { useAtomValue } from 'jotai';
 
 export function ErrorShower() {
-  const { error } = useErrorStore();
+  const error = useAtomValue(errorStoreAtom);
 
   console.log('Rendering ErrorShower');
   if (!error) {
-    return;
+    return null;
   }
 
   return (

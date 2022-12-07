@@ -1,4 +1,3 @@
-import { ErrorStoreProvider } from '@lib/hooks/use-error-store.hook';
 import styled from 'styled-components';
 import { ErrorShower } from 'views/Home/ErrorShower.component';
 import { HomeContextProvider } from '../contexts/home.context';
@@ -7,14 +6,12 @@ import { Home } from '../views/Home/Home';
 export default function Index() {
   return (
     <HomeContextProvider>
-      <ErrorStoreProvider>
-        <Wrapper>
-          <Container>
-            <Home />
-            <ErrorShower />
-          </Container>
-        </Wrapper>
-      </ErrorStoreProvider>
+      <Wrapper>
+        <Container>
+          <Home />
+          <ErrorShower />
+        </Container>
+      </Wrapper>
     </HomeContextProvider>
   );
 }
