@@ -1,5 +1,5 @@
+import { RecordButton } from '@components/atoms';
 import styled from 'styled-components';
-import { RecordButton } from '../../components/RecordButton/RecordButton.component';
 
 type InitialViewProps = {
   onClick: () => void;

@@ -1,6 +1,6 @@
+import { Slider } from '@components/atoms';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Slider } from '../../components/Slider/Slider.components';
 import { Recording } from '../../lib/recording';
 
 type RecordFinishedViewProps = {

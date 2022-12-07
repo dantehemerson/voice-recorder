@@ -1,6 +1,6 @@
+import { Timer } from '@lib/timer';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Timer } from '../../lib/timer';
 
 export type ChronometerProps = {
   timer: Timer;

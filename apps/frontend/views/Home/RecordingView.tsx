@@ -1,7 +1,6 @@
+import { PauseButton, StopButton } from '@components/atoms';
 import { ReactNode, useState } from 'react';
 import styled from 'styled-components';
-import { PauseButton } from '../../components/PauseButton/PauseButton.component';
-import { StopButton } from '../../components/StopButton/StopButton.component';
 
 type RecordingViewProps = {
   chronometer: ReactNode;

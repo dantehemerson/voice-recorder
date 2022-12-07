@@ -18,5 +18,5 @@
   "files.associations": {
     "**/*.env*": "dotenv"
   },
-  "typescript.preferences.importModuleSpecifier": "project-relative",
+  "typescript.preferences.importModuleSpecifier": "non-relative",
 }

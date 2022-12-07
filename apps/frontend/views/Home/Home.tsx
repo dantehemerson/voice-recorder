@@ -1,5 +1,5 @@
+import { Chronometer } from '@components/atoms';
 import { useEffect, useState } from 'react';
-import { Chronometer } from '../../components/Chronometer/Chronometer.component';
 import { HomeScreen, useHomeState } from '../../contexts/home.context';
 import { useRecording } from '../../hooks/use-recording.hook';
 import { useTimer } from '../../hooks/use-timer.hook';
