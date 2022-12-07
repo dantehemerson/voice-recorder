@@ -1,4 +1,5 @@
 import React, { useReducer } from 'react';
+import { Optional } from '@voice-recorder/shared-types';
 
 export enum HomeScreen {
   INITIAL,
@@ -10,7 +11,7 @@ export enum HomeScreen {
 
 type HomeState = {
   screen: HomeScreen;
-  audioBlobUrl: string;
+  audioBlobUrl: Optional<string>;
 };
 
 enum HomeAction {
@@ -29,7 +30,7 @@ type HomeEvent =
     }
   | {
       type: HomeAction.RECORD_RESULT;
-      audioBlobUrl: string;
+      audioBlobUrl: Optional<string>;
     };
 
 type HomeContextValue = {

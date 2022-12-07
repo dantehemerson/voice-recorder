@@ -54,6 +54,10 @@ export function Home() {
     recorder.recording.onError = error => {
       // TODO: Handle Error and show on the UI
       console.log('recorder errored', error);
+      setError({
+        message: error.name,
+        details: error.message,
+      });
       dispatch.startNewRecording();
     };
 
