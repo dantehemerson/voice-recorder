@@ -1,5 +1,5 @@
+import { Recording } from '@lib/recording/recording';
 import { useState } from 'react';
-import { Recording } from '../lib/recording';
 
 interface UseRecordingOptions {
   removeBackgroundNoise: boolean;

@@ -1,5 +1,5 @@
-import { isEdge } from '../helpers/browser/browser.helpers';
-import { Utils } from '../helpers/utils.helper';
+import { isEdge } from '../../helpers/browser/browser.helpers';
+import { Utils } from '../../helpers/utils.helper';
 import { AudioEncoder } from './audio-encoding/audio-encoder';
 import { AudioEncoderConfig } from './audio-encoding/audio-encoder-config.interface';
 import { RecorderStatus } from './enums/recorder-status.enum';
@@ -74,7 +74,7 @@ export class Recorder {
       'script-processor-replacement'
     );
 
-    this.scriptProcessorNode.port.onmessage = (event) => {
+    this.scriptProcessorNode.port.onmessage = event => {
       if (this.state === RecorderStatus.RECORDING) {
         this.encoder.sendData(event.data);
       }
@@ -94,7 +94,7 @@ export class Recorder {
 
     await this.encoder.waitForWorker();
 
-    this.encoder.onDataAvailable = (data) => {
+    this.encoder.onDataAvailable = data => {
       this.onDataAvailable?.(data);
     };
 
@@ -137,7 +137,7 @@ export class Recorder {
   }
 
   stopStream() {
-    this.stream.getTracks().forEach((track) => {
+    this.stream.getTracks().forEach(track => {
       track.stop();
     });
   }

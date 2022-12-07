@@ -1,5 +1,5 @@
 import { MediaInfoDto } from '@voice-recorder/shared-types';
-import { Utils } from '../helpers/utils.helper';
+import { Utils } from 'helpers/utils.helper';
 import { MaxChunkCountError } from './errors/max-chunk-count.error';
 import { NoChunksFoundError } from './errors/no-chunk-found.error';
 import { SubmitError } from './errors/submit.error';

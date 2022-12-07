@@ -1,9 +1,9 @@
 import { Chronometer } from '@components/atoms';
+import { MediaInfo } from '@lib/recording/interfaces/media-info.interface';
 import { useEffect, useState } from 'react';
 import { HomeScreen, useHomeState } from '../../contexts/home.context';
 import { useRecording } from '../../hooks/use-recording.hook';
 import { useTimer } from '../../hooks/use-timer.hook';
-import { MediaInfo } from '../../lib/interfaces/media-info.interface';
 import { InitialView } from './InitialView';
 import { RecordFinishedView } from './RecordFinishedView';
 import { RecordingView } from './RecordingView';
