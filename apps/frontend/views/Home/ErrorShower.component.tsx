@@ -5,7 +5,6 @@ import { useAtomValue } from 'jotai';
 export function ErrorShower() {
   const error = useAtomValue(errorStoreAtom);
 
-  console.log('Rendering ErrorShower');
   if (!error) {
     return null;
   }

@@ -89,7 +89,6 @@ export function Home() {
     dispatch.startNewRecording();
   }
 
-  console.log('\nRendering Home');
   switch (homeState.screen) {
     case HomeScreen.INITIAL:
       return (
