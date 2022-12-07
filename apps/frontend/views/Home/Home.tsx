@@ -1,4 +1,5 @@
 import { Chronometer } from '@components/atoms';
+import { useErrorStore } from '@lib/hooks/use-error-store.hook';
 import { MediaInfo } from '@lib/recording/interfaces/media-info.interface';
 import { useEffect, useState } from 'react';
 import { HomeScreen, useHomeState } from '../../contexts/home.context';
@@ -13,6 +14,7 @@ export function Home() {
   const recorder = useRecording();
   const timer = useTimer();
   const [media, setMedia] = useState<MediaInfo>();
+  const { setError, cleanErrorStore } = useErrorStore();
 
   function initRecording() {
     recorder.clearRecording();
@@ -85,9 +87,26 @@ export function Home() {
     dispatch.startNewRecording();
   }
 
+  console.log('\nRendering Home');
   switch (homeState.screen) {
     case HomeScreen.INITIAL:
-      return <InitialView onClick={() => startRecording()} />;
+      return (
+        <>
+          <InitialView onClick={() => startRecording()} />
+          <button
+            onClick={() =>
+              setError({
+                message: 'Error',
+                details: 'Details ' + Math.random(),
+              })
+            }
+          >
+            Launch Error Random
+          </button>
+
+          <button onClick={() => cleanErrorStore()}>Clean Error Store</button>
+        </>
+      );
 
     case HomeScreen.RECORDING:
       return (
