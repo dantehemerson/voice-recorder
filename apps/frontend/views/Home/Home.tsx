@@ -127,7 +127,7 @@ export function Home() {
         <>
           {!media ? (
             <RecordFinishedView
-              blobUrl={homeState.audioBlobUrl}
+              blobUrl={homeState.audioBlobUrl || ''}
               recording={recorder.recording}
               onClickNewRecording={handleClickNewRecording}
             />

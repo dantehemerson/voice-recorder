@@ -1,5 +1,9 @@
 import { Optional } from '@voice-recorder/shared-types';
 import { atom } from 'jotai';
-import { ErrorStore } from './types/error-store.type';
+
+export type ErrorStore = {
+  message: string;
+  details: string;
+};
 
 export const errorStoreAtom = atom<Optional<ErrorStore>>(undefined);
