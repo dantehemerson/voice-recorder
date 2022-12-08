@@ -1,5 +1,5 @@
-import { isEdge } from '../../helpers/browser/browser.helpers';
-import { Utils } from '../../helpers/utils.helper';
+import { isEdge } from '@lib/helpers/browser/browser.helpers';
+import { Utils } from '@lib/helpers/utils.helper';
 import { AudioEncoder } from './audio-encoding/audio-encoder';
 import { AudioEncoderConfig } from './audio-encoding/audio-encoder-config.interface';
 import { RecorderStatus } from './enums/recorder-status.enum';

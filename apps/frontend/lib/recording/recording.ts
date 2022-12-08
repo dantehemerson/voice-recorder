@@ -1,4 +1,4 @@
-import { Utils } from '../../helpers/utils.helper';
+import { Utils } from '@lib/helpers/utils.helper';
 import { AudioEncoderConstraints } from './audio-encoding/audio-encoder-config.interface';
 import { MaxChunkCountError } from './errors/max-chunk-count.error';
 import { NoChunksFoundError } from './errors/no-chunk-found.error';

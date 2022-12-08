@@ -1,4 +1,5 @@
 import { Recording } from '@lib/recording/recording';
+import { Optional } from '@voice-recorder/shared-types';
 import { useState } from 'react';
 
 interface UseRecordingOptions {
@@ -8,7 +9,7 @@ interface UseRecordingOptions {
 
 export function useRecording(options?: Partial<UseRecordingOptions>) {
   /** Create as an object to avoid unnecessary rerenders */
-  const [recordingState] = useState<{ recording: Recording }>({
+  const [recordingState] = useState<{ recording: Optional<Recording> }>({
     recording: undefined,
   });
 
@@ -34,7 +35,7 @@ export function useRecording(options?: Partial<UseRecordingOptions>) {
 
   return {
     get recording(): Recording {
-      return recordingState.recording;
+      return recordingState.recording as Recording;
     },
     initRecording,
     clearRecording,

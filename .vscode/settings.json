@@ -7,8 +7,15 @@
     "**/node_modules": true,
     "**/yarn.lock": true,
     "**/.cache": true,
-    // "**/.next": true,
-    // "**/public": true
+    "**/.next": true,
+    "**/public": true,
+
+    /** Barely updated files **/
+    "**/.babelrc": true,
+    "**/babel-jest.config.json": true,
+    "**/index.d.ts": true,
+    "**/jest.config.ts": true,
+    "**/next-env.d.ts": true
   },
   "search.exclude": {
     "dist/**": true,

@@ -1,12 +1,13 @@
 import { Chronometer } from '@components/atoms';
 import { UploadResult } from '@components/organisms';
+import { getDownloadAudioUrl } from '@lib/helpers/url.helpers';
 import { MediaInfo } from '@lib/recording/interfaces/media-info.interface';
 import { errorStoreAtom } from '@lib/store/error.store';
 import { useSetAtom } from 'jotai';
 import { useEffect, useState } from 'react';
 import { HomeScreen, useHomeState } from '../../contexts/home.context';
-import { useRecording } from '../../hooks/use-recording.hook';
-import { useTimer } from '../../hooks/use-timer.hook';
+import { useRecording } from '../../lib/hooks/use-recording.hook';
+import { useTimer } from '../../lib/hooks/use-timer.hook';
 import { InitialView } from './InitialView';
 import { RecordFinishedView } from './RecordFinishedView';
 import { RecordingView } from './RecordingView';
@@ -124,17 +125,15 @@ export function Home() {
       );
 
     case HomeScreen.PREVIEWING:
+      console.log(process.env.NEXT_PUBLIC_API_URL);
       return (
         <>
-          {!media ? (
-            <RecordFinishedView
-              blobUrl={homeState.audioBlobUrl || ''}
-              recording={recorder.recording}
-              onClickNewRecording={handleClickNewRecording}
-            />
-          ) : (
-            <UploadResult url={homeState.audioBlobUrl || ''} />
-          )}
+          <RecordFinishedView
+            blobUrl={homeState.audioBlobUrl || ''}
+            recording={recorder.recording}
+            onClickNewRecording={handleClickNewRecording}
+          />
+          {media && <UploadResult url={getDownloadAudioUrl(media.mediaId)} />}
         </>
       );
 
