@@ -1,4 +1,6 @@
 import { Button, Input } from '@components/atoms';
+import { faCopy } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useState } from 'react';
 import styled from 'styled-components';
 
@@ -17,7 +19,9 @@ export function CopyInput(props: CopyInputProps) {
   return (
     <Wrapper>
       <Input value={props.value} readOnly />
-      <Button onClick={handleCopy}>Copy</Button>
+      <Button onClick={handleCopy}>
+        <FontAwesomeIcon icon={faCopy} />
+      </Button>
       {isCopied && <span>Copied!</span>}
     </Wrapper>
   );

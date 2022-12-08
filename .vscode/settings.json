@@ -7,8 +7,8 @@
     "**/node_modules": true,
     "**/yarn.lock": true,
     "**/.cache": true,
-    "**/.next": true,
-    "**/public": true
+    // "**/.next": true,
+    // "**/public": true
   },
   "search.exclude": {
     "dist/**": true,
