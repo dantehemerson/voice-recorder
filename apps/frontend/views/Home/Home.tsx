@@ -1,4 +1,5 @@
 import { Chronometer } from '@components/atoms';
+import { UploadResult } from '@components/organisms';
 import { MediaInfo } from '@lib/recording/interfaces/media-info.interface';
 import { errorStoreAtom } from '@lib/store/error.store';
 import { useSetAtom } from 'jotai';
@@ -132,7 +133,7 @@ export function Home() {
               onClickNewRecording={handleClickNewRecording}
             />
           ) : (
-            <div>{JSON.stringify(media)}</div>
+            <UploadResult url={homeState.audioBlobUrl || ''} />
           )}
         </>
       );
