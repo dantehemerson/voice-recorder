@@ -1,5 +1,5 @@
 import { Alert, AlertStatus } from '@components/atoms/Alert';
-import { errorStoreAtom } from '@lib/store/error.store';
+import { errorStoreAtom } from 'store/error.store';
 import { useAtomValue } from 'jotai';
 
 export function ErrorShower() {

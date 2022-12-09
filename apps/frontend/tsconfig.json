@@ -16,8 +16,9 @@
     "sourceMap": true,
     "paths": {
       "@components/*": ["./components/*"],
+      "@features/*": ["./features/*"],
       "@lib/*": ["./lib/*"],
-      "@pages/*": ["./pages/*"],
+      "~/*": ["./*"],
       "@voice-recorder/shared-types": ["../../libs/shared-types/src/index.ts"]
     }
   },
