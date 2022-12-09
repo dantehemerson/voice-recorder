@@ -28,7 +28,7 @@ export function Recorder() {
 
     recorder.recording.onStop = sucess => {
       if (sucess) {
-        dispatch.stopRecording({
+        dispatch.recordResult({
           audioBlobUrl: recorder.recording.getAudioBlobUrl(),
         });
       } else {
@@ -79,6 +79,7 @@ export function Recorder() {
   }
 
   async function handleStop() {
+    dispatch.stopRecording();
     recorder.recording.stop();
     timer.stop();
   }

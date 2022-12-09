@@ -1,13 +1,11 @@
 import { config } from '@fortawesome/fontawesome-svg-core';
-import { Montserrat as MainFont } from '@next/font/google';
 import '@fortawesome/fontawesome-svg-core/styles.css';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
+import { MainFont } from '~/fonts';
 import './styles.css';
 
 config.autoAddCss = false;
-
-const mainFont = MainFont({ subsets: ['latin'] });
 
 function CustomApp({ Component, pageProps }: AppProps) {
   return (
@@ -15,7 +13,7 @@ function CustomApp({ Component, pageProps }: AppProps) {
       <Head>
         <title>Voice Recorder</title>
       </Head>
-      <main className={mainFont.className}>
+      <main className={MainFont.className}>
         <Component {...pageProps} />
       </main>
     </>

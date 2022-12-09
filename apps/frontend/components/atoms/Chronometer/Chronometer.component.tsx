@@ -1,6 +1,7 @@
 import { Timer } from '@lib/recording/timer';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { MonoFont } from '~/fonts';
 
 export type ChronometerProps = {
   timer: Timer;
@@ -26,7 +27,7 @@ export function Chronometer({ timer }: ChronometerProps) {
 
 const Wrapper = styled.div`
   display: flex;
-  font-family: 'Courier New', Courier, monospace;
-  font-size: 20px;
-  font-weight: 400;
+  font-family: ${MonoFont.style.fontFamily};
+  font-size: 40px;
+  font-weight: bold;
 `;

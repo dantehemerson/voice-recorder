@@ -47,7 +47,12 @@ export class Timer {
 
   static makeTimeStrMMSS(time: number): string {
     const minutes = Math.floor(time / 60000);
-    const seconds = Math.floor((time - minutes * 60000) / 1000);
-    return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+
+    const minutesStr = minutes.toString().padStart(2, '0');
+    const secondsStr = Math.floor((time - minutes * 60000) / 1000)
+      .toString()
+      .padStart(2, '0');
+
+    return `${minutesStr}.${secondsStr}`;
   }
 }

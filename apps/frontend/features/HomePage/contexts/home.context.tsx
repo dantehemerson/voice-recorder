@@ -95,11 +95,13 @@ export function useHomeState() {
         newScreen: HomeScreen.RECORDING,
       });
     },
-    stopRecording: (data: Pick<HomeState, 'audioBlobUrl'>) => {
+    stopRecording: () => {
       context.dispatchHomeEvent({
         type: HomeAction.CHANGE_SCREEN,
         newScreen: HomeScreen.PREVIEWING,
       });
+    },
+    recordResult: (data: Pick<HomeState, 'audioBlobUrl'>) => {
       context.dispatchHomeEvent({
         type: HomeAction.RECORD_RESULT,
         audioBlobUrl: data.audioBlobUrl,
