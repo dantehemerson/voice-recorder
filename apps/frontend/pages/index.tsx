@@ -1,3 +1,4 @@
+import { Header } from '@components/organisms';
 import styled from 'styled-components';
 import { ErrorShower } from 'views/Home/ErrorShower.component';
 import { HomeContextProvider } from '../contexts/home.context';
@@ -8,6 +9,7 @@ export default function Index() {
     <HomeContextProvider>
       <Wrapper>
         <Container>
+          <Header />
           <Home />
           <ErrorShower />
         </Container>

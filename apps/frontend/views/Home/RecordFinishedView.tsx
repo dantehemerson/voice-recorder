@@ -1,7 +1,7 @@
 import { Slider } from '@components/atoms';
+import { Recording } from '@lib/recording/recording';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Recording } from '../../lib/recording';
 
 type RecordFinishedViewProps = {
   blobUrl: string;
@@ -27,9 +27,9 @@ export function RecordFinishedView({
     };
 
     return () => {
-      recording.onSavePercent = null;
-      recording.onSaveSuccess = null;
-      recording.onSaveError = null;
+      recording.onSavePercent = undefined;
+      recording.onSaveSuccess = undefined;
+      recording.onSaveError = undefined;
     };
 
     // eslint-disable-next-line react-hooks/exhaustive-deps

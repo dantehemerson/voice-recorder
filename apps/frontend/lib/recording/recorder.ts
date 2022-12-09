@@ -7,6 +7,7 @@ import { RecorderStatus } from './enums/recorder-status.enum';
 export class Recorder {
   private state: RecorderStatus;
   private encoder: AudioEncoder;
+
   private audioContext: AudioContext;
   private scriptProcessorNode: AudioWorkletNode;
   private sourceNode: MediaStreamAudioSourceNode;

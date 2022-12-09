@@ -11,8 +11,11 @@
     "target": "es2015",
     "module": "esnext",
     "lib": ["es2017", "dom"],
-    "strict": true,
-    "strictNullChecks": true,
+
+    // Activate for a better jotai typings
+    "strict": false,
+    "strictNullChecks": false,
+
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "strictPropertyInitialization": false,

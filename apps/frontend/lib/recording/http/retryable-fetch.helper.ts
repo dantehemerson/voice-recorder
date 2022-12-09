@@ -4,10 +4,10 @@ import { RetryableFetchInitOptions } from '../interfaces/retryable-fetch-init-op
 
 export function retryableFetch<T = any>(
   input: RequestInfo | URL,
-  init?: RetryableFetchInitOptions
+  init: RetryableFetchInitOptions
 ): AbortablePromise<T> {
   let aborted = false;
-  let abort: () => void;
+  let abort!: () => void;
 
   const { parseJson, resolveWhenNotOk } = init;
 
