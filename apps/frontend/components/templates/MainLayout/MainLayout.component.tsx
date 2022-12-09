@@ -18,18 +18,16 @@ export function MainLayout(props: MainLayoutProps) {
 }
 
 const Container = styled.div`
-  background-color: #dedede;
-  margin-left: auto;
-  margin-right: auto;
-  max-width: 688px;
-  padding-bottom: 3rem;
-  padding-left: 1rem;
-  padding-right: 1rem;
-  color: rgba(55, 65, 81, 1);
+  background-color: #d7e4eb;
   width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
 `;
 
 const Wrapper = styled.div`
-  margin-top: 50px;
+  margin-top: 10vh;
   width: 100%;
+  max-width: 600px;
+  height: fit-content;
 `;

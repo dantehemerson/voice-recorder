@@ -1,4 +1,8 @@
-import { SaveRecording, UploadResult } from '@components/organisms';
+import {
+  RecorderControls,
+  SaveRecording,
+  UploadResult,
+} from '@components/organisms';
 import { MainLayout } from '@components/templates';
 import { getDownloadAudioUrl } from '@lib/helpers/url.helpers';
 import { MediaInfo } from '@lib/recording/interfaces/media-info.interface';
@@ -15,6 +19,7 @@ export function HomePage() {
       <HomeContextProvider>
         <Recorder />
       </HomeContextProvider>
+      <RecorderControls />
       {false && <SaveRecording recording={undefined} />}
       {media && <UploadResult url={getDownloadAudioUrl(media.mediaId)} />}
       <ErrorShower />
