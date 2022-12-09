@@ -1,4 +1,5 @@
 import { Button, Card } from '@components/atoms';
+import { PlayPauseButton } from '@components/molecules';
 import { faCheck, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styled from 'styled-components';
@@ -12,7 +13,7 @@ export function RecorderControls(props: RecorderControlsProps) {
         <BandButton>
           <FontAwesomeIcon icon={faXmark} color="#F75B47" />
         </BandButton>
-        <Button>Button</Button>
+        <PlayPauseButton />
         <BandButton ok={true}>
           <FontAwesomeIcon icon={faCheck} color="#16C698" />
         </BandButton>
@@ -54,7 +55,7 @@ const ButtonsContainer = styled.div`
 
 const BackgroundCircle = styled<any>('div')`
   position: absolute;
-  left: calc(50% - ${props => props.size / 2}px);
+  left: calc(50% - ${props => props.size / 2 + 3}px);
   background: #fefefe;
   top: calc(50% - ${props => props.size / 2}px);
   border-radius: 50%;
