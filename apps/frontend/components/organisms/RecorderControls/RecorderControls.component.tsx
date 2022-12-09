@@ -23,9 +23,7 @@ export function RecorderControls(props: RecorderControlsProps) {
         </Button>
       </ButtonsContainer>
 
-      <BackgroundCircle size={50}>
-        <div></div>
-      </BackgroundCircle>
+      <BackgroundCircle size={100} />
     </Wrapper>
   );
 }
@@ -37,6 +35,7 @@ const Wrapper = styled(Card)`
   position: relative;
   min-width: 250px;
   border-radius: 20px;
+  filter: drop-shadow(5px 5px 10px black);
 `;
 
 const ButtonsContainer = styled.div`
@@ -48,25 +47,26 @@ const ButtonsContainer = styled.div`
   padding: 0 20px;
 `;
 
-const circleOverflow = 50;
 const BackgroundCircle = styled<any>('div')`
+  position: absolute;
+  left: calc(50% - ${props => props.size / 2}px);
+  background: #fefefe;
+  top: calc(50% - ${props => props.size / 2}px);
+  border-radius: 50%;
+  overflow: hidden;
+
   display: flex;
-  border: 1px solid gray;
-  position: relative;
-  margin-left: ${circleOverflow / 2 + 5}px;
-  margin-right: ${circleOverflow / 2 + 5}px;
+  justify-content: center;
+  align-items: center;
+
   width: ${props => props.size}px;
   height: ${props => props.size}px;
 
-  & > div {
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-    background: white;
-    width: ${props => props.size + circleOverflow}px;
-    height: ${props => props.size + circleOverflow}px;
-    position: absolute;
+  &:after {
+    content: '';
     border-radius: 50%;
-    z-index: -20px;
-    left: -${circleOverflow / 2}px;
-    top: -${circleOverflow / 2}px;
+    width: ${props => props.size - 30}px;
+    height: ${props => props.size - 30}px;
+    background: #d6e2ea;
   }
 `;
