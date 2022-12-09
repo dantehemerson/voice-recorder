@@ -12,6 +12,12 @@ const nextConfig = {
     // See: https://github.com/gregberge/svgr
     svgr: false,
   },
+  compiler: {
+    styledComponents: true,
+    /** Prev babel config:
+     *  { "ssr": true, "displayName": true, "preprocess": false }
+     */
+  },
 };
 
 module.exports = withNx(nextConfig);

@@ -27,8 +27,6 @@ export function SaveRecording({ recording }: SaveRecordingProps) {
       recording.onSavePercent = undefined;
       recording.onSaveError = undefined;
     };
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   function handleSave() {
