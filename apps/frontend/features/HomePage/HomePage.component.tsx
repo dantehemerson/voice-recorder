@@ -15,7 +15,7 @@ export function HomePage() {
       <HomeContextProvider>
         <Recorder />
       </HomeContextProvider>
-      {false && <SaveRecording />}
+      {false && <SaveRecording recording={undefined} />}
       {media && <UploadResult url={getDownloadAudioUrl(media.mediaId)} />}
       <ErrorShower />
     </MainLayout>
