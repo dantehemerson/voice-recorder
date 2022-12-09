@@ -62,8 +62,6 @@ export function Recorder() {
 
   useEffect(() => {
     timer.reset();
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   async function startRecording() {
