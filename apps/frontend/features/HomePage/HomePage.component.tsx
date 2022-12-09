@@ -1,21 +1,13 @@
-import { Chronometer } from '@components/atoms';
-import { UploadResult } from '@components/organisms';
+import { SaveRecording, UploadResult } from '@components/organisms';
+import { MainLayout } from '@components/templates';
 import { getDownloadAudioUrl } from '@lib/helpers/url.helpers';
 import { MediaInfo } from '@lib/recording/interfaces/media-info.interface';
-import { useSetAtom } from 'jotai';
-import { useEffect, useState } from 'react';
-import { errorStoreAtom } from 'store/error.store';
-import { HomeScreen, useHomeState } from './contexts/home.context';
-import { useRecording } from '../../lib/hooks/use-recording.hook';
-import { useTimer } from '../../lib/hooks/use-timer.hook';
-import { InitialView } from './screens/InitialView';
-import { RecordFinishedView } from './screens/RecordFinishedView';
-import { RecordingView } from './screens/RecordingView';
+import { useState } from 'react';
+import { HomeContextProvider } from './contexts/home.context';
+import { ErrorShower } from './ErrorShower.component';
+import { Recorder } from './Recorder.component';
 
 export function HomePage() {
-  const { homeState, dispatch } = useHomeState();
-  const recorder = useRecording();
-  const timer = useTimer();
   const [media, setMedia] = useState<MediaInfo>();
 
   return (
