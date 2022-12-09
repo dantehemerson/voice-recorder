@@ -39,7 +39,6 @@ pre {
     Liberation Mono, Courier New, monospace;
 }
 
-
-@media screen and (min-width: 768px) {
-
+button, input, optgroup, select, textarea {
+  margin: 0;
 }

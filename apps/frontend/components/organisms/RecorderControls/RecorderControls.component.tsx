@@ -1,7 +1,6 @@
 import { Button, Card } from '@components/atoms';
-import { faCheck, faDeleteLeft } from '@fortawesome/free-solid-svg-icons';
+import { faCheck, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React from 'react';
 import styled from 'styled-components';
 
 type RecorderControlsProps = {};
@@ -10,17 +9,13 @@ export function RecorderControls(props: RecorderControlsProps) {
   return (
     <Wrapper>
       <ButtonsContainer>
-        <Button>
-          <FontAwesomeIcon icon={faDeleteLeft} color="#ea8071" />
-        </Button>
-
-        <Button>
-          <FontAwesomeIcon
-            icon={faCheck}
-            // color="#6ed6bd"
-            color="#43be9f"
-          />
-        </Button>
+        <BandButton>
+          <FontAwesomeIcon icon={faXmark} color="#F75B47" />
+        </BandButton>
+        <Button>Button</Button>
+        <BandButton ok={true}>
+          <FontAwesomeIcon icon={faCheck} color="#16C698" />
+        </BandButton>
       </ButtonsContainer>
 
       <BackgroundCircle size={100} />
@@ -29,13 +24,23 @@ export function RecorderControls(props: RecorderControlsProps) {
 }
 
 const Wrapper = styled(Card)`
-  margin-top: 100px;
+  margin-top: 35px;
+  margin-bottom: 35px;
   background-color: #fefefe;
   max-width: 300px;
   position: relative;
   min-width: 250px;
   border-radius: 20px;
   filter: drop-shadow(0px 8px 12px rgb(0 0 0 / 8%));
+`;
+
+const BandButton = styled<any>(Button)`
+  background: #fefefe;
+  filter: drop-shadow(0px 2px 8px rgb(0 0 0 / 10%));
+  border-radius: 9px;
+  &:hover {
+    background: ${props => (props.ok ? '#E7F9F5' : '#FDEEEC')};
+  }
 `;
 
 const ButtonsContainer = styled.div`
@@ -54,11 +59,9 @@ const BackgroundCircle = styled<any>('div')`
   top: calc(50% - ${props => props.size / 2}px);
   border-radius: 50%;
   overflow: hidden;
-
   display: flex;
   justify-content: center;
   align-items: center;
-
   width: ${props => props.size}px;
   height: ${props => props.size}px;
 
