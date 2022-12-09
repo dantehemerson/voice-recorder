@@ -35,7 +35,7 @@ const Wrapper = styled(Card)`
   position: relative;
   min-width: 250px;
   border-radius: 20px;
-  filter: drop-shadow(5px 5px 10px black);
+  filter: drop-shadow(0px 8px 12px rgb(0 0 0 / 8%));
 `;
 
 const ButtonsContainer = styled.div`
