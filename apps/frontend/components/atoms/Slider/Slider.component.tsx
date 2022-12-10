@@ -1,31 +1,18 @@
-import { useEffect, useState } from 'react';
+import { InputHTMLAttributes } from 'react';
 import styled from 'styled-components';
 
-export type SliderProps = {
-  min?: number;
-  max?: number;
+interface SliderProps extends Omit<InputHTMLAttributes<any>, 'onChange'> {
   value?: number;
-  onChange?: (value: number) => void;
-};
+  onChange?: (newValue: number) => void;
+}
 
 export function Slider({ min = 0, ...props }: SliderProps) {
-  const [ownValue, setOwnValue] = useState(props.value || 0);
-
-  useEffect(() => {
-    setOwnValue(props.value || 0);
-  }, [props.value]);
-
   return (
     <Wrapper>
       <StyledSlider
         type="range"
+        {...props}
         min={min}
-        max={props.max}
-        value={props.value}
-        onMouseUp={e => {
-          console.log('Mounse uppppp', e.target.value);
-          props.onChange?.(Number(e.target.value));
-        }}
         onChange={e => props.onChange?.(Number(e.target.value))}
       ></StyledSlider>
     </Wrapper>
@@ -40,7 +27,7 @@ const Wrapper = styled.div`
   align-items: center;
 `;
 
-const StyledSlider = styled.input`
+const StyledSlider = styled.input<SliderProps>`
   -webkit-appearance: none;
   width: 100%;
   height: 6px;

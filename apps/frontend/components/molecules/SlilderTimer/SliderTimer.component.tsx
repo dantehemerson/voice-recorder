@@ -1,5 +1,5 @@
 import { Slider } from '@components/atoms';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { MonoFont } from '~/fonts';
 
@@ -18,15 +18,29 @@ const calculateTime = (secs = 0) => {
 };
 
 export function SliderTimer(props: SliderTimerProps) {
+  const [ownValue, setOwnValue] = useState(props.currentTime || 0);
+  const [isSliding, setIsSliding] = useState(false);
+
+  useEffect(() => {
+    if (!isSliding) {
+      setOwnValue(props.currentTime || 0);
+    }
+  }, [props.currentTime]);
+
   return (
     <Wrapper>
       <Slider
-        onChange={props.onChangePosition}
-        value={props.currentTime}
+        onMouseUp={e => {
+          props.onChangePosition?.(ownValue);
+          setIsSliding(false);
+        }}
+        onMouseDown={() => setIsSliding(true)}
+        onChange={newValue => setOwnValue(newValue)}
+        value={ownValue}
         max={props.duration}
       />
       <TimerContainer>
-        <span>{calculateTime(props.currentTime)}</span>
+        <span>{calculateTime(isSliding ? ownValue : props.currentTime)}</span>
         <span>{calculateTime(props.duration)}</span>
       </TimerContainer>
     </Wrapper>

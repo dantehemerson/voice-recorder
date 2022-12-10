@@ -21,14 +21,7 @@ export function AudioPlayer(props: AudioPlayerProps) {
 
   return (
     <Wrapper>
-      <div
-        style={{
-          display: 'flex',
-          width: '500px',
-        }}
-      >
-        <audio ref={audioRef} src={props.src} controls />
-      </div>
+      <audio ref={audioRef} src={props.src} />
       <ButtonWraper>
         <PlayPauseButton
           status={isPlaying ? RecorderStatus.RECORDING : RecorderStatus.PAUSED}
