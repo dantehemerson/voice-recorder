@@ -75,6 +75,7 @@ export function Recorder() {
     dispatch.stopRecording();
     recorder.recording.stop();
     timer.stop();
+    timer.reset();
   }
 
   async function handleClickNewRecording() {

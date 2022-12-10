@@ -28,6 +28,6 @@ export function Chronometer({ timer }: ChronometerProps) {
 const Wrapper = styled.div`
   display: flex;
   font-family: ${MonoFont.style.fontFamily};
-  font-size: 40px;
+  font-size: 42px;
   font-weight: bold;
 `;
