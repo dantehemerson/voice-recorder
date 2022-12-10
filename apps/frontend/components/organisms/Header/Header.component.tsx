@@ -22,6 +22,6 @@ const Wrapper = styled.div`
     font-size: 1.1rem;
     text-align: center;
     font-weight: bold;
-    margin-bottom: 30px;
+    margin-bottom: 40px;
   }
 `;

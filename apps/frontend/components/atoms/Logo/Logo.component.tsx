@@ -3,9 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import styled from 'styled-components';
 
-type LogoProps = {};
-
-export function Logo(props: LogoProps) {
+export function Logo() {
   return (
     <Wrapper>
       <div>

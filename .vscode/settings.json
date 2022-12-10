@@ -8,7 +8,7 @@
     "**/yarn.lock": true,
     "**/.cache": true,
     "**/.next": true,
-    "**/public": true,
+    // "**/public": true,
 
     /** Barely updated files **/
     "**/index.d.ts": true,

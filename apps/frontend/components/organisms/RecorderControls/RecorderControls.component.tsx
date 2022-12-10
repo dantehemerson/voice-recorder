@@ -41,6 +41,7 @@ export function RecorderControls(props: RecorderControlsProps) {
         </BandButton>
         <PlayPauseButton
           status={getStatus()}
+          size={BACKGROUND_CIRCLE_SIZE - 20}
           onStartClick={props.onStartClick}
           onPauseClick={handlePlayPause}
           onPlayClick={handlePlayPause}

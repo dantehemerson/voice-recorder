@@ -1,4 +1,3 @@
-import { BACKGROUND_CIRCLE_SIZE } from '@components/organisms';
 import {
   faMicrophone,
   faPause,
@@ -18,6 +17,8 @@ const iconMap: Record<RecorderStatus, IconDefinition> = {
 
 type PlayPauseButtonProps = {
   status: RecorderStatus;
+  size?: number;
+  iconSize?: 'xs' | 'sm' | 'lg' | 'xl';
   onStartClick?: () => void;
   onPauseClick?: () => void;
   onPlayClick?: () => void;
@@ -25,6 +26,8 @@ type PlayPauseButtonProps = {
 
 export function PlayPauseButton({
   status = RecorderStatus.STOPPED,
+  size = 40,
+  iconSize = 'xl',
   ...props
 }: PlayPauseButtonProps) {
   const icon = iconMap[status];
@@ -50,12 +53,10 @@ export function PlayPauseButton({
     }
   }
 
-  const size = BACKGROUND_CIRCLE_SIZE - 30;
-
   return (
     <Wrapper size={size}>
       <RecordingButton onClick={handleClick} size={size}>
-        <Icon icon={icon} size={'xl'} color="#232323" />
+        <Icon icon={icon} size={iconSize} color="#232323" />
       </RecordingButton>
     </Wrapper>
   );

@@ -75,10 +75,10 @@ export function Recorder() {
     dispatch.stopRecording();
     recorder.recording.stop();
     timer.stop();
-    timer.reset();
   }
 
   async function handleClickNewRecording() {
+    timer.reset();
     dispatch.startNewRecording();
   }
 
@@ -100,7 +100,6 @@ export function Recorder() {
   return (
     <Wrapper>
       {initialStateShow()}
-
       {homeState.screen !== HomeScreen.PREVIEWING && (
         <>
           <Chronometer timer={timer} />
