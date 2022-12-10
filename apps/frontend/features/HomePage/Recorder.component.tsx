@@ -1,11 +1,12 @@
 import { Chronometer } from '@components/atoms';
+import { RecorderControls } from '@components/organisms';
 import { useSetAtom } from 'jotai';
 import { useEffect } from 'react';
 import { errorStoreAtom } from 'store/error.store';
+import styled from 'styled-components';
 import { useRecording } from '../../lib/hooks/use-recording.hook';
 import { useTimer } from '../../lib/hooks/use-timer.hook';
 import { HomeScreen, useHomeState } from './contexts/home.context';
-import { InitialView } from './InitialView.component';
 import { RecordFinishedView } from './RecordFinishedView.component';
 import { RecordingView } from './RecordingView.component';
 
@@ -70,14 +71,6 @@ export function Recorder() {
     await recorder.recording.start();
   }
 
-  async function handlePlayPause(pause: boolean) {
-    if (pause) {
-      await recorder.recording.pause();
-    } else {
-      await recorder.recording.resume();
-    }
-  }
-
   async function handleStop() {
     dispatch.stopRecording();
     recorder.recording.stop();
@@ -88,44 +81,43 @@ export function Recorder() {
     dispatch.startNewRecording();
   }
 
-  switch (homeState.screen) {
-    case HomeScreen.INITIAL:
-      return (
+  const initialStateShow = () => {
+    switch (homeState.screen) {
+      case HomeScreen.PREVIEWING:
+        return (
+          <RecordFinishedView
+            blobUrl={homeState.audioBlobUrl || ''}
+            onClickNewRecording={handleClickNewRecording}
+          />
+        );
+
+      default:
+        return null;
+    }
+  };
+
+  return (
+    <Wrapper>
+      {initialStateShow()}
+
+      {homeState.screen !== HomeScreen.PREVIEWING && (
         <>
-          <InitialView onClick={() => startRecording()} />
-          <button
-            onClick={() =>
-              setError({
-                message: 'Error',
-                details: 'Details ' + Math.random(),
-              })
-            }
-          >
-            Launch Error Random
-          </button>
-
-          <button onClick={() => setError(undefined)}>Clean Error Store</button>
+          <Chronometer timer={timer} />
+          <RecorderControls
+            isRecording={homeState.screen === HomeScreen.RECORDING}
+            onStartClick={() => startRecording()}
+            onPauseClick={() => recorder.recording.pause()}
+            onPlayClick={() => recorder.recording.resume()}
+            onStopClick={() => handleStop()}
+          />
         </>
-      );
-
-    case HomeScreen.RECORDING:
-      return (
-        <RecordingView
-          chronometer={<Chronometer timer={timer} />}
-          onClickPlayPause={handlePlayPause}
-          onClickStop={handleStop}
-        />
-      );
-
-    case HomeScreen.PREVIEWING:
-      return (
-        <RecordFinishedView
-          blobUrl={homeState.audioBlobUrl || ''}
-          onClickNewRecording={handleClickNewRecording}
-        />
-      );
-
-    default:
-      throw new Error('Unknown state');
-  }
+      )}
+    </Wrapper>
+  );
 }
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;

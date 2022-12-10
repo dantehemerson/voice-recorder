@@ -1,25 +1,55 @@
 import { Button, Card } from '@components/atoms';
 import { PlayPauseButton } from '@components/molecules';
+import { BACKGROUND_CIRCLE_SIZE } from '@components/organisms/RecorderControls/recorder-controlls.constants';
 import { faCheck, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { RecorderStatus } from '@lib/recording/enums/recorder-status.enum';
+import { useState } from 'react';
 import styled from 'styled-components';
 
-type RecorderControlsProps = {};
+type RecorderControlsProps = {
+  isRecording: boolean;
+  onStartClick?: () => void;
+  onPauseClick?: () => void;
+  onPlayClick?: () => void;
+  onStopClick?: () => void;
+  onCancelClick?: () => void;
+};
 
 export function RecorderControls(props: RecorderControlsProps) {
+  const [isPaused, setIsPaused] = useState(false);
+
+  function handlePlayPause() {
+    const pause = !isPaused ? true : false;
+    pause ? props.onPauseClick?.() : props.onPlayClick?.();
+
+    setIsPaused(!isPaused);
+  }
+
+  function getStatus() {
+    if (props.isRecording) {
+      return isPaused ? RecorderStatus.PAUSED : RecorderStatus.RECORDING;
+    }
+    return RecorderStatus.STOPPED;
+  }
+
   return (
     <Wrapper>
       <ButtonsContainer>
-        <BandButton>
+        <BandButton onClick={props.onCancelClick}>
           <FontAwesomeIcon icon={faXmark} color="#F75B47" />
         </BandButton>
-        <PlayPauseButton />
-        <BandButton ok={true}>
+        <PlayPauseButton
+          status={getStatus()}
+          onStartClick={props.onStartClick}
+          onPauseClick={handlePlayPause}
+          onPlayClick={handlePlayPause}
+        />
+        <BandButton onClick={props.onStopClick} ok={true}>
           <FontAwesomeIcon icon={faCheck} color="#16C698" />
         </BandButton>
       </ButtonsContainer>
-
-      <BackgroundCircle size={100} />
+      <BackgroundCircle size={BACKGROUND_CIRCLE_SIZE} />
     </Wrapper>
   );
 }
@@ -30,7 +60,7 @@ const Wrapper = styled(Card)`
   background-color: #fefefe;
   max-width: 300px;
   position: relative;
-  min-width: 250px;
+  min-width: 300px;
   border-radius: 20px;
   filter: drop-shadow(0px 8px 12px rgb(0 0 0 / 8%));
 `;
@@ -65,12 +95,4 @@ const BackgroundCircle = styled<any>('div')`
   align-items: center;
   width: ${props => props.size}px;
   height: ${props => props.size}px;
-
-  &:after {
-    content: '';
-    border-radius: 50%;
-    width: ${props => props.size - 30}px;
-    height: ${props => props.size - 30}px;
-    background: #d6e2ea;
-  }
 `;

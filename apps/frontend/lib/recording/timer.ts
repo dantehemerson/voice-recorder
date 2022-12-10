@@ -53,6 +53,6 @@ export class Timer {
       .toString()
       .padStart(2, '0');
 
-    return `${minutesStr}.${secondsStr}`;
+    return `00.${minutesStr}.${secondsStr}`;
   }
 }

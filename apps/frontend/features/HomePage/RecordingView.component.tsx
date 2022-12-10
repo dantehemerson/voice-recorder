@@ -1,33 +1,14 @@
-import { PauseButton, StopButton } from '@components/atoms';
-import { ReactNode, useState } from 'react';
+import { ReactNode } from 'react';
 import styled from 'styled-components';
 
 type RecordingViewProps = {
   chronometer: ReactNode;
-  onClickStop: () => void;
-  onClickPlayPause: (pause: boolean) => void;
 };
 
-export function RecordingView({
-  chronometer,
-  onClickStop,
-  onClickPlayPause,
-}: RecordingViewProps) {
-  const [isPaused, setIsPaused] = useState(false);
-
-  function handlePlayPause() {
-    const pause = !isPaused ? true : false;
-    onClickPlayPause(pause);
-    setIsPaused(!isPaused);
-  }
-
+export function RecordingView({ chronometer }: RecordingViewProps) {
   return (
     <Container>
       <ChronometerContainer>{chronometer}</ChronometerContainer>
-      <ButtonsContainer>
-        <PauseButton isPaused={isPaused} onClick={handlePlayPause} />
-        <StopButton onClick={onClickStop} />
-      </ButtonsContainer>
     </Container>
   );
 }
@@ -48,8 +29,4 @@ const ChronometerContainer = styled.div`
   display: flex;
   height: 50px;
   align-items: center;
-`;
-
-const ButtonsContainer = styled.div`
-  display: flex;
 `;

@@ -1,0 +1,1 @@
+export const BACKGROUND_CIRCLE_SIZE = 100;
