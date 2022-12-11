@@ -24,26 +24,25 @@ export function Button(props: ButtonProps) {
 }
 
 const StyledButton = styled.button`
-  background-color: ${props => props.color};
+  background: ${props => props.color};
   cursor: pointer;
-  padding: 5px 10px;
   outline: none;
   outline: transparent solid 2px;
   border-radius: 0.375rem;
-  height: 2rem;
+  height: 2.5rem;
   font-weight: 600;
   color: white;
   transition-duration: 0.2s;
   white-space: nowrap;
   user-select: none;
-  padding-inline-start: 0.8rem;
-  padding-inline-end: 0.8rem;
+  padding-inline-start: 1rem;
+  padding-inline-end: 1rem;
 
   &:focus-visible {
     box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.6);
   }
 
   &:hover {
-    background-color: ${props => darkenColor(props.color)};
+    background: ${props => darkenColor(props.color)};
   }
 `;

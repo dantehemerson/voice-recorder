@@ -8,7 +8,6 @@ import { useRecording } from '../../lib/hooks/use-recording.hook';
 import { useTimer } from '../../lib/hooks/use-timer.hook';
 import { HomeScreen, useHomeState } from './contexts/home.context';
 import { RecordFinishedView } from './RecordFinishedView.component';
-import { RecordingView } from './RecordingView.component';
 
 export function Recorder() {
   const { homeState, dispatch } = useHomeState();

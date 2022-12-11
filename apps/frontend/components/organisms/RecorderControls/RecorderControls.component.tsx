@@ -66,13 +66,11 @@ const Wrapper = styled(Card)`
   filter: drop-shadow(0px 8px 12px rgb(0 0 0 / 8%));
 `;
 
-const BandButton = styled<any>(Button)`
-  background: #fefefe;
+const BandButton = styled<any>(Button).attrs(props => ({
+  color: '#fefefe',
+}))`
   filter: drop-shadow(0px 2px 8px rgb(0 0 0 / 10%));
   border-radius: 9px;
-  &:hover {
-    background: ${props => (props.ok ? '#E7F9F5' : '#FDEEEC')};
-  }
 `;
 
 const ButtonsContainer = styled.div`
