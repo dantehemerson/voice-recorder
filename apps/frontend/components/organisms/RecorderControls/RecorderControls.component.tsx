@@ -34,9 +34,15 @@ export function RecorderControls(props: RecorderControlsProps) {
   }
 
   return (
-    <Wrapper>
+    <Wrapper isRecording={props.isRecording}>
       <ButtonsContainer>
-        <BandButton onClick={props.onCancelClick}>
+        <BandButton
+          onClick={props.onCancelClick}
+          className={props.isRecording && 'show'}
+          style={{
+            left: '20px',
+          }}
+        >
           <FontAwesomeIcon icon={faXmark} color="#F75B47" />
         </BandButton>
         <PlayPauseButton
@@ -46,7 +52,14 @@ export function RecorderControls(props: RecorderControlsProps) {
           onPauseClick={handlePlayPause}
           onPlayClick={handlePlayPause}
         />
-        <BandButton onClick={props.onStopClick} ok={true}>
+        <BandButton
+          onClick={props.onStopClick}
+          ok={true}
+          style={{
+            right: '20px',
+          }}
+          className={props.isRecording && 'show'}
+        >
           <FontAwesomeIcon icon={faCheck} color="#16C698" />
         </BandButton>
       </ButtonsContainer>
@@ -55,15 +68,17 @@ export function RecorderControls(props: RecorderControlsProps) {
   );
 }
 
-const Wrapper = styled(Card)`
+const Wrapper = styled<any>(Card)`
   margin-top: 35px;
   margin-bottom: 35px;
+  padding: 4px 0;
   background-color: #fefefe;
-  max-width: 300px;
   position: relative;
-  min-width: 300px;
+  width: ${props => (props.isRecording ? '260px' : '90px')};
   border-radius: 20px;
   filter: drop-shadow(0px 8px 12px rgb(0 0 0 / 8%));
+  transition-property: width;
+  transition-duration: 0.3s;
 `;
 
 const BandButton = styled<any>(Button).attrs(props => ({
@@ -71,20 +86,32 @@ const BandButton = styled<any>(Button).attrs(props => ({
 }))`
   filter: drop-shadow(0px 2px 8px rgb(0 0 0 / 10%));
   border-radius: 9px;
+  position: absolute;
+  border: 1px solid #f4f4f4;
+  z-index: -1;
+  opacity: 0;
+  width: 45px;
+  &.show {
+    opacity: 1;
+  }
+
+  &:hover {
+    background: ${props => (props.ok ? '#E8F9F5' : '#FDEFED')};
+  }
 `;
 
-const ButtonsContainer = styled.div`
+const ButtonsContainer = styled<any>('div')`
   display: flex;
-  justify-content: space-between;
   align-items: center;
   width: 100%;
-  z-index: 10;
+  z-index: 2;
   padding: 0 20px;
+  justify-content: center;
 `;
 
 const BackgroundCircle = styled<any>('div')`
   position: absolute;
-  left: calc(50% - ${props => props.size / 2 + 3}px);
+  left: calc(50% - ${props => props.size / 2}px);
   background: #fefefe;
   top: calc(50% - ${props => props.size / 2}px);
   border-radius: 50%;

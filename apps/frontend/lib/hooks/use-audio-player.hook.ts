@@ -14,8 +14,6 @@ export function useAudioPlayer() {
   const [duration, setDuration] = useState(0);
 
   useEffect(() => {
-    console.log('🤫 Dante ➤ AudioPlayer ➤ audioRef', audioRef);
-
     audioRef.current.onplay = () => {
       setState(AudioPlayerState.PLAYING);
     };
@@ -46,7 +44,6 @@ export function useAudioPlayer() {
   }
 
   function setCurrentTime(newTime: number) {
-    console.log('Changint time');
     _setCurrentTime(newTime);
     audioRef.current.currentTime = newTime;
   }
@@ -54,12 +51,11 @@ export function useAudioPlayer() {
   return {
     audioRef,
     state,
-    setCurrentTime,
     duration,
     currentTime,
+    setCurrentTime,
     pause,
     play,
-
     get isPlaying() {
       switch (state) {
         case AudioPlayerState.LOADING:
