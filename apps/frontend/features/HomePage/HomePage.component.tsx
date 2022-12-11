@@ -8,7 +8,10 @@ import { ErrorShower } from './ErrorShower.component';
 import { Recorder } from './Recorder.component';
 
 export function HomePage() {
-  const [media, setMedia] = useState<MediaInfo>();
+  const [media, setMedia] = useState<MediaInfo>({
+    mediaId: '5f9b5b0c-1b1a-4b1a-9c1a-1b1a1b1a1b1a',
+    ownerToken: '5f9b5b0c-1b1a-4b1a-9c1a-1b1a1b1a1b1a',
+  });
 
   return (
     <MainLayout>
