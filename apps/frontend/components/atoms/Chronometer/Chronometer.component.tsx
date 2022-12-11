@@ -13,7 +13,7 @@ export function Chronometer({ timer }: ChronometerProps) {
   useEffect(() => {
     const interval = setInterval(() => {
       setTime(timer.getTime());
-    }, 100);
+    }, 90);
 
     return () => clearInterval(interval);
   }, []);

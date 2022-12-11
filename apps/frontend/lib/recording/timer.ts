@@ -53,6 +53,11 @@ export class Timer {
       .toString()
       .padStart(2, '0');
 
-    return `00.${minutesStr}.${secondsStr}`;
+    const miliseconds = (time % 1000)
+      .toString()
+      .padStart(3, '0')
+      .substring(0, 2);
+
+    return `${minutesStr}:${secondsStr}.${miliseconds}`;
   }
 }
