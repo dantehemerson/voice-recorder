@@ -42,6 +42,7 @@ export function RecorderControls(props: RecorderControlsProps) {
           style={{
             left: '20px',
           }}
+          title="Cancel recording"
         >
           <FontAwesomeIcon icon={faXmark} color="#F75B47" />
         </BandButton>
@@ -58,6 +59,7 @@ export function RecorderControls(props: RecorderControlsProps) {
           style={{
             right: '20px',
           }}
+          title="Stop recording"
           className={props.isRecording && 'show'}
         >
           <FontAwesomeIcon icon={faCheck} color="#16C698" />
@@ -96,7 +98,7 @@ const BandButton = styled<any>(Button).attrs(props => ({
   }
 
   &:hover {
-    background: ${props => (props.ok ? '#E8F9F5' : '#FDEFED')};
+    background: ${props => (props.ok ? '#d0ece6' : '#f9e4e1')};
   }
 `;
 

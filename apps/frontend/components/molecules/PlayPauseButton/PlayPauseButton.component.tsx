@@ -53,9 +53,27 @@ export function PlayPauseButton({
     }
   }
 
+  function getButtonTitle() {
+    switch (status) {
+      case RecorderStatus.STOPPED:
+        return 'Start recording';
+      case RecorderStatus.RECORDING:
+        return 'Pause recording';
+      case RecorderStatus.STARTING:
+      case RecorderStatus.PAUSED:
+        return 'Resume recording';
+      default:
+        return '';
+    }
+  }
+
   return (
     <Wrapper size={size}>
-      <RecordingButton onClick={handleClick} size={size}>
+      <RecordingButton
+        onClick={handleClick}
+        size={size}
+        title={getButtonTitle()}
+      >
         <Icon icon={icon} size={iconSize} color="#232323" />
       </RecordingButton>
     </Wrapper>
