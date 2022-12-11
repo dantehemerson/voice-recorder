@@ -4,7 +4,6 @@ import styled from 'styled-components';
 export function Header() {
   return (
     <Wrapper>
-      <h1>Voice Recorder</h1>
       <Logo />
     </Wrapper>
   );

@@ -26,7 +26,7 @@ const Container = styled.div`
 `;
 
 const Wrapper = styled.div`
-  margin-top: 10vh;
+  margin-top: 5vh;
   width: 100%;
   max-width: 600px;
   height: fit-content;

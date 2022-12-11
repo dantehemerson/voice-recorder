@@ -26,26 +26,28 @@ export function useAudioPlayer() {
       setDuration(audioRef.current.duration);
     }
 
-    audioRef.current.onloadedmetadata = () => {
-      setDuration(audioRef.current.duration);
+    audioRef.current.onloadedmetadata = (event: any) => {
+      setDuration(event.target.duration);
     };
 
-    audioRef.current.ontimeupdate = () => {
-      _setCurrentTime(audioRef.current.currentTime);
+    audioRef.current.ontimeupdate = (event: any) => {
+      _setCurrentTime(event.target.currentTime);
     };
   }, []);
 
   function pause() {
-    audioRef.current.pause();
+    audioRef.current?.pause();
   }
 
   function play() {
-    audioRef.current.play();
+    audioRef.current?.play();
   }
 
   function setCurrentTime(newTime: number) {
     _setCurrentTime(newTime);
-    audioRef.current.currentTime = newTime;
+    if (audioRef.current) {
+      audioRef.current.currentTime = newTime;
+    }
   }
 
   return {

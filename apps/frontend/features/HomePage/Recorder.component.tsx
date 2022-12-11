@@ -102,13 +102,15 @@ export function Recorder() {
       {homeState.screen !== HomeScreen.PREVIEWING && (
         <>
           <Chronometer timer={timer} />
-          <RecorderControls
-            isRecording={homeState.screen === HomeScreen.RECORDING}
-            onStartClick={() => startRecording()}
-            onPauseClick={() => recorder.recording.pause()}
-            onPlayClick={() => recorder.recording.resume()}
-            onStopClick={() => handleStop()}
-          />
+          <RecorderControlsWrapper>
+            <RecorderControls
+              isRecording={homeState.screen === HomeScreen.RECORDING}
+              onStartClick={() => startRecording()}
+              onPauseClick={() => recorder.recording.pause()}
+              onPlayClick={() => recorder.recording.resume()}
+              onStopClick={() => handleStop()}
+            />
+          </RecorderControlsWrapper>
         </>
       )}
     </Wrapper>
@@ -119,4 +121,8 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+`;
+
+const RecorderControlsWrapper = styled.div`
+  margin-top: 8vh;
 `;
