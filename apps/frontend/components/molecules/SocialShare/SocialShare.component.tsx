@@ -59,7 +59,7 @@ export function SocialShare(props: SocialShareProps) {
 const Wrapper = styled.div``;
 
 const StyledButton = styled(Button)`
-  margin-right: 4px;
+  margin-right: 5px;
   width: 44px;
   padding-left: 8px;
   padding-right: 8px;

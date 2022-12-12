@@ -25,7 +25,7 @@ export function UploadResult(props: UploadResultProps) {
         <div>
           <Button
             leftIcon={<FontAwesomeIcon icon={faCircleDown} />}
-            style={{ marginRight: '12px' }}
+            style={{ marginRight: '8px' }}
           >
             Download
           </Button>
