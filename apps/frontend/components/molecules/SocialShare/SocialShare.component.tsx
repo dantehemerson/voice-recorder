@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styled from 'styled-components';
 
 type SocialShareProps = {
-  url?: string;
+  url: string;
 };
 
 function getShareInfo(to, url) {

@@ -21,7 +21,7 @@ export function UploadResult(props: UploadResultProps) {
       </Stack>
 
       <ButtonsWrapper>
-        <SocialShare />
+        <SocialShare url={props.url} />
         <div>
           <Button
             leftIcon={<FontAwesomeIcon icon={faCircleDown} />}
@@ -40,6 +40,7 @@ export function UploadResult(props: UploadResultProps) {
 
 const Wrapper = styled(Card)`
   display: flex;
+  margin-top: 20px;
   flex-direction: column;
   padding: 1rem 1rem;
 `;
