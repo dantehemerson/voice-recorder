@@ -1,5 +1,7 @@
 import { Button, Stack } from '@components/atoms';
 import { AudioPlayer } from '@components/organisms';
+import { faRotateRight } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styled from 'styled-components';
 
 type RecordFinishedViewProps = {
@@ -12,7 +14,10 @@ export function RecordFinishedView(props: RecordFinishedViewProps) {
     <RecordFinishedViewContainer>
       <AudioPlayer src={'/Feid%20-%20Vacaxiones.mp3'} />
       <Stack marginTop="30px">
-        <Button onClick={props.onClickNewRecording}>
+        <Button
+          onClick={props.onClickNewRecording}
+          leftIcon={<FontAwesomeIcon icon={faRotateRight} />}
+        >
           Start a new recording
         </Button>
       </Stack>
