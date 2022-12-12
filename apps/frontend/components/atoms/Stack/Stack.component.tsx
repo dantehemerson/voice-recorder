@@ -8,6 +8,7 @@ type StackProps = {
   width?: string;
   marginTop?: string;
   marginBottom?: string;
+  justifyContent?: string;
 };
 
 export function Stack({

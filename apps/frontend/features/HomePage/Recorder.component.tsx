@@ -1,4 +1,4 @@
-import { Chronometer } from '@components/atoms';
+import { Card, Chronometer } from '@components/atoms';
 import { RecorderControls } from '@components/organisms';
 import { useSetAtom } from 'jotai';
 import { useEffect } from 'react';
@@ -86,7 +86,7 @@ export function Recorder() {
       case HomeScreen.PREVIEWING:
         return (
           <RecordFinishedView
-            blobUrl={homeState.audioBlobUrl || ''}
+            url={homeState.audioBlobUrl || ''}
             onClickNewRecording={handleClickNewRecording}
           />
         );
@@ -97,7 +97,7 @@ export function Recorder() {
   };
 
   return (
-    <Wrapper>
+    <Wrapper showBg={homeState.screen === HomeScreen.PREVIEWING}>
       {initialStateShow()}
       {homeState.screen !== HomeScreen.PREVIEWING && (
         <>
@@ -117,10 +117,13 @@ export function Recorder() {
   );
 }
 
-const Wrapper = styled.div`
+const Wrapper = styled<any>(Card)`
   display: flex;
   flex-direction: column;
   align-items: center;
+  background: ${({ showBg }) => (showBg ? '#f5f5f5' : 'transparent')};
+  ${({ showBg }) => !showBg && ' box-shadow: none;'};
+  padding: 1rem;
 `;
 
 const RecorderControlsWrapper = styled.div`

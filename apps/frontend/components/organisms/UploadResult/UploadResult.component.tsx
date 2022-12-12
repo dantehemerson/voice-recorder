@@ -2,10 +2,11 @@ import { Button, Card, Stack } from '@components/atoms';
 import { CopyInput, SocialShare } from '@components/molecules';
 import {
   faCircleDown,
-  faDownload,
+  faCloudArrowUp,
   faTrash,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useState } from 'react';
 import styled from 'styled-components';
 
 type UploadResultProps = {
@@ -13,27 +14,47 @@ type UploadResultProps = {
 };
 
 export function UploadResult(props: UploadResultProps) {
+  const [isUploaded, setIsUploaded] = useState(false);
+
   return (
     <Wrapper>
-      <Title>Share Recording:</Title>
-      <Stack width="100%" marginTop="10px">
-        <CopyInput value={props.url} />
-      </Stack>
-
-      <ButtonsWrapper>
-        <SocialShare url={props.url} />
+      {!isUploaded ? (
         <div>
-          <Button
-            leftIcon={<FontAwesomeIcon icon={faCircleDown} />}
-            style={{ marginRight: '8px' }}
-          >
-            Download
-          </Button>
-          <Button leftIcon={<FontAwesomeIcon icon={faTrash} />} color="#F75B47">
-            Delete
-          </Button>
+          <Stack marginTop="0px" width="100%" justifyContent="center">
+            <Button
+              onClick={() => setIsUploaded(true)}
+              leftIcon={<FontAwesomeIcon icon={faCloudArrowUp} />}
+            >
+              Save and share
+            </Button>
+          </Stack>
         </div>
-      </ButtonsWrapper>
+      ) : (
+        <div>
+          <Title>Share Recording:</Title>
+          <Stack width="100%" marginTop="10px">
+            <CopyInput value={props.url} />
+          </Stack>
+
+          <ButtonsWrapper>
+            <SocialShare url={props.url} />
+            <div>
+              <Button
+                leftIcon={<FontAwesomeIcon icon={faCircleDown} />}
+                style={{ marginRight: '8px' }}
+              >
+                Download
+              </Button>
+              <Button
+                leftIcon={<FontAwesomeIcon icon={faTrash} />}
+                color="#F75B47"
+              >
+                Delete
+              </Button>
+            </div>
+          </ButtonsWrapper>
+        </div>
+      )}
     </Wrapper>
   );
 }
@@ -43,6 +64,7 @@ const Wrapper = styled(Card)`
   margin-top: 20px;
   flex-direction: column;
   padding: 1rem 1rem;
+  justify-content: center;
 `;
 
 const Title = styled.p`

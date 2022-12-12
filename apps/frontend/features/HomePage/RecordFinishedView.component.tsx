@@ -5,14 +5,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styled from 'styled-components';
 
 type RecordFinishedViewProps = {
-  blobUrl: string;
+  url: string;
   onClickNewRecording: () => void;
 };
 
 export function RecordFinishedView(props: RecordFinishedViewProps) {
   return (
     <RecordFinishedViewContainer>
-      <AudioPlayer src={'/Feid%20-%20Vacaxiones.mp3'} />
+      <AudioPlayer src={props.url} />
       <Stack marginTop="30px">
         <Button
           onClick={props.onClickNewRecording}

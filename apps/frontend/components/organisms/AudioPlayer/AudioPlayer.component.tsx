@@ -39,8 +39,11 @@ export function AudioPlayer(props: AudioPlayerProps) {
   );
 }
 
-const Wrapper = styled(Card)`
+const Wrapper = styled.div`
   width: 100%;
+  padding: 1rem;
+  border: 1px solid #cecdcd;
+  border-radius: 28px;
   display: flex;
   justify-content: center;
   align-items: center;
