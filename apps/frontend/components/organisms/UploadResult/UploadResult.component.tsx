@@ -1,6 +1,10 @@
 import { Button, Card, Stack } from '@components/atoms';
-import { CopyInput } from '@components/molecules';
-import { faDownload, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { CopyInput, SocialShare } from '@components/molecules';
+import {
+  faCircleDown,
+  faDownload,
+  faTrash,
+} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styled from 'styled-components';
 
@@ -12,20 +16,23 @@ export function UploadResult(props: UploadResultProps) {
   return (
     <Wrapper>
       <Title>Share Recording:</Title>
-      <Stack width="100%">
+      <Stack width="100%" marginTop="10px">
         <CopyInput value={props.url} />
       </Stack>
 
       <ButtonsWrapper>
-        <Button
-          leftIcon={<FontAwesomeIcon icon={faDownload} />}
-          style={{ marginRight: '12px' }}
-        >
-          Download
-        </Button>
-        <Button leftIcon={<FontAwesomeIcon icon={faTrash} />} color="#F75B47">
-          Delete
-        </Button>
+        <SocialShare />
+        <div>
+          <Button
+            leftIcon={<FontAwesomeIcon icon={faCircleDown} />}
+            style={{ marginRight: '12px' }}
+          >
+            Download
+          </Button>
+          <Button leftIcon={<FontAwesomeIcon icon={faTrash} />} color="#F75B47">
+            Delete
+          </Button>
+        </div>
       </ButtonsWrapper>
     </Wrapper>
   );
@@ -45,5 +52,7 @@ const Title = styled.p`
 `;
 
 const ButtonsWrapper = styled.div`
-  margin-top: 1rem;
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: space-between;
 `;
