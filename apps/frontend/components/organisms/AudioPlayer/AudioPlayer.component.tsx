@@ -1,5 +1,5 @@
 import { PlayPauseButton, SliderTimer } from '@components/molecules';
-import { useAudioPlayer } from '@lib/hooks/use-audio-player.hook';
+import { useAudioPlayer } from '@lib/hooks';
 import { RecorderStatus } from '@lib/recording';
 import styled from 'styled-components';
 

@@ -14,6 +14,8 @@ export class Recorder {
   private stream: MediaStream;
   private config: Partial<AudioEncoderConfig>;
 
+  private aborted = false;
+
   public onStart: () => void;
   public onDataAvailable: (data: Int8Array) => void;
   public onStop: () => void;
@@ -52,7 +54,7 @@ export class Recorder {
 
         await this.createAndStartEncoder();
 
-        this.onStart?.();
+        !this.aborted && this.onStart?.();
       } catch (error) {
         this.state = RecorderStatus.STOPPED;
 
@@ -96,11 +98,11 @@ export class Recorder {
     await this.encoder.waitForWorker();
 
     this.encoder.onDataAvailable = data => {
-      this.onDataAvailable?.(data);
+      !this.aborted && this.onDataAvailable?.(data);
     };
 
     this.encoder.onStopped = () => {
-      this.onStop?.();
+      !this.aborted && this.onStop?.();
     };
 
     await this.encoder.start();
@@ -130,6 +132,11 @@ export class Recorder {
       /** TODO: Add cancelStartCallback here */
       this.state = RecorderStatus.STOPPED;
     }
+  }
+
+  abort() {
+    this.aborted = true;
+    this.stop();
   }
 
   destroyStream() {

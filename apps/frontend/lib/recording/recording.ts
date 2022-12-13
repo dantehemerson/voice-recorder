@@ -187,6 +187,10 @@ export class Recording {
     await this.recorder.stop();
   }
 
+  abort() {
+    return this.recorder.abort();
+  }
+
   async pause() {
     await this.recorder.pause();
     this.onPause?.();

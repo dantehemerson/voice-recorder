@@ -1,12 +1,11 @@
 import { Card, Chronometer } from '@components/atoms';
 import { RecorderControls } from '@components/organisms';
+import { useRecording, useTimer } from '@lib/hooks';
 import { Recording } from '@lib/recording';
 import { useSetAtom } from 'jotai';
 import { useEffect } from 'react';
 import { errorStoreAtom } from 'store/error.store';
 import styled from 'styled-components';
-import { useRecording } from '../../lib/hooks/use-recording.hook';
-import { useTimer } from '../../lib/hooks/use-timer.hook';
 import { HomeScreen, useHomeState } from './contexts/home.context';
 import { RecordFinishedView } from './RecordFinishedView.component';
 
@@ -25,7 +24,6 @@ export function Recorder(props: RecorderProps) {
   function initRecording() {
     recorder.clearRecording();
     recorder.initRecording();
-
     timer.reset();
 
     recorder.recording.onStart = () => {
@@ -52,11 +50,6 @@ export function Recorder(props: RecorderProps) {
       timer.start();
     };
 
-    recorder.recording.onSaveSuccess = () => {
-      console.log('Sucesss');
-      // setMedia(recorder.recording.getMedia());
-    };
-
     recorder.recording.onError = error => {
       setError({
         message: error.name,
@@ -64,8 +57,6 @@ export function Recorder(props: RecorderProps) {
       });
       dispatch.startNewRecording();
     };
-
-    console.log('recording started');
   }
 
   useEffect(() => {
@@ -92,28 +83,21 @@ export function Recorder(props: RecorderProps) {
     props.onStartRecording(true);
   }
 
-  const initialStateShow = () => {
-    switch (homeState.screen) {
-      case HomeScreen.PREVIEWING:
-        return (
-          <RecordFinishedView
-            url={homeState.audioBlobUrl || ''}
-            onClickNewRecording={handleClickNewRecording}
-          />
-        );
-
-      default:
-        return null;
-    }
-  };
+  function handleClickCancel() {
+    recorder.recording.abort();
+    timer.reset();
+    recorder.clearRecording();
+    dispatch.startNewRecording();
+  }
 
   return (
-    <Wrapper
-      key="otraCosas"
-      showBg={homeState.screen === HomeScreen.PREVIEWING}
-    >
-      {initialStateShow()}
-      {homeState.screen !== HomeScreen.PREVIEWING && (
+    <Wrapper showBg={homeState.screen === HomeScreen.PREVIEWING}>
+      {homeState.screen === HomeScreen.PREVIEWING ? (
+        <RecordFinishedView
+          url={homeState.audioBlobUrl || ''}
+          onClickNewRecording={handleClickNewRecording}
+        />
+      ) : (
         <>
           <Chronometer timer={timer} />
           <RecorderControlsWrapper>
@@ -123,6 +107,7 @@ export function Recorder(props: RecorderProps) {
               onPauseClick={() => recorder.recording.pause()}
               onPlayClick={() => recorder.recording.resume()}
               onStopClick={() => handleStop()}
+              onCancelClick={handleClickCancel}
             />
           </RecorderControlsWrapper>
         </>
