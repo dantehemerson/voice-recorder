@@ -1,4 +1,4 @@
-import { Recording } from '@lib/recording/recording';
+import { Recording } from '@lib/recording';
 import { Optional } from '@voice-recorder/shared-types';
 import { useState } from 'react';
 

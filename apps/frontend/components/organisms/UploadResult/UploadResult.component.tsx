@@ -1,60 +1,44 @@
 import { Button, Card, Stack } from '@components/atoms';
 import { CopyInput, SocialShare } from '@components/molecules';
-import {
-  faCircleDown,
-  faCloudArrowUp,
-  faTrash,
-} from '@fortawesome/free-solid-svg-icons';
+import { faCircleDown, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useState } from 'react';
 import styled from 'styled-components';
 
 type UploadResultProps = {
   url: string;
+  onClickDelete: () => void;
+  onClickDownload: () => void;
 };
 
 export function UploadResult(props: UploadResultProps) {
-  const [isUploaded, setIsUploaded] = useState(false);
-
   return (
     <Wrapper>
-      {!isUploaded ? (
-        <div>
-          <Stack marginTop="0px" width="100%" justifyContent="center">
-            <Button
-              onClick={() => setIsUploaded(true)}
-              leftIcon={<FontAwesomeIcon icon={faCloudArrowUp} />}
-            >
-              Save and share
-            </Button>
-          </Stack>
-        </div>
-      ) : (
-        <div>
-          <Title>Share Recording:</Title>
-          <Stack width="100%" marginTop="10px">
-            <CopyInput value={props.url} />
-          </Stack>
+      <div>
+        <Title>Share Recording:</Title>
+        <Stack width="100%" marginTop="10px">
+          <CopyInput value={props.url} />
+        </Stack>
 
-          <ButtonsWrapper>
-            <SocialShare url={props.url} />
-            <div>
-              <Button
-                leftIcon={<FontAwesomeIcon icon={faCircleDown} />}
-                style={{ marginRight: '8px' }}
-              >
-                Download
-              </Button>
-              <Button
-                leftIcon={<FontAwesomeIcon icon={faTrash} />}
-                color="#F75B47"
-              >
-                Delete
-              </Button>
-            </div>
-          </ButtonsWrapper>
-        </div>
-      )}
+        <ButtonsWrapper>
+          <SocialShare url={props.url} />
+          <div>
+            <Button
+              leftIcon={<FontAwesomeIcon icon={faCircleDown} />}
+              onClick={props.onClickDownload}
+              style={{ marginRight: '8px' }}
+            >
+              Download
+            </Button>
+            <Button
+              leftIcon={<FontAwesomeIcon icon={faTrash} />}
+              onClick={props.onClickDelete}
+              color="#F75B47"
+            >
+              Delete
+            </Button>
+          </div>
+        </ButtonsWrapper>
+      </div>
     </Wrapper>
   );
 }

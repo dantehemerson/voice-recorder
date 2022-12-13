@@ -5,7 +5,7 @@ import {
   IconDefinition,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { RecorderStatus } from '@lib/recording/enums/recorder-status.enum';
+import { RecorderStatus } from '@lib/recording';
 import styled from 'styled-components';
 
 const iconMap: Record<RecorderStatus, IconDefinition> = {

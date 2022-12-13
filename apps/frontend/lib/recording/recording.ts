@@ -27,7 +27,7 @@ export class Recording {
 
   /** Saving events */
   public onSavePercent?: (percentage: number) => void;
-  public onSaveSuccess?: () => void;
+  public onSaveSuccess?: (mediaInfo: MediaInfo) => void;
   public onSaveError?: (error: Error) => void;
 
   constructor(private readonly options: Partial<AudioEncoderConstraints>) {
@@ -83,7 +83,7 @@ export class Recording {
         ownerToken: response.ownerToken,
         time: this.unixTime,
       };
-      this.onSaveSuccess?.();
+      this.onSaveSuccess?.(this.media);
     };
 
     this.uploader.onError = (error: Error) => {

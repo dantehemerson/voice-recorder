@@ -3,7 +3,7 @@ import { PlayPauseButton } from '@components/molecules';
 import { BACKGROUND_CIRCLE_SIZE } from '@components/organisms/RecorderControls/recorder-controlls.constants';
 import { faCheck, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { RecorderStatus } from '@lib/recording/enums/recorder-status.enum';
+import { RecorderStatus } from '@lib/recording';
 import { useState } from 'react';
 import styled from 'styled-components';
 

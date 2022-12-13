@@ -1,7 +1,6 @@
-import { Card } from '@components/atoms';
 import { PlayPauseButton, SliderTimer } from '@components/molecules';
 import { useAudioPlayer } from '@lib/hooks/use-audio-player.hook';
-import { RecorderStatus } from '@lib/recording/enums/recorder-status.enum';
+import { RecorderStatus } from '@lib/recording';
 import styled from 'styled-components';
 
 type AudioPlayerProps = {

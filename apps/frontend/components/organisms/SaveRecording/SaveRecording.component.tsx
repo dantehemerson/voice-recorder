@@ -1,17 +1,22 @@
-import { Button } from '@components/atoms';
-import { faSave } from '@fortawesome/free-solid-svg-icons';
+import { Button, Card } from '@components/atoms';
+import { UploadResult } from '@components/organisms';
+import { faCloudArrowUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Recording } from '@lib/recording/recording';
-import React, { useEffect, useState } from 'react';
+import { getDownloadAudioUrl } from '@lib/helpers/url.helpers';
+import { MediaInfo, Recording } from '@lib/recording';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 type SaveRecordingProps = {
   recording: Recording;
+  onSaveRecording: (media: MediaInfo) => void;
+  onDeleteMedia: () => void;
 };
 
-export function SaveRecording({ recording }: SaveRecordingProps) {
+export function SaveRecording({ recording, ...props }: SaveRecordingProps) {
   const [isSaving, setIsSaving] = useState(false);
   const [percentageComplete, setPercentageComplete] = useState(0);
+  const [media, setMedia] = useState<MediaInfo>();
 
   useEffect(() => {
     recording.onSavePercent = percent => {
@@ -21,6 +26,12 @@ export function SaveRecording({ recording }: SaveRecordingProps) {
     recording.onSaveError = error => {
       console.log('error saving', error);
       setIsSaving(false);
+    };
+
+    recording.onSaveSuccess = media => {
+      setMedia(media);
+      setIsSaving(false);
+      props.onSaveRecording(media);
     };
 
     return () => {
@@ -35,15 +46,32 @@ export function SaveRecording({ recording }: SaveRecordingProps) {
     recording.save();
   }
 
+  if (!media) {
+    return (
+      <Wrapper>
+        <Button
+          onClick={handleSave}
+          leftIcon={<FontAwesomeIcon icon={faCloudArrowUp} />}
+        >
+          {isSaving
+            ? `Saving Recording...(${percentageComplete}%)`
+            : 'Save recording'}
+        </Button>
+      </Wrapper>
+    );
+  }
+
   return (
-    <Wrapper>
-      <Button onClick={handleSave} leftIcon={<FontAwesomeIcon icon={faSave} />}>
-        {isSaving
-          ? `Saving Recording...(${percentageComplete}%)`
-          : 'Save recording'}
-      </Button>
-    </Wrapper>
+    <UploadResult
+      url={getDownloadAudioUrl(media.mediaId)}
+      onClickDelete={props.onDeleteMedia}
+      onClickDownload={() => undefined}
+    />
   );
 }
 
-const Wrapper = styled.div``;
+const Wrapper = styled(Card)`
+  margin-top: 20px;
+  padding: 1.5rem 1.5rem;
+  justify-content: center;
+`;

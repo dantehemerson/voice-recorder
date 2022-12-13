@@ -1,4 +1,4 @@
-import { Timer } from '@lib/recording/timer';
+import { Timer } from '@lib/recording';
 import { useMemo } from 'react';
 
 export function useTimer(): Timer {
