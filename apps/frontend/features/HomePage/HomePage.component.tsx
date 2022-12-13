@@ -12,12 +12,14 @@ export function HomePage() {
     onSaveRecording,
     onStartRecording,
     onDeleteMedia,
+    deleteCount,
   } = useHomePage();
 
   return (
     <MainLayout>
       <HomeContextProvider>
         <Recorder
+          key={deleteCount}
           onNewRecording={onNewRecording}
           onStartRecording={onStartRecording}
         />

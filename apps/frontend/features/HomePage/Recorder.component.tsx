@@ -70,6 +70,7 @@ export function Recorder(props: RecorderProps) {
 
   useEffect(() => {
     timer.reset();
+    dispatch.startNewRecording();
   }, []);
 
   async function startRecording() {
@@ -107,7 +108,10 @@ export function Recorder(props: RecorderProps) {
   };
 
   return (
-    <Wrapper showBg={homeState.screen === HomeScreen.PREVIEWING}>
+    <Wrapper
+      key="otraCosas"
+      showBg={homeState.screen === HomeScreen.PREVIEWING}
+    >
       {initialStateShow()}
       {homeState.screen !== HomeScreen.PREVIEWING && (
         <>

@@ -3,6 +3,7 @@ import { useState } from 'react';
 
 export function useHomePage() {
   const [recording, setRecording] = useState<Recording>(undefined);
+  const [deleteCount, setDeleteCount] = useState(0);
 
   const onStartRecording = (toHome = false) => {
     toHome && window.history.pushState({}, '', '/');
@@ -20,10 +21,12 @@ export function useHomePage() {
   const onDeleteMedia = () => {
     window.history.pushState({}, '', '/');
     setRecording(undefined);
+    setDeleteCount(prev => prev + 1);
   };
 
   return {
     recording,
+    deleteCount,
     onStartRecording,
     onNewRecording,
     onSaveRecording,
