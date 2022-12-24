@@ -1,4 +1,3 @@
-import 'multer';
 import {
   Controller,
   Get,
@@ -10,9 +9,13 @@ import {
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { MediaInfoDto } from '@voice-recorder/shared-types';
+import 'multer';
+import { UploaderService } from './uploader.service';
 
 @Controller('upload')
 export class UploaderController {
+  constructor(private readonly uploaderService: UploaderService) {}
+
   @Get('alive')
   alive() {
     return {
@@ -23,22 +26,18 @@ export class UploaderController {
   }
 
   @UseInterceptors(FileInterceptor('chunk'))
-  @Post('/:id/chunk/:chunkNumber')
+  @Post('/:uploadId/chunk/:chunkNumber')
   uploadChunk(
-    @Param('id') id: string,
-    @Param('chunkNumber', new ParseIntPipe()) chunkNumber: string,
-    @UploadedFile() chunks: Express.Multer.File[]
+    @Param('uploadId') uploadId: string,
+    @Param('chunkNumber', new ParseIntPipe()) chunkNumber: number,
+    @UploadedFile() chunks: Express.Multer.File
   ) {
-    console.log('upload', id, chunkNumber, chunks);
-    return {
-      ok: true,
-    };
+    return this.uploaderService.uploadChunk(uploadId, chunkNumber, chunks);
   }
 
-  @Post('/:id/finalize')
-  async finalize(@Param('id') id: string): Promise<MediaInfoDto> {
-    console.log('finalize', id);
-    await new Promise(resolve => setTimeout(resolve, 500));
+  @Post('/:uploadId/finalize')
+  async finalize(@Param('uploadId') uploadId: string): Promise<MediaInfoDto> {
+    await this.uploaderService.finalizeUpload(uploadId);
 
     return {
       status: 0,
