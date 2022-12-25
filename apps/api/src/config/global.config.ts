@@ -22,4 +22,7 @@ export const globalConfiguration = (): GlobalConf =>
     api: {
       baseURL: process.env.API__BASE_URL,
     },
+    uploads: {
+      dir: process.env.UPLOADS__DIR,
+    },
   } as GlobalConf);

@@ -19,4 +19,7 @@ export interface GlobalConf {
   api: {
     baseURL: string;
   };
+  uploads: {
+    dir: string;
+  };
 }

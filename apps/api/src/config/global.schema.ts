@@ -10,4 +10,5 @@ export const globalConfigValidationSchema = Joi.object({
   AWS__BUCKETS__RECORDINGS: Joi.string().required().not().empty(),
 
   // API__BASE_URL: Joi.string().required().not().empty(),
+  UPLOADS__DIR: Joi.string().required().not().empty(),
 });
