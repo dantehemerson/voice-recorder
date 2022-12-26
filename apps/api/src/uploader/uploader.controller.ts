@@ -37,12 +37,6 @@ export class UploaderController {
 
   @Post('/:uploadId/finalize')
   async finalize(@Param('uploadId') uploadId: string): Promise<MediaInfoDto> {
-    await this.uploaderService.finalizeUpload(uploadId);
-
-    return {
-      status: 0,
-      mediaId: '123',
-      ownerToken: '123',
-    };
+    return this.uploaderService.finalizeUpload(uploadId);
   }
 }

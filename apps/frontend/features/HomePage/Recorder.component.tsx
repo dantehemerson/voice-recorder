@@ -1,5 +1,5 @@
-import { Card, Chronometer } from '@components/atoms';
-import { RecorderControls } from '@components/organisms';
+import { Chronometer } from '@components/atoms';
+import { RecorderControls, RecordingPlayer } from '@components/organisms';
 import { useRecording, useTimer } from '@lib/hooks';
 import { Recording } from '@lib/recording';
 import { useSetAtom } from 'jotai';
@@ -7,7 +7,6 @@ import { useEffect } from 'react';
 import { errorStoreAtom } from 'store/error.store';
 import styled from 'styled-components';
 import { HomeScreen, useHomeState } from './contexts/home.context';
-import { RecordFinishedView } from './RecordFinishedView.component';
 
 type RecorderProps = {
   onNewRecording: (recording: Recording) => void;
@@ -91,9 +90,9 @@ export function Recorder(props: RecorderProps) {
   }
 
   return (
-    <Wrapper showBg={homeState.screen === HomeScreen.PREVIEWING}>
+    <Wrapper>
       {homeState.screen === HomeScreen.PREVIEWING ? (
-        <RecordFinishedView
+        <RecordingPlayer
           url={homeState.audioBlobUrl || ''}
           onClickNewRecording={handleClickNewRecording}
         />
@@ -116,14 +115,10 @@ export function Recorder(props: RecorderProps) {
   );
 }
 
-const Wrapper = styled<any>(Card)`
+const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: ${({ showBg }) =>
-    showBg ? '#f5f5f5' : 'transparent'} !important;
-  ${({ showBg }) => !showBg && ' box-shadow: none;'};
-  padding: 1rem;
 `;
 
 const RecorderControlsWrapper = styled.div`

@@ -1,4 +1,4 @@
-import { Button, Stack } from '@components/atoms';
+import { Button, Card, Stack } from '@components/atoms';
 import { AudioPlayer } from '@components/organisms';
 import { faRotateRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -9,7 +9,7 @@ type RecordFinishedViewProps = {
   onClickNewRecording: () => void;
 };
 
-export function RecordFinishedView(props: RecordFinishedViewProps) {
+export function RecordingPlayer(props: RecordFinishedViewProps) {
   return (
     <RecordFinishedViewContainer>
       <AudioPlayer src={props.url} />
@@ -25,11 +25,12 @@ export function RecordFinishedView(props: RecordFinishedViewProps) {
   );
 }
 
-const RecordFinishedViewContainer = styled.div`
+const RecordFinishedViewContainer = styled(Card)`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 100%;
   box-sizing: border-box;
+  padding: 1rem;
 `;

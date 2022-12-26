@@ -3,13 +3,14 @@ import {
   ConflictException,
   Inject,
   Injectable,
-  NotFoundException,
 } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { Cache } from 'cache-manager';
+import * as fs from 'fs';
+import { GlobalConf } from '../config/global-config.interface';
+import { waitForStreamClose } from '../helpers/wait-for-stram-close.helper';
 import { S3Service } from '../s3/decorators/s3-service.decorator';
 import { S3 } from '../s3/s3.types';
-import { Cache } from 'cache-manager';
-import { ConfigService } from '@nestjs/config';
-import { GlobalConf } from '../config/global-config.interface';
 
 @Injectable()
 export class UploaderService {
@@ -78,23 +79,60 @@ export class UploaderService {
   }
 
   async finalizeUpload(uploadId: string) {
-    const multipartUploadId = await this.cacheManager.get<string>(uploadId);
+    const recordingPath = await this.generateRecordingFile(uploadId);
 
-    if (!multipartUploadId) {
-      throw new NotFoundException('Upload id not found');
+    try {
+      const uploadResult = await this.s3
+        .upload({
+          Bucket: this.configService.get('recordings').bucket,
+          Key: `${uploadId}.mp3`,
+          ContentType: 'audio/mpeg',
+          Body: fs.createReadStream(recordingPath),
+          ACL: 'public-read',
+        })
+        .promise();
+
+      fs.rmSync(recordingPath, { recursive: true, force: true });
+
+      return {
+        mediaUrl: uploadResult.Location,
+        status: 0,
+        mediaId: uploadId,
+        ownerToken: 'ip-address-id',
+      };
+    } catch (error) {
+      throw new ConflictException(
+        `Could not upload finalize recording: ${error.message}`
+      );
+    }
+  }
+
+  private async generateRecordingFile(uploadId: string): Promise<string> {
+    const files = fs.readdirSync(
+      `${this.configService.get('uploads').dir}/${uploadId}`
+    );
+
+    files.sort((a, b) => parseInt(a) - parseInt(b));
+
+    const recordingFilePath = `${
+      this.configService.get('uploads').dir
+    }/${uploadId}/${uploadId}.mp3`;
+
+    const recordingFile = fs.createWriteStream(recordingFilePath);
+
+    for (const fileChunk of files) {
+      const chunk = fs.readFileSync(
+        `${this.configService.get('uploads').dir}/${uploadId}/${fileChunk}`
+      );
+
+      recordingFile.write(chunk);
     }
 
-    const resultFinalize = await this.s3
-      .completeMultipartUpload({
-        Bucket: this.configService.get('recordings').bucket,
-        Key: `${uploadId}.mp3`,
-        UploadId: multipartUploadId,
-        MultipartUpload: {
-          Parts: this.data[uploadId],
-        },
-      })
-      .promise();
+    recordingFile.end();
+    recordingFile.close();
 
-    return resultFinalize;
+    await waitForStreamClose(recordingFile);
+
+    return recordingFilePath;
   }
 }
