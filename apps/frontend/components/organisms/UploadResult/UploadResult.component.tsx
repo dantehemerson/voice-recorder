@@ -2,29 +2,50 @@ import { Button, Card, Stack } from '@components/atoms';
 import { CopyInput, SocialShare } from '@components/molecules';
 import { faCircleDown, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { getDownloadAudioUrl } from '@lib/helpers/url.helpers';
+import { getRecordingDownloadUrl } from '@lib/services/recording.service';
 import styled from 'styled-components';
 
 type UploadResultProps = {
-  url: string;
+  mediaId: string;
   onClickDelete: () => void;
-  onClickDownload: () => void;
 };
 
 export function UploadResult(props: UploadResultProps) {
+  const url = getDownloadAudioUrl(props.mediaId);
+
+  async function handleClickDownload() {
+    try {
+      const { url } = await getRecordingDownloadUrl(props.mediaId);
+
+      const anchor = document.createElement('a');
+      anchor.href = url;
+      anchor.style.display = 'none';
+      anchor.setAttribute('download', `${props.mediaId}.mp3`);
+      anchor.setAttribute('target', '_blank');
+
+      document.body.appendChild(anchor);
+      anchor.click();
+      document.body.removeChild(anchor);
+    } catch (error) {
+      console.error('Error downloading file', error);
+    }
+  }
+
   return (
     <Wrapper>
       <div>
         <Title>Share Recording:</Title>
         <Stack width="100%" marginTop="10px">
-          <CopyInput value={props.url} />
+          <CopyInput value={url} />
         </Stack>
 
         <ButtonsWrapper>
-          <SocialShare url={props.url} />
+          <SocialShare url={url} />
           <div>
             <Button
               leftIcon={<FontAwesomeIcon icon={faCircleDown} />}
-              onClick={props.onClickDownload}
+              onClick={handleClickDownload}
               style={{ marginRight: '8px' }}
             >
               Download

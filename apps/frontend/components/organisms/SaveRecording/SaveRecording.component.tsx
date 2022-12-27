@@ -2,7 +2,6 @@ import { Button, Card } from '@components/atoms';
 import { UploadResult } from '@components/organisms';
 import { faCloudArrowUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { getDownloadAudioUrl } from '@lib/helpers/url.helpers';
 import { MediaInfo, Recording } from '@lib/recording';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -62,11 +61,7 @@ export function SaveRecording({ recording, ...props }: SaveRecordingProps) {
   }
 
   return (
-    <UploadResult
-      url={getDownloadAudioUrl(media.mediaId)}
-      onClickDelete={props.onDeleteMedia}
-      onClickDownload={() => undefined}
-    />
+    <UploadResult mediaId={media.mediaId} onClickDelete={props.onDeleteMedia} />
   );
 }
 
