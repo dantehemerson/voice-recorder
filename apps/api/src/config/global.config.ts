@@ -14,7 +14,7 @@ export const globalConfiguration = (): GlobalConf =>
     aws: {
       accessKeyId: process.env.AWS__ACCESS_KEY_ID,
       secretAccessKey: process.env.AWS__SECRET_ACCESS_KEY,
-      region: process.env.AWS__REGION || 'sa-east-1',
+      region: process.env.AWS__REGION || 'us-east-1',
     },
     recordings: {
       bucket: process.env.AWS__BUCKETS__RECORDINGS,

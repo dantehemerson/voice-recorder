@@ -8,7 +8,10 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { MediaInfoDto } from '@voice-recorder/shared-types';
+import {
+  DownloadUrlReponseDto,
+  MediaInfoDto,
+} from '@voice-recorder/shared-types';
 import 'multer';
 import { UploaderService } from './uploader.service';
 
@@ -38,5 +41,12 @@ export class UploaderController {
   @Post('/:uploadId/finalize')
   async finalize(@Param('uploadId') uploadId: string): Promise<MediaInfoDto> {
     return this.uploaderService.finalizeUpload(uploadId);
+  }
+
+  @Get('/download-url/:mediaId')
+  getDownloadUrl(
+    @Param('mediaId') mediaId: string
+  ): Promise<DownloadUrlReponseDto> {
+    return this.uploaderService.getDownloadUrl(mediaId);
   }
 }

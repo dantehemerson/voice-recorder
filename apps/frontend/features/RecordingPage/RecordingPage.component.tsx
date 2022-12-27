@@ -1,6 +1,7 @@
 import { RecordingPlayer, UploadResult } from '@components/organisms';
 import { MainLayout } from '@components/templates';
 import { getDownloadAudioUrl } from '@lib/helpers/url.helpers';
+import { getRecordingDownloadUrl } from '@lib/services/recording.service';
 import { useRouter } from 'next/router';
 import React from 'react';
 
@@ -17,6 +18,24 @@ export function RecordingPage({ recording }: RecordingPageProps) {
 
   async function handleDeleteMedia() {}
 
+  async function handleClickDownload() {
+    try {
+      const { url } = await getRecordingDownloadUrl(recording.mediaId);
+
+      const anchor = document.createElement('a');
+      anchor.href = url;
+      anchor.style.display = 'none';
+      anchor.setAttribute('download', `${recording.mediaId}.mp3`);
+      anchor.setAttribute('target', '_blank');
+
+      document.body.appendChild(anchor);
+      anchor.click();
+      document.body.removeChild(anchor);
+    } catch (error) {
+      console.error('Error downloading file', error);
+    }
+  }
+
   return (
     <MainLayout>
       <RecordingPlayer
@@ -26,7 +45,7 @@ export function RecordingPage({ recording }: RecordingPageProps) {
       <UploadResult
         url={getDownloadAudioUrl(recording.mediaId)}
         onClickDelete={handleDeleteMedia}
-        onClickDownload={() => undefined}
+        onClickDownload={handleClickDownload}
       />
     </MainLayout>
   );

@@ -5,6 +5,7 @@ import {
   Injectable,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { DownloadUrlReponseDto } from '@voice-recorder/shared-types';
 import { Cache } from 'cache-manager';
 import * as fs from 'fs';
 import { GlobalConf } from '../config/global-config.interface';
@@ -134,5 +135,18 @@ export class UploaderService {
     await waitForStreamClose(recordingFile);
 
     return recordingFilePath;
+  }
+
+  async getDownloadUrl(uploadId: string): Promise<DownloadUrlReponseDto> {
+    const url = await this.s3.getSignedUrlPromise('getObject', {
+      Bucket: this.configService.get('recordings').bucket,
+      Key: `${uploadId}.mp3`,
+      Expires: 60,
+      ResponseContentDisposition: 'attachment',
+    });
+
+    return {
+      url,
+    };
   }
 }
