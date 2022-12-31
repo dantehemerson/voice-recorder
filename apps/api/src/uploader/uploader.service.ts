@@ -93,7 +93,14 @@ export class UploaderService {
         })
         .promise();
 
-      fs.rmSync(recordingPath, { recursive: true, force: true });
+      try {
+        fs.rmSync(`${this.configService.get('uploads').dir}/${uploadId}/`, {
+          recursive: true,
+          force: true,
+        });
+      } catch (error) {
+        console.log('Error deleting upload folder', error);
+      }
 
       return {
         mediaUrl: uploadResult.Location,

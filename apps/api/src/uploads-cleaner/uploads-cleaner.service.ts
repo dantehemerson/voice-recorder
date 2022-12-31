@@ -7,7 +7,7 @@ import * as fs from 'fs';
 export class UploadsCleanerService {
   constructor(private readonly configService: ConfigService) {}
 
-  @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT)
+  @Cron(CronExpression.EVERY_5_SECONDS)
   cleanUploads() {
     const uploads = fs.readdirSync(this.configService.get('uploads.dir'));
 
@@ -23,8 +23,6 @@ export class UploadsCleanerService {
         const deleteAfter = this.configService.get(
           'uploads.deleteAfterMinutes'
         );
-
-        console.log('creationDate', creationDate, diffMinutes);
 
         if (diffMinutes >= deleteAfter) {
           fs.rmSync(`${this.configService.get('uploads.dir')}/${upload}`, {
