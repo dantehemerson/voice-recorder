@@ -24,5 +24,6 @@ export const globalConfiguration = (): GlobalConf =>
     },
     uploads: {
       dir: process.env.UPLOADS__DIR,
+      deleteAfterMinutes: parseInt(process.env.UPLOADS__DELETE_AFTER),
     },
   } as GlobalConf);

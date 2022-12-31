@@ -11,4 +11,5 @@ export const globalConfigValidationSchema = Joi.object({
 
   // API__BASE_URL: Joi.string().required().not().empty(),
   UPLOADS__DIR: Joi.string().required().not().empty(),
+  UPLOADS__DELETE_AFTER: Joi.number().required().not().empty(),
 });

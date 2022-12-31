@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { globalConfiguration } from './config/global.config';
 import { globalConfigValidationSchema } from './config/global.schema';
 import { UploaderModule } from './uploader/uploader.module';
+import { UplaodsCleanerModule } from './uploads-cleaner/uploads-cleaner.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { UploaderModule } from './uploader/uploader.module';
         allowUnknown: true,
       },
     }),
+    UplaodsCleanerModule,
     UploaderModule,
   ],
 })

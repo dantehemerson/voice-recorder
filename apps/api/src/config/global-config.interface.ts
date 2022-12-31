@@ -21,5 +21,6 @@ export interface GlobalConf {
   };
   uploads: {
     dir: string;
+    deleteAfterMinutes: number;
   };
 }
