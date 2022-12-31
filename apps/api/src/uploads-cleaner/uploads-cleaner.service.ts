@@ -7,7 +7,7 @@ import * as fs from 'fs';
 export class UploadsCleanerService {
   constructor(private readonly configService: ConfigService) {}
 
-  @Cron(CronExpression.EVERY_5_SECONDS)
+  @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT)
   cleanUploads() {
     const uploads = fs.readdirSync(this.configService.get('uploads.dir'));
 
