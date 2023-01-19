@@ -1,4 +1,4 @@
-# VoiceRecorder
+# Voice Recorder
 
 A simple and open-source voice recorder service
 
