@@ -119,6 +119,7 @@ export class UploaderService {
     const files = fs.readdirSync(
       `${this.configService.get('uploads').dir}/${uploadId}`
     );
+    console.log('Blueeeeeeeeeeeeeeeeeeeeeeeee');
 
     files.sort((a, b) => parseInt(a) - parseInt(b));
 

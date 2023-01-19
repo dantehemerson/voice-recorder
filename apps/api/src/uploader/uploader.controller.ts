@@ -13,6 +13,7 @@ import {
   MediaInfoDto,
 } from '@voice-recorder/shared-types';
 import 'multer';
+import { NotChunksFoundException } from '../uploader/exceptions/not-chunks-found.exception';
 import { UploaderService } from './uploader.service';
 
 @Controller('upload')
@@ -40,7 +41,18 @@ export class UploaderController {
 
   @Post('/:uploadId/finalize')
   async finalize(@Param('uploadId') uploadId: string): Promise<MediaInfoDto> {
-    return this.uploaderService.finalizeUpload(uploadId);
+    try {
+      return this.uploaderService.finalizeUpload(uploadId);
+    } catch (error) {
+      if (error instanceof NotChunksFoundException) {
+        return {
+          mediaId: uploadId,
+          status: 0,
+        };
+      }
+
+      throw error;
+    }
   }
 
   @Get('/download-url/:mediaId')
