@@ -2,19 +2,15 @@
 
 <div align="center">
   <a href="https://www.techinterviewhandbook.org/">
-    <img src="./app/frontend/public/logo.png" alt="Voice Recorder App" width="400" />
+    <img src="./apps/frontend/public/logo.png" alt="Voice Recorder App" width="300" />
   </a>
   <br />
   <h3>
-    <a href="https://www.techinterviewhandbook.org/">Read on the website</a>
+    <a href="https://voice-recorder-online.vercel.app">Go to the application</a>
   </h3>
-  <p>
-    Join/follow us on <a href="https://discord.gg/usMqNaPczq" target="_blank">Discord</a> | <a href="https://twitter.com/techinterviewhb" target="_blank">Twitter</a> | <a href="https://t.me/techinterviewhandbook" target="_blank">Telegram</a> |  <a href="https://facebook.com/techinterviewhandbook" target="_blank">Facebook</a>
-  </p>
 </div>
 
 A simple and open-source voice recorder service
-
 
 ## Development
 
