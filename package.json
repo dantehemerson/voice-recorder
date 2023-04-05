@@ -11,6 +11,9 @@
     "build": "nx build",
     "test": "nx test"
   },
+  "engines": {
+    "node": ">=18"
+  },
   "private": true,
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.2.0",
