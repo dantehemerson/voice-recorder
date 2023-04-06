@@ -10,6 +10,6 @@ export async function getRecordingDownloadUrl(
   recordingId: string
 ): Promise<DownloadUrlReponseDto> {
   return fetch(
-    `${process.env.NEXT_PUBLIC_WEB_URL}/api/upload/download-url/${recordingId}`
+    `${process.env.NEXT_PUBLIC_API_URL}/upload/download-url/${recordingId}`
   ).then(res => res.json());
 }
