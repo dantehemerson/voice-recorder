@@ -63,14 +63,14 @@ export function UploadResult(props: UploadResultProps) {
             >
               Download
             </Button>
-            <Button
+            {/* <Button
               disabled={isDeleting}
               leftIcon={<FontAwesomeIcon icon={faTrash} />}
               onClick={handleClickDelete}
               color="#F75B47"
             >
               Delete
-            </Button>
+            </Button> */}
           </div>
         </ButtonsWrapper>
       </div>
