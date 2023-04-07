@@ -3,6 +3,7 @@ import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import * as cors from 'cors';
+import helmet from 'helmet';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -12,6 +13,7 @@ async function bootstrap() {
       origin: process.env.CORS__ORIGIN || '*',
     })
   );
+  app.use(helmet());
 
   const port = process.env.PORT || 3333;
   await app.listen(port);
