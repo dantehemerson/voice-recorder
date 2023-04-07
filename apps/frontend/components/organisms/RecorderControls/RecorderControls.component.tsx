@@ -33,11 +33,16 @@ export function RecorderControls(props: RecorderControlsProps) {
     return RecorderStatus.STOPPED;
   }
 
+  function handleCancelClick() {
+    setIsPaused(false);
+    props.onCancelClick?.();
+  }
+
   return (
     <Wrapper isRecording={props.isRecording}>
       <ButtonsContainer>
         <BandButton
-          onClick={props.onCancelClick}
+          onClick={handleCancelClick}
           className={props.isRecording && 'show'}
           style={{
             left: '20px',
