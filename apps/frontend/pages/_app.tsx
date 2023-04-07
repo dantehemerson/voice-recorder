@@ -11,7 +11,9 @@ function CustomApp({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
-        <title>Voice Recorder</title>
+        <title>
+          Voice Recorder Online - Free Audio Recording, Storage, and Sharing
+        </title>
       </Head>
       <main className={MainFont.className}>
         <Component {...pageProps} />

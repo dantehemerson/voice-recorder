@@ -108,21 +108,29 @@ export default class CustomDocument extends Document {
           <meta name="msapplication-TileImage" content="/ms-icon-144x144.png" />
           <meta name="theme-color" content="#ffffff"></meta>
 
+          <link rel="canonical" href={process.env.NEXT_PUBLIC_WEB_URL} />
+
           {/* Sharing metatags */}
-          <meta
-            property="og:url"
-            content="https://recorder.dantecalderon.dev"
-          />
+          <meta property="og:url" content={process.env.NEXT_PUBLIC_WEB_URL} />
           <meta property="og:type" content="website" />
-          <meta property="og:title" content="Voice Recorder" />
+          <meta
+            property="og:title"
+            content="Voice Recorder Online - Free Audio Recording, Storage, and Sharing"
+          />
           <meta
             property="og:description"
-            content="Record, save, and share with Voice Recorder, the world's first and best recording app."
+            content="Record, save, and share for free with Voice Recorder Online, the world's first and best recording app."
           />
-          <meta property="og:image" content="/apple-icon-152x152.png" />
+          <meta
+            property="og:image"
+            content={`${process.env.NEXT_PUBLIC_WEB_URL}/apple-icon-152x152.png`}
+          />
 
           {/* WhatsApp meta tags */}
-          <meta property="og:site_name" content="Voice Recorder" />
+          <meta
+            property="og:site_name"
+            content="Voice Recorder Online - Free Audio Recording, Storage, and Sharing"
+          />
         </Head>
         <body>
           <Main />
