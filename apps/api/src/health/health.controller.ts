@@ -11,6 +11,7 @@ export class HealthController {
       uploadsDir: process.env.UPLOADS__DIR,
       uploadsDeleteAfter: process.env.UPLOADS__DELETE_AFTER,
       NODE_ENV: process.env.NODE_ENV,
+      corsOrigin: process.env.CORS__ORIGIN || '*',
     };
   }
 }
