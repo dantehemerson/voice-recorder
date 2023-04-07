@@ -68,7 +68,7 @@ export class AudioEncoder {
   private prestart() {
     this.state = EncoderStatus.LOADING;
 
-    const mp3WorkerUrl = 'http://localhost:4200/mp3worker.min.js';
+    const mp3WorkerUrl = `${process.env.NEXT_PUBLIC_WEB_URL}/mp3worker.min.js`;
 
     const workerScript = `importScripts("${mp3WorkerUrl}");`;
 
@@ -78,7 +78,7 @@ export class AudioEncoder {
 
     this.worker = new Worker(url);
 
-    this.worker.onmessage = (event) => {
+    this.worker.onmessage = event => {
       switch (event.data.message) {
         case 'ready':
           this.state = EncoderStatus.READY;
@@ -92,7 +92,7 @@ export class AudioEncoder {
       }
     };
 
-    this.worker.onerror = (error) => {
+    this.worker.onerror = error => {
       this.state = EncoderStatus.ERROR;
       console.error('MP3 worker failed', error);
     };
