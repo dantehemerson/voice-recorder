@@ -21,6 +21,7 @@ export function Stack({
     <Wrapper
       style={{
         marginInlineStart: hSpacing,
+        marginInlineEnd: hSpacing,
         ...props,
       }}
     >

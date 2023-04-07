@@ -70,4 +70,9 @@ export class UploaderController {
   ): Promise<DownloadUrlReponseDto> {
     return this.uploaderService.getDownloadUrl(mediaId);
   }
+
+  @Get('/:recordingId')
+  getRecording(@Param('recordingId') uploadId: string) {
+    return this.uploaderService.getRecording(uploadId);
+  }
 }

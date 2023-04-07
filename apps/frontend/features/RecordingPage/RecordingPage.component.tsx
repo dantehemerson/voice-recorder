@@ -1,11 +1,11 @@
 import { RecordingPlayer, UploadResult } from '@components/organisms';
 import { MainLayout } from '@components/templates';
-import { MediaInfo } from '@lib/recording';
 import { deleteRecording } from '@lib/services/recording.service';
 import { useRouter } from 'next/router';
+import { MediaInfoDto } from '@voice-recorder/shared-types';
 
 type RecordingPageProps = {
-  media: MediaInfo;
+  media: MediaInfoDto;
 };
 
 export function RecordingPage({ media }: RecordingPageProps) {

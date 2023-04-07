@@ -1,10 +1,21 @@
-import { DownloadUrlReponseDto } from '@voice-recorder/shared-types';
-import { HttpStatus } from '@voice-recorder/shared-types';
+import {
+  DownloadUrlReponseDto,
+  MediaInfoDto,
+  HttpStatus,
+} from '@voice-recorder/shared-types';
 
-export async function getRecordingById(recordingId: string) {
-  return fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/recording/${recordingId}`
-  ).then(res => res.json());
+export async function getRecordingById(
+  recordingId: string
+): Promise<MediaInfoDto> {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/upload/${recordingId}`
+  );
+
+  if (response.status === HttpStatus.NOT_FOUND) {
+    throw new Error('Recording not found.');
+  }
+
+  return response.json();
 }
 
 export async function deleteRecording(recordingId: string) {

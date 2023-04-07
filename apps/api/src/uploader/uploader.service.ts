@@ -6,7 +6,10 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { DownloadUrlReponseDto } from '@voice-recorder/shared-types';
+import {
+  DownloadUrlReponseDto,
+  MediaInfoDto,
+} from '@voice-recorder/shared-types';
 import { Cache } from 'cache-manager';
 import * as fs from 'fs';
 import { GlobalConf } from '../config/global-config.interface';
@@ -167,6 +170,27 @@ export class UploaderService {
       .promise();
 
     return response;
+  }
+
+  async getRecording(recordingId: string): Promise<MediaInfoDto> {
+    const exists = await this.s3
+      .headObject({
+        Bucket: this.configService.get('recordings').bucket,
+        Key: `${recordingId}.mp3`,
+      })
+      .promise()
+      .then(() => true)
+      .catch(() => false);
+
+    if (!exists) {
+      throw new NotFoundException('Recording not found.');
+    }
+
+    return {
+      mediaId: recordingId,
+      status: 0,
+      ownerToken: '',
+    };
   }
 
   async getDownloadUrl(uploadId: string): Promise<DownloadUrlReponseDto> {
