@@ -1,4 +1,5 @@
 import { DownloadUrlReponseDto } from '@voice-recorder/shared-types';
+import { HttpStatus } from '@voice-recorder/shared-types';
 
 export async function getRecordingById(recordingId: string) {
   return fetch(
@@ -6,10 +7,22 @@ export async function getRecordingById(recordingId: string) {
   ).then(res => res.json());
 }
 
+export async function deleteRecording(recordingId: string) {
+  return fetch(`${process.env.NEXT_PUBLIC_API_URL}/upload/${recordingId}`, {
+    method: 'DELETE',
+  }).then(res => {
+    if (res.status === HttpStatus.NO_CONTENT) {
+      return undefined;
+    } else {
+      return res.json();
+    }
+  });
+}
+
 export async function getRecordingDownloadUrl(
   recordingId: string
 ): Promise<DownloadUrlReponseDto> {
   return fetch(
-    `${process.env.NEXT_PUBLIC_WEB_URL}/api/upload/download-url/${recordingId}`
+    `${process.env.NEXT_PUBLIC_API_URL}/upload/download-url/${recordingId}`
   ).then(res => res.json());
 }

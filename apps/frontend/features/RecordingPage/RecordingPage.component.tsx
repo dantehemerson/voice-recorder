@@ -1,12 +1,15 @@
 import { RecordingPlayer, UploadResult } from '@components/organisms';
 import { MainLayout } from '@components/templates';
+import { MediaInfo } from '@lib/recording';
+import { deleteRecording } from '@lib/services/recording.service';
 import { useRouter } from 'next/router';
 
 type RecordingPageProps = {
-  recording: any;
+  media: MediaInfo;
 };
 
-export function RecordingPage({ recording }: RecordingPageProps) {
+export function RecordingPage({ media }: RecordingPageProps) {
+  console.log(media);
   const router = useRouter();
 
   async function handleClickedNewRecording() {
@@ -14,19 +17,22 @@ export function RecordingPage({ recording }: RecordingPageProps) {
   }
 
   async function handleDeleteMedia() {
-    console.log('delete');
+    try {
+      await deleteRecording(media.mediaId);
+    } catch (error) {
+      console.error('Error deleting recording', error);
+    } finally {
+      router.push('/');
+    }
   }
 
   return (
     <MainLayout>
       <RecordingPlayer
-        url={`${process.env.NEXT_PUBLIC_STORE_URL}/${recording.mediaId}.mp3`}
+        url={`${process.env.NEXT_PUBLIC_STORE_URL}/${media.mediaId}.mp3`}
         onClickNewRecording={handleClickedNewRecording}
       />
-      <UploadResult
-        mediaId={recording.mediaId}
-        onClickDelete={handleDeleteMedia}
-      />
+      <UploadResult mediaId={media.mediaId} onClickDelete={handleDeleteMedia} />
     </MainLayout>
   );
 }

@@ -1,11 +1,15 @@
 import { RecordingPage } from '@features/RecordingPage';
-import { GetServerSidePropsContext } from 'next';
+import { MediaInfo } from '@lib/recording';
+import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 
-export default function RecordPage(props) {
-  return <RecordingPage recording={props.recording} />;
+export default function RecordPage(props: { media: MediaInfo }) {
+  return <RecordingPage media={props.media} />;
 }
 
-export async function getServerSideProps(context: GetServerSidePropsContext) {
+export async function getServerSideProps(
+  context: GetServerSidePropsContext
+): Promise<GetServerSidePropsResult<{ media: MediaInfo }>> {
+  // TODO: Validate if recording exists
   // const recordingData = await getRecordingById(
   // context.params.recordingId as string
   // );
@@ -13,8 +17,10 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   return {
     props: {
       // recording: recordingData,
-      recording: {
-        mediaId: context.params.recordingId,
+      media: {
+        mediaId: context.params.recordingId as string,
+        ownerToken: '123',
+        time: new Date().getTime(),
       },
     }, // will be passed to the page component as props
   };

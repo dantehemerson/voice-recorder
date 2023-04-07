@@ -4,6 +4,7 @@ import { faCircleDown, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { getDownloadAudioUrl } from '@lib/helpers/url.helpers';
 import { getRecordingDownloadUrl } from '@lib/services/recording.service';
+import { useState } from 'react';
 import styled from 'styled-components';
 
 type UploadResultProps = {
@@ -12,6 +13,8 @@ type UploadResultProps = {
 };
 
 export function UploadResult(props: UploadResultProps) {
+  const [isDeleting, setIsDeleting] = useState(false);
+
   const url = getDownloadAudioUrl(props.mediaId);
 
   async function handleClickDownload() {
@@ -29,6 +32,16 @@ export function UploadResult(props: UploadResultProps) {
       document.body.removeChild(anchor);
     } catch (error) {
       console.error('Error downloading file', error);
+    }
+  }
+
+  async function handleClickDelete() {
+    try {
+      setIsDeleting(true);
+
+      await props.onClickDelete();
+    } finally {
+      setIsDeleting(false);
     }
   }
 
@@ -51,8 +64,9 @@ export function UploadResult(props: UploadResultProps) {
               Download
             </Button>
             <Button
+              disabled={isDeleting}
               leftIcon={<FontAwesomeIcon icon={faTrash} />}
-              onClick={props.onClickDelete}
+              onClick={handleClickDelete}
               color="#F75B47"
             >
               Delete

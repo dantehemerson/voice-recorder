@@ -3,6 +3,7 @@ import {
   ConflictException,
   Inject,
   Injectable,
+  NotFoundException,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { DownloadUrlReponseDto } from '@voice-recorder/shared-types';
@@ -119,7 +120,6 @@ export class UploaderService {
     const files = fs.readdirSync(
       `${this.configService.get('uploads').dir}/${uploadId}`
     );
-    console.log('Blueeeeeeeeeeeeeeeeeeeeeeeee');
 
     files.sort((a, b) => parseInt(a) - parseInt(b));
 
@@ -143,6 +143,30 @@ export class UploaderService {
     await waitForStreamClose(recordingFile);
 
     return recordingFilePath;
+  }
+
+  async deleteRecording(recordingId: string) {
+    const exists = await this.s3
+      .headObject({
+        Bucket: this.configService.get('recordings').bucket,
+        Key: `${recordingId}.mp3`,
+      })
+      .promise()
+      .then(() => true)
+      .catch(() => false);
+
+    if (!exists) {
+      throw new NotFoundException(`Couldn't delete. Recording not found.`);
+    }
+
+    const response = await this.s3
+      .deleteObject({
+        Bucket: this.configService.get('recordings').bucket,
+        Key: `${recordingId}.mp3`,
+      })
+      .promise();
+
+    return response;
   }
 
   async getDownloadUrl(uploadId: string): Promise<DownloadUrlReponseDto> {

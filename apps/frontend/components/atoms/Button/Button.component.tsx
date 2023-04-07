@@ -38,6 +38,16 @@ const StyledButton = styled.button`
   padding-inline-start: 1rem;
   padding-inline-end: 1rem;
 
+  &:disabled {
+    background: #a0a0a0;
+    cursor: default;
+
+    &:hover {
+      background: #a0a0a0;
+      cursor: default;
+    }
+  }
+
   &:focus-visible {
     box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.6);
   }

@@ -1,6 +1,9 @@
 import {
   Controller,
+  Delete,
   Get,
+  HttpCode,
+  HttpStatus,
   Param,
   ParseIntPipe,
   Post,
@@ -53,6 +56,12 @@ export class UploaderController {
 
       throw error;
     }
+  }
+
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @Delete('/:recordingId')
+  deleteRecording(@Param('recordingId') uploadId: string) {
+    return this.uploaderService.deleteRecording(uploadId);
   }
 
   @Get('/download-url/:mediaId')

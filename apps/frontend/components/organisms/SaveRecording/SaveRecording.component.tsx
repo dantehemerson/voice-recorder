@@ -3,6 +3,7 @@ import { UploadResult } from '@components/organisms';
 import { faCloudArrowUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { MediaInfo, Recording } from '@lib/recording';
+import { deleteRecording } from '@lib/services/recording.service';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
@@ -45,6 +46,16 @@ export function SaveRecording({ recording, ...props }: SaveRecordingProps) {
     recording.save();
   }
 
+  async function handleDeleteMedia() {
+    try {
+      await deleteRecording(media.mediaId);
+    } catch (error) {
+      console.error('Error deleting recording', error);
+    }
+
+    props.onDeleteMedia();
+  }
+
   if (!media) {
     return (
       <Wrapper>
@@ -61,7 +72,7 @@ export function SaveRecording({ recording, ...props }: SaveRecordingProps) {
   }
 
   return (
-    <UploadResult mediaId={media.mediaId} onClickDelete={props.onDeleteMedia} />
+    <UploadResult mediaId={media.mediaId} onClickDelete={handleDeleteMedia} />
   );
 }
 
