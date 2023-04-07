@@ -7,7 +7,7 @@
     "**/node_modules": true,
     "**/yarn.lock": true,
     "**/.cache": true,
-    "**/.next": true,
+    // "**/.next": true,
     // "**/public": true,
 
     /** Barely updated files **/

@@ -26,7 +26,7 @@ export class Uploader {
     chunkSize: 100000,
     maxChunkCount: 5000,
     maxConcurrentUploads: 3,
-    uploadUrl: '/api/upload',
+    uploadUrl: `${process.env.NEXT_PUBLIC_API_URL}/upload`,
   };
 
   /** Upload Listeners */
