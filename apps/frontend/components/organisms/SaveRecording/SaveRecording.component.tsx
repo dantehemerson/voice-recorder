@@ -17,7 +17,6 @@ export function SaveRecording({ recording, ...props }: SaveRecordingProps) {
   const [isSaving, setIsSaving] = useState(false);
   const [percentageComplete, setPercentageComplete] = useState(0);
   const [media, setMedia] = useState<MediaInfo>();
-  console.log(media);
 
   useEffect(() => {
     recording.onSavePercent = percent => {
