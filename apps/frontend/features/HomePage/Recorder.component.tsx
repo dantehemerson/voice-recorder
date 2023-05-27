@@ -114,7 +114,6 @@ export function Recorder(props: RecorderProps) {
               onCancelClick={handleClickCancel}
             />
           </RecorderControlsWrapper>
-          {/* </div> */}
         </>
       )}
     </Wrapper>
