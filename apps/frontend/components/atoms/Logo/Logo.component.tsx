@@ -16,6 +16,7 @@ export function Logo() {
 const Wrapper = styled.div`
   border-radius: 50%;
   padding: 10px;
+  zoom: 0.25;
   background: rgb(254, 82, 47);
   background: linear-gradient(
     0deg,

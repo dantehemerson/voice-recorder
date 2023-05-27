@@ -98,7 +98,26 @@ export function Recorder(props: RecorderProps) {
         />
       ) : (
         <>
-          <Chronometer timer={timer} />
+          <Chronometer
+            timer={timer}
+            style={{
+              marginTop: '50px',
+            }}
+          />
+          {/* <div
+            style={
+              {
+                // width: '100%',
+                // display: 'flex',
+                // justifyContent: 'center',
+                // alignItems: 'center',
+                // marginTop: '3vh',
+              }
+            }
+          > */}
+          <p style={{ fontSize: '14px', color: 'gray', marginTop: '3vh' }}>
+            Ready to record
+          </p>
           <RecorderControlsWrapper>
             <RecorderControls
               isRecording={homeState.screen === HomeScreen.RECORDING}
@@ -109,6 +128,7 @@ export function Recorder(props: RecorderProps) {
               onCancelClick={handleClickCancel}
             />
           </RecorderControlsWrapper>
+          {/* </div> */}
         </>
       )}
     </Wrapper>
@@ -122,5 +142,5 @@ const Wrapper = styled.div`
 `;
 
 const RecorderControlsWrapper = styled.div`
-  margin-top: 8vh;
+  margin-top: 10px;
 `;
