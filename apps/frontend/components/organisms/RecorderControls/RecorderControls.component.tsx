@@ -33,6 +33,17 @@ export function RecorderControls(props: RecorderControlsProps) {
     return RecorderStatus.STOPPED;
   }
 
+  function recorderStatusMessage(): string {
+    switch (getStatus()) {
+      case RecorderStatus.RECORDING:
+        return 'Recording...';
+      case RecorderStatus.PAUSED:
+        return 'Paused';
+      case RecorderStatus.STOPPED:
+        return 'Ready to record';
+    }
+  }
+
   function handleCancelClick() {
     setIsPaused(false);
     props.onCancelClick?.();
@@ -49,7 +60,7 @@ export function RecorderControls(props: RecorderControlsProps) {
           marginTop: '3vh',
         }}
       >
-        Ready to recording
+        {recorderStatusMessage()}
       </p>
       <div
         style={{
