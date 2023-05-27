@@ -12,14 +12,16 @@ export function Header() {
 
 const Wrapper = styled.div`
   margin-top: 50px;
-  background: #242424;
+  background: #383738;
   padding: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 10px;
   padding-left: 30px;
-  border-radius: 4px;
+  border-radius: 56px;
   flex-direction: row;
   margin-bottom: 30px;
 

@@ -104,20 +104,6 @@ export function Recorder(props: RecorderProps) {
               marginTop: '50px',
             }}
           />
-          {/* <div
-            style={
-              {
-                // width: '100%',
-                // display: 'flex',
-                // justifyContent: 'center',
-                // alignItems: 'center',
-                // marginTop: '3vh',
-              }
-            }
-          > */}
-          <p style={{ fontSize: '14px', color: 'gray', marginTop: '3vh' }}>
-            Ready to record
-          </p>
           <RecorderControlsWrapper>
             <RecorderControls
               isRecording={homeState.screen === HomeScreen.RECORDING}
@@ -143,4 +129,5 @@ const Wrapper = styled.div`
 
 const RecorderControlsWrapper = styled.div`
   margin-top: 10px;
+  width: 100%;
 `;

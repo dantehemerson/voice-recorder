@@ -39,43 +39,64 @@ export function RecorderControls(props: RecorderControlsProps) {
   }
 
   return (
-    <Wrapper isRecording={props.isRecording}>
-      <ButtonsContainer>
-        <BandButton
-          onClick={handleCancelClick}
-          className={props.isRecording && 'show'}
-          style={{
-            left: '20px',
-          }}
-          title="Cancel recording"
-        >
-          <FontAwesomeIcon icon={faXmark} color="#F75B47" />
-        </BandButton>
-        <PlayPauseButton
-          status={getStatus()}
-          size={BACKGROUND_CIRCLE_SIZE - 20}
-          onStartClick={props.onStartClick}
-          onPauseClick={handlePlayPause}
-          onPlayClick={handlePlayPause}
-        />
-        <BandButton
-          onClick={props.onStopClick}
-          ok={true}
-          style={{
-            right: '20px',
-          }}
-          title="Stop recording"
-          className={props.isRecording && 'show'}
-        >
-          <FontAwesomeIcon icon={faCheck} color="#16C698" />
-        </BandButton>
-      </ButtonsContainer>
-      <BackgroundCircle size={BACKGROUND_CIRCLE_SIZE} />
-    </Wrapper>
+    <>
+      <p
+        style={{
+          fontSize: '14px',
+          fontWeight: 500,
+          textAlign: 'center',
+          color: '#676767',
+          marginTop: '3vh',
+        }}
+      >
+        Ready to recording
+      </p>
+      <div
+        style={{
+          width: '100%',
+          display: 'flex',
+          justifyContent: 'center',
+        }}
+      >
+        <ButtonsWrapper isRecording={props.isRecording}>
+          <ButtonsContainer>
+            <BandButton
+              onClick={handleCancelClick}
+              className={props.isRecording && 'show'}
+              style={{
+                left: '20px',
+              }}
+              title="Cancel recording"
+            >
+              <FontAwesomeIcon icon={faXmark} color="#F75B47" />
+            </BandButton>
+            <PlayPauseButton
+              status={getStatus()}
+              size={BACKGROUND_CIRCLE_SIZE - 20}
+              onStartClick={props.onStartClick}
+              onPauseClick={handlePlayPause}
+              onPlayClick={handlePlayPause}
+            />
+            <BandButton
+              onClick={props.onStopClick}
+              ok={true}
+              style={{
+                right: '20px',
+              }}
+              title="Stop recording"
+              className={props.isRecording && 'show'}
+            >
+              <FontAwesomeIcon icon={faCheck} color="#16C698" />
+            </BandButton>
+          </ButtonsContainer>
+          <BackgroundCircle size={BACKGROUND_CIRCLE_SIZE} />
+        </ButtonsWrapper>
+      </div>
+    </>
   );
 }
 
-const Wrapper = styled<any>(Card)`
+const ButtonsWrapper = styled<any>(Card)`
   margin-top: 35px;
   margin-bottom: 35px;
   padding: 4px 0;
