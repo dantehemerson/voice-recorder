@@ -27,6 +27,8 @@ const Wrapper = styled.div`
 
   h1 {
     font-size: 1.1rem;
+    line-height: 0.85;
+    height: 10px;
     text-align: center;
     color: white;
     font-weight: bold;

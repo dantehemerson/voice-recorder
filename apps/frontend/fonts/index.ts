@@ -1,10 +1,7 @@
 import { Chivo } from '@next/font/google';
 import localFont from '@next/font/local';
 
-export const MonoFont = Chivo({ subsets: ['latin'] });
+export const MonoFont = Chivo({ subsets: ['latin'], weight: ['800'] });
 export const NexaFont = localFont({
-  src: [
-    // { path: './Nexa-Light.otf', weight: '300' },
-    { path: './Nexa Bold.otf', weight: 'normal' },
-  ],
+  src: [{ path: './Nexa Bold.otf', weight: 'normal' }],
 });

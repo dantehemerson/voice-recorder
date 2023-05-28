@@ -29,6 +29,5 @@ export function Chronometer({ timer, ...props }: ChronometerProps) {
 const Wrapper = styled.div`
   display: flex;
   font-family: ${MonoFont.style.fontFamily};
-  font-size: 42px;
-  font-weight: bold;
+  font-size: 44px;
 `;
