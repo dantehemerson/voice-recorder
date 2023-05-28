@@ -64,7 +64,7 @@ export function SaveRecording({ recording, ...props }: SaveRecordingProps) {
           leftIcon={<FontAwesomeIcon icon={faCloudArrowUp} />}
         >
           {isSaving
-            ? `Saving Recording...(${percentageComplete}%)`
+            ? `Saving Recording...(${percentageComplete} %)`
             : 'Save recording'}
         </Button>
       </Wrapper>

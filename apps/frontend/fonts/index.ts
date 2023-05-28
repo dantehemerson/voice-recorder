@@ -5,6 +5,6 @@ export const MonoFont = Chivo({ subsets: ['latin'] });
 export const NexaFont = localFont({
   src: [
     // { path: './Nexa-Light.otf', weight: '300' },
-    { path: './Nexa-Bold.otf', weight: 'normal' },
+    { path: './Nexa Bold.otf', weight: 'normal' },
   ],
 });

@@ -56,7 +56,7 @@ export function RecorderControls(props: RecorderControlsProps) {
           fontSize: '14px',
           fontWeight: 500,
           textAlign: 'center',
-          color: '#676767',
+          color: '#7a8286',
           marginTop: '3vh',
         }}
       >
