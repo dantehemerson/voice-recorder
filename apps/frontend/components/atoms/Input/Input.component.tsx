@@ -10,7 +10,7 @@ export function Input(props: InputProps) {
 const StyledInput = styled.input`
   outline: transparent solid 2px;
   outline-offset: 0px;
-  border-radius: 4px;
+  border-radius: 0.875rem;
   height: 2.5rem;
   font-size: 1rem;
   padding-inline-start: 1rem;

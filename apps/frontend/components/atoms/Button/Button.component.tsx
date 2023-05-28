@@ -29,7 +29,7 @@ const StyledButton = styled.button`
   cursor: pointer;
   outline: none;
   outline: transparent solid 2px;
-  border-radius: 0.375rem;
+  border-radius: 0.875rem;
   height: 2.5rem;
   font-family: ${NexaFont.style.fontFamily};
   font-size: 0.85rem;
