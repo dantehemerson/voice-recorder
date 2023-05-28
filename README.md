@@ -10,6 +10,12 @@
   </h3>
 </div>
 
+
+
+https://github.com/dantehemerson/voice-recorder/assets/18385321/8e0c8716-0ec0-4525-8568-1ba14333a30f
+
+
+
 A simple and open-source voice recorder service
 
 ## Development
