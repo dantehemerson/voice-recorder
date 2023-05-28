@@ -12,7 +12,7 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 
 export function Button(props: ButtonProps) {
   return (
-    <StyledButton {...props} color={props.color || '#242424'}>
+    <StyledButton {...props} color={props.color || '#383738'}>
       {props.leftIcon && (
         <ButtonIcon marginRight="10px">{props.leftIcon}</ButtonIcon>
       )}
