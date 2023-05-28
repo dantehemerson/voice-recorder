@@ -42,7 +42,7 @@ const Wrapper = styled.div`
   width: 100%;
   padding: 1rem;
   border: 1px solid #cecdcd;
-  border-radius: 28px;
+  border-radius: 0.875rem;
   display: flex;
   justify-content: center;
   align-items: center;
