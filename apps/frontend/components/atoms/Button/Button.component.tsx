@@ -2,6 +2,7 @@ import { ButtonIcon } from '@components/atoms/Button/ButtonIcon.component';
 import { darkenColor } from '@lib/helpers/colors';
 import { ButtonHTMLAttributes } from 'react';
 import styled from 'styled-components';
+import { NexaFont } from '~/fonts';
 
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   leftIcon?: React.ReactElement;
@@ -30,7 +31,8 @@ const StyledButton = styled.button`
   outline: transparent solid 2px;
   border-radius: 0.375rem;
   height: 2.5rem;
-  font-weight: 600;
+  font-family: ${NexaFont.style.fontFamily};
+  font-size: 0.85rem;
   color: white;
   transition-duration: 0.2s;
   white-space: nowrap;

@@ -3,11 +3,9 @@ import localFont from '@next/font/local';
 
 export const MainFont = Montserrat({ subsets: ['latin'] });
 export const MonoFont = Chivo({ subsets: ['latin'] });
-export const nexa = localFont({
+export const NexaFont = localFont({
   src: [
-    { path: './Nexa-Light.otf', weight: 'normal' },
-    { path: './Nexa-Bold.otf', weight: 'bold' },
+    // { path: './Nexa-Light.otf', weight: '300' },
+    { path: './Nexa-Bold.otf', weight: 'normal' },
   ],
 });
-
-console.log('Nexa', nexa);
