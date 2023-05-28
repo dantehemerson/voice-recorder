@@ -41,7 +41,7 @@ export function AudioPlayer(props: AudioPlayerProps) {
 const Wrapper = styled.div`
   width: 100%;
   padding: 1rem;
-  border: 1px solid #cecdcd;
+  border: 1px solid #d7e4eb;
   border-radius: 0.875rem;
   display: flex;
   justify-content: center;

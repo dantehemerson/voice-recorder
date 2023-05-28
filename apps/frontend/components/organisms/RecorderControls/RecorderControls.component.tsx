@@ -112,6 +112,7 @@ const ButtonsWrapper = styled<any>(Card)`
   margin-bottom: 35px;
   padding: 4px 0;
   background-color: #fefefe;
+  padding: 0.5rem !important;
   position: relative;
   width: ${props => (props.isRecording ? '260px' : '90px')};
   border-radius: 20px;

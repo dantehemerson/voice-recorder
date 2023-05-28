@@ -1,5 +1,6 @@
 import { InputHTMLAttributes } from 'react';
 import styled from 'styled-components';
+import { NexaFont } from '~/fonts';
 
 type InputProps = InputHTMLAttributes<HTMLInputElement>;
 
@@ -9,10 +10,12 @@ export function Input(props: InputProps) {
 
 const StyledInput = styled.input`
   outline: transparent solid 2px;
+  font-family: ${NexaFont.style.fontFamily};
+  color: #5a6a73;
   outline-offset: 0px;
   border-radius: 0.875rem;
   height: 2.5rem;
-  font-size: 1rem;
+  font-size: 0.9rem;
   padding-inline-start: 1rem;
   padding-inline-end: 1rem;
   transition: 0.2s ease-in-out;
