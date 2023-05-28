@@ -1,7 +1,6 @@
-import { Montserrat, Chivo } from '@next/font/google';
+import { Chivo } from '@next/font/google';
 import localFont from '@next/font/local';
 
-export const MainFont = Montserrat({ subsets: ['latin'] });
 export const MonoFont = Chivo({ subsets: ['latin'] });
 export const NexaFont = localFont({
   src: [
