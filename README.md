@@ -12,7 +12,10 @@
 
 
 
-https://github.com/dantehemerson/voice-recorder/assets/18385321/8e0c8716-0ec0-4525-8568-1ba14333a30f
+
+https://github.com/dantehemerson/voice-recorder/assets/18385321/67b09ad8-fd7d-421d-bb24-0b59ae3e2618
+
+
 
 
 
