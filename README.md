@@ -2,24 +2,20 @@
 
 <div align="center">
   <a href="https://www.techinterviewhandbook.org/">
-    <img src="./apps/frontend/public/logo.png" alt="Voice Recorder App" width="300" />
+    <img src="./apps/frontend/public/logo.png" alt="Voice Recorder App" width="100" />
   </a>
   <br />
   <h3>
-    <a href="https://voice-recorder-online.vercel.app">Go to the application</a>
+    <a href="https://recorder.dantecalderon.dev">Go to the application</a>
   </h3>
 </div>
 
+A simple and open-source voice recorder service
 
 
+### Application Preview:
 
 https://github.com/dantehemerson/voice-recorder/assets/18385321/67b09ad8-fd7d-421d-bb24-0b59ae3e2618
-
-
-
-
-
-A simple and open-source voice recorder service
 
 ## Development
 
@@ -32,6 +28,7 @@ npm ci
 **Run application**:
 
 ```bash
+# It runs frontend and backend application:
 npm run start:all
 ```
 
