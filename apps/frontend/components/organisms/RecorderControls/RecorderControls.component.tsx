@@ -57,7 +57,6 @@ export function RecorderControls(props: RecorderControlsProps) {
           fontWeight: 500,
           textAlign: 'center',
           color: '#7a8286',
-          marginTop: '3vh',
         }}
       >
         {recorderStatusMessage()}

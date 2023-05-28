@@ -101,7 +101,7 @@ export function Recorder(props: RecorderProps) {
           <Chronometer
             timer={timer}
             style={{
-              marginTop: '50px',
+              marginTop: '4vh',
             }}
           />
           <RecorderControlsWrapper>
@@ -127,6 +127,6 @@ const Wrapper = styled.div`
 `;
 
 const RecorderControlsWrapper = styled.div`
-  margin-top: 10px;
+  margin-top: 5vh;
   width: 100%;
 `;
