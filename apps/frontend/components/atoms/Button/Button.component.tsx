@@ -2,6 +2,7 @@ import { ButtonIcon } from '@components/atoms/Button/ButtonIcon.component';
 import { darkenColor } from '@lib/helpers/colors';
 import { ButtonHTMLAttributes } from 'react';
 import styled from 'styled-components';
+import { NexaFont } from '~/fonts';
 
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   leftIcon?: React.ReactElement;
@@ -11,7 +12,7 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 
 export function Button(props: ButtonProps) {
   return (
-    <StyledButton {...props} color={props.color || '#242424'}>
+    <StyledButton {...props} color={props.color || '#383738'}>
       {props.leftIcon && (
         <ButtonIcon marginRight="10px">{props.leftIcon}</ButtonIcon>
       )}
@@ -28,9 +29,10 @@ const StyledButton = styled.button`
   cursor: pointer;
   outline: none;
   outline: transparent solid 2px;
-  border-radius: 0.375rem;
+  border-radius: 0.875rem;
   height: 2.5rem;
-  font-weight: 600;
+  font-family: ${NexaFont.style.fontFamily};
+  font-size: 0.85rem;
   color: white;
   transition-duration: 0.2s;
   white-space: nowrap;

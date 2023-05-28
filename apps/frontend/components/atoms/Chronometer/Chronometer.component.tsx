@@ -5,9 +5,10 @@ import { MonoFont } from '~/fonts';
 
 export type ChronometerProps = {
   timer: Timer;
+  style?: React.CSSProperties;
 };
 
-export function Chronometer({ timer }: ChronometerProps) {
+export function Chronometer({ timer, ...props }: ChronometerProps) {
   const [time, setTime] = useState(timer.getTime());
 
   useEffect(() => {
@@ -19,7 +20,7 @@ export function Chronometer({ timer }: ChronometerProps) {
   }, []);
 
   return (
-    <Wrapper>
+    <Wrapper style={props.style}>
       <div>{Timer.makeTimeStrMMSS(time)}</div>
     </Wrapper>
   );
@@ -28,6 +29,5 @@ export function Chronometer({ timer }: ChronometerProps) {
 const Wrapper = styled.div`
   display: flex;
   font-family: ${MonoFont.style.fontFamily};
-  font-size: 42px;
-  font-weight: bold;
+  font-size: 44px;
 `;

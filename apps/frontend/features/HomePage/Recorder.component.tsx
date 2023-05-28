@@ -98,7 +98,12 @@ export function Recorder(props: RecorderProps) {
         />
       ) : (
         <>
-          <Chronometer timer={timer} />
+          <Chronometer
+            timer={timer}
+            style={{
+              marginTop: '4vh',
+            }}
+          />
           <RecorderControlsWrapper>
             <RecorderControls
               isRecording={homeState.screen === HomeScreen.RECORDING}
@@ -122,5 +127,6 @@ const Wrapper = styled.div`
 `;
 
 const RecorderControlsWrapper = styled.div`
-  margin-top: 8vh;
+  margin-top: 5vh;
+  width: 100%;
 `;

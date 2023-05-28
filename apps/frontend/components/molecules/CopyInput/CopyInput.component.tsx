@@ -41,14 +41,14 @@ const Wrapper = styled.div`
 `;
 
 const StyledInput = styled(Input)`
-  border-right-width: 0px;
-  border-top-right-radius: 0px;
-  border-bottom-right-radius: 0px;
+  border-right-width: 0px !important;
+  border-top-right-radius: 0px !important;
+  border-bottom-right-radius: 0px !important;
   width: 100%;
 `;
 
 const StyledButton = styled(Button)`
-  border-top-left-radius: 0px;
-  border-bottom-left-radius: 0px;
+  border-top-left-radius: 0px !important;
+  border-bottom-left-radius: 0px !important;
   width: 82px;
 `;

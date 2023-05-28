@@ -24,8 +24,7 @@
       "defaultConfiguration": "development",
       "options": {
         "buildTarget": "frontend:build",
-        "dev": true,
-        "proxyConfig": "apps/frontend/proxy.conf.json"
+        "dev": true
       },
       "configurations": {
         "development": {

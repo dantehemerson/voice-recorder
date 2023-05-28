@@ -13,8 +13,8 @@ export function Card({ ...props }: CardProps) {
 const Wrapper = styled.div`
   display: flex;
   background: white;
-  border-radius: 4px;
-  padding: 0.5rem 0.5rem;
+  border-radius: 0.875rem;
+  padding: 1rem !important;
   flex-direction: 'column';
   justify-content: 'center';
   align-items: 'center';
