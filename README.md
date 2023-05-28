@@ -6,7 +6,7 @@
   </a>
   <br />
   <h3>
-    <a href="https://recorder.dantecalderon.dev">Go to the application</a>
+    <a href="https://recorder.dantecalderon.dev" target="_blank">Go to the application</a>
   </h3>
 </div>
 
