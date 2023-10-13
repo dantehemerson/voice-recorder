@@ -9,6 +9,7 @@
     "start:frontend": "nx serve frontend",
     "start:api": "nx serve api",
     "build": "nx run-many --parallel --target build --projects=frontend,api",
+    "build:api": "nx run-many --parallel --target build --projects=api",
     "test": "nx test"
   },
   "engines": {

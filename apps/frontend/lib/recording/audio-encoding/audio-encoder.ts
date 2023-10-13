@@ -68,6 +68,7 @@ export class AudioEncoder {
   private prestart() {
     this.state = EncoderStatus.LOADING;
 
+    // TODO: Is base url required?
     const mp3WorkerUrl = `${process.env.NEXT_PUBLIC_WEB_URL}/mp3worker.min.js`;
 
     const workerScript = `importScripts("${mp3WorkerUrl}");`;

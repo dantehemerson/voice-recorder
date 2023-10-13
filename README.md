@@ -6,12 +6,11 @@
   </a>
   <br />
   <h3>
-    <a href="https://recorder.dantecalderon.dev" target="_blank">Go to the application</a>
+    <a href="https://recorder.dantecalderon.com" target="_blank">Go to the application</a>
   </h3>
 </div>
 
 A simple and open-source voice recorder service
-
 
 ### Application Preview:
 

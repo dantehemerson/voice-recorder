@@ -3,13 +3,12 @@
   "workbench.iconTheme": "vscode-icons",
   "vsicons.presets.nestjs": true,
   "files.exclude": {
-    // "**/dist": true,
+    "**/dist": true,
     "**/node_modules": true,
     "**/yarn.lock": true,
     "**/.cache": true,
-    // "**/.next": true,
-    // "**/public": true,
-
+    "**/.next": true,
+    "**/public": true,
     /** Barely updated files **/
     "**/index.d.ts": true,
     "**/jest.config.ts": true,
@@ -21,7 +20,8 @@
     "node_modules/**": false
   },
   "files.associations": {
-    "**/*.env*": "dotenv"
+    "**/*.env*": "dotenv",
+    "**/Procfile2": "Procfile"
   },
   "typescript.preferences.importModuleSpecifier": "non-relative",
 }
