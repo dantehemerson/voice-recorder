@@ -12,9 +12,8 @@
 
 A simple and open-source voice recorder service
 
-### Application Preview:
+<img src="https://github.com/dantehemerson/voice-recorder/assets/18385321/af093377-6bd6-445c-ac7b-e3808131877e" alt="Voice Recorder App" width="900px" />
 
-https://github.com/dantehemerson/voice-recorder/assets/18385321/67b09ad8-fd7d-421d-bb24-0b59ae3e2618
 
 ## Development
 
