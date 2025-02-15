@@ -18,12 +18,22 @@ import {
 import 'multer';
 import { NotChunksFoundException } from '../uploader/exceptions/not-chunks-found.exception';
 import { UploaderService } from './uploader.service';
+import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { AliveResponseDto } from './dto/alive-response.dto';
 
+@ApiTags('Uploader')
 @Controller('upload')
 export class UploaderController {
   constructor(private readonly uploaderService: UploaderService) {}
 
   @Get('alive')
+  @ApiOperation({
+    summary: 'Check if the server is alive',
+    description: 'Check if the server is alive(available to receive requests)',
+  })
+  @ApiOkResponse({
+    type: AliveResponseDto,
+  })
   alive() {
     return {
       ok: true,

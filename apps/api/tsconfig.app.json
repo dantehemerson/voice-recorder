@@ -4,6 +4,7 @@
     "outDir": "../../dist/out-tsc",
     "module": "commonjs",
     "types": ["node"],
+    "resolveJsonModule": true,
     "emitDecoratorMetadata": true,
     "target": "es2015"
   },
