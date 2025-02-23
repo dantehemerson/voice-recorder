@@ -5,10 +5,12 @@ export enum AlertStatus {
 export const AlertStatuses = {
   [AlertStatus.ERROR]: {
     icon: <i>(i)</i>,
-    colorScheme: '#fccccc',
+    colorScheme: '#ffe5e9',
+    border: '#ff4d4d',
+    color: '#d02828',
   },
 };
 
-export function getAlertColorScheme(status: AlertStatus) {
-  return AlertStatuses[status].colorScheme;
+export function getAlertColor(status: AlertStatus) {
+  return AlertStatuses[status];
 }

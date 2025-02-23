@@ -1,5 +1,5 @@
+import { Optional } from '@lib/types/optional.type';
 import React, { useReducer } from 'react';
-import { Optional } from '@voice-recorder/shared-types';
 
 export enum HomeScreen {
   INITIAL,
@@ -67,7 +67,11 @@ const HomeContext = React.createContext<HomeContextValue | undefined>(
   undefined
 );
 
-export function HomeContextProvider({ children }) {
+export function HomeContextProvider({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const [homeState, dispatchHomeEvent] = useReducer(homeContextReducer, {
     screen: HomeScreen.INITIAL,
     audioBlobUrl: undefined,

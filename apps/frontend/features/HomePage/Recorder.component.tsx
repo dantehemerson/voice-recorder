@@ -11,9 +11,10 @@ import { HomeScreen, useHomeState } from './contexts/home.context';
 type RecorderProps = {
   onNewRecording: (recording: Recording) => void;
   onStartRecording: (toHome?: boolean) => void;
+  onErrorRecording: (error: Error) => void;
 };
 
-export function Recorder(props: RecorderProps) {
+export function RecorderComponent(props: RecorderProps) {
   const { homeState, dispatch } = useHomeState();
   const recorder = useRecording();
   const timer = useTimer();
@@ -29,7 +30,7 @@ export function Recorder(props: RecorderProps) {
       timer.resetAndStart();
     };
 
-    recorder.recording.onStop = sucess => {
+    recorder.recording.onStop = (sucess) => {
       if (sucess) {
         dispatch.recordResult({
           audioBlobUrl: recorder.recording.getAudioBlobUrl(),
@@ -49,7 +50,7 @@ export function Recorder(props: RecorderProps) {
       timer.start();
     };
 
-    recorder.recording.onError = error => {
+    recorder.recording.onError = (error) => {
       setError({
         message: error.name,
         details: error.message,
@@ -64,10 +65,23 @@ export function Recorder(props: RecorderProps) {
   }, []);
 
   async function startRecording() {
-    dispatch.startRecording();
-    initRecording();
-    props.onStartRecording();
-    await recorder.recording.start();
+    try {
+      // Init Recorder
+      initRecording();
+
+      // Start recording
+      await recorder.recording.start();
+
+      // Change UI state:
+      dispatch.startRecording();
+
+      props.onStartRecording();
+    } catch (error) {
+      console.error('Error while starting recording', error);
+      console.error(error);
+
+      props.onErrorRecording(error as Error);
+    }
   }
 
   async function handleStop() {

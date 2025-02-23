@@ -1,6 +1,6 @@
-import { Recording } from '@lib/recording';
-import { Optional } from '@voice-recorder/shared-types';
 import { useState } from 'react';
+import { Recording } from '@lib/recording';
+import { Optional } from '@lib/types/optional.type';
 
 interface UseRecordingOptions {
   removeBackgroundNoise: boolean;

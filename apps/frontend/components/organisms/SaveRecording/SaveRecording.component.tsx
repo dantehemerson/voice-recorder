@@ -8,42 +8,45 @@ import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 type SaveRecordingProps = {
-  recording: Recording;
+  recordingResult: Recording;
   onSaveRecording: (media: MediaInfo) => void;
   onDeleteMedia: () => void;
 };
 
-export function SaveRecording({ recording, ...props }: SaveRecordingProps) {
+export function SaveRecording({
+  recordingResult,
+  ...props
+}: SaveRecordingProps) {
   const [isSaving, setIsSaving] = useState(false);
   const [percentageComplete, setPercentageComplete] = useState(0);
   const [media, setMedia] = useState<MediaInfo>();
 
   useEffect(() => {
-    recording.onSavePercent = percent => {
+    recordingResult.onSavePercent = (percent) => {
       setPercentageComplete(percent);
     };
 
-    recording.onSaveError = error => {
+    recordingResult.onSaveError = (error) => {
       console.log('error saving', error);
       setIsSaving(false);
     };
 
-    recording.onSaveSuccess = media => {
+    recordingResult.onSaveSuccess = (media) => {
       setMedia(media);
       setIsSaving(false);
       props.onSaveRecording(media);
     };
 
     return () => {
-      recording.onSavePercent = undefined;
-      recording.onSaveError = undefined;
+      recordingResult.onSavePercent = undefined;
+      recordingResult.onSaveError = undefined;
     };
   }, []);
 
   function handleSave() {
     setIsSaving(true);
     setPercentageComplete(0);
-    recording.save();
+    recordingResult.save();
   }
 
   async function handleDeleteMedia() {

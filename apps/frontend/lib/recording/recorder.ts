@@ -59,6 +59,7 @@ export class Recorder {
         this.state = RecorderStatus.STOPPED;
 
         console.log('Error while starting recorder', error);
+
         throw error;
       }
     }
@@ -77,7 +78,7 @@ export class Recorder {
       'script-processor-replacement'
     );
 
-    this.scriptProcessorNode.port.onmessage = event => {
+    this.scriptProcessorNode.port.onmessage = (event) => {
       if (this.state === RecorderStatus.RECORDING) {
         this.encoder.sendData(event.data);
       }
@@ -97,7 +98,7 @@ export class Recorder {
 
     await this.encoder.waitForWorker();
 
-    this.encoder.onDataAvailable = data => {
+    this.encoder.onDataAvailable = (data) => {
       !this.aborted && this.onDataAvailable?.(data);
     };
 
@@ -145,7 +146,7 @@ export class Recorder {
   }
 
   stopStream() {
-    this.stream.getTracks().forEach(track => {
+    this.stream.getTracks().forEach((track) => {
       track.stop();
     });
   }

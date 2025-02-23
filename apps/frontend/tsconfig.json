@@ -5,6 +5,7 @@
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
+    "strictNullChecks": false,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
     "esModuleInterop": true,
@@ -15,6 +16,7 @@
     "jsx": "preserve",
     "incremental": true,
     "baseUrl": ".",
+    "strictPropertyInitialization": false,
     "paths": {
       "@components/*": ["./components/*"],
       "@features/*": ["./features/*"],

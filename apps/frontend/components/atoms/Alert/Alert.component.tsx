@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { AlertStatus, getAlertColorScheme } from './alert.constants';
+import { AlertStatus, getAlertColor } from './alert.constants';
 
 type AlertProps = {
   status: AlertStatus;
@@ -17,14 +17,19 @@ export function Alert({ status = AlertStatus.ERROR, ...props }: AlertProps) {
 }
 
 const Wrapper = styled.div<Pick<AlertProps, 'status'>>`
-  background: ${props => getAlertColorScheme(props.status)};
+  background: ${(props) => getAlertColor(props.status).colorScheme};
   border-radius: 5px;
-  padding: 7px 10px;
-  border: 1px solid gray;
+  padding: 10px 20px;
+  max-width: 340px;
+  color: ${(props) => getAlertColor(props.status).color};
+  box-shadow: 0px 0px 1px ${(props) => getAlertColor(props.status).border};
 `;
 
-const Title = styled.b``;
+const Title = styled.b`
+  font-size: 15px;
+`;
 
 const Description = styled.p`
+  font-size: 12px;
   padding-top: 6px;
 `;
