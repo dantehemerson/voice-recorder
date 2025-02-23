@@ -14,6 +14,10 @@ export const S3Provider: Provider = {
       secretAccessKey: awsConfig.secretAccessKey,
       region: awsConfig.region,
       signatureVersion: 'v4',
+
+      // Only for Minio
+      s3ForcePathStyle: false ? undefined : true,
+      endpoint: false ? undefined : 'http://127.0.0.1:9000',
     });
   },
   inject: [ConfigService],

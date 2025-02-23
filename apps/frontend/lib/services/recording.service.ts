@@ -1,8 +1,6 @@
-import {
-  DownloadUrlReponseDto,
-  MediaInfoDto,
-  HttpStatus,
-} from '@voice-recorder/shared-types';
+import { DownloadUrlReponseDto } from '@lib/dto/download-url-reponse.dto';
+import { MediaInfoDto } from '@lib/dto/media-info.dto';
+import { HttpStatus } from '@lib/enums/http-status.enum';
 
 export async function getRecordingById(
   recordingId: string
