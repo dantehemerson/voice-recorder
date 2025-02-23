@@ -4,9 +4,9 @@ import { useRecording, useTimer } from '@lib/hooks';
 import { Recording } from '@lib/recording';
 import { useSetAtom } from 'jotai';
 import { useEffect } from 'react';
-import { errorStoreAtom } from 'store/error.store';
 import styled from 'styled-components';
 import { HomeScreen, useHomeState } from './contexts/home.context';
+import { errorStoreAtom } from '@features/HomePage/Error.component';
 
 type RecorderProps = {
   onNewRecording: (recording: Recording) => void;

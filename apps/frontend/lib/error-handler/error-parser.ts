@@ -1,4 +1,4 @@
-import { ErrorStore } from '~/store/error.store';
+import { ErrorStore } from '@features/HomePage/Error.component';
 
 export function errorParser(error: Error): ErrorStore {
   if (error instanceof Error) {

@@ -1,8 +1,10 @@
+import { errorStoreAtom } from '@features/HomePage/Error.component';
 import { errorParser } from '@lib/error-handler/error-parser';
 import { MediaInfo, Recording } from '@lib/recording';
 import { useSetAtom } from 'jotai';
 import { useState } from 'react';
-import { errorStoreAtom } from '~/store/error.store';
+
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export function useHomePage() {
   // Holds the recording after it's done
@@ -25,10 +27,11 @@ export function useHomePage() {
     window.history.pushState({}, '', `/${mediaInfo.mediaId}`);
   };
 
-  const onErrorRecording = (error: Error) => {
+  const onErrorRecording = async (error: Error) => {
     const parsedError = errorParser(error);
     setError(undefined);
-
+    // Delay to show a blink when error occurs in short period of time
+    await sleep(20);
     setError(parsedError);
   };
 

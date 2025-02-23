@@ -1,7 +1,14 @@
 import { Alert, AlertStatus } from '@components/atoms/Alert';
-import { errorStoreAtom } from 'store/error.store';
 import { useAtomValue } from 'jotai';
 import styled from 'styled-components';
+import { atom } from 'jotai';
+
+export type ErrorStore = {
+  message: string;
+  details: string;
+};
+
+export const errorStoreAtom = atom(undefined as ErrorStore);
 
 export function ErrorComponent() {
   const error = useAtomValue(errorStoreAtom);
@@ -11,7 +18,7 @@ export function ErrorComponent() {
   }
 
   return (
-    <ErroWrapper>
+    <ErroWrapper key="error-component">
       <Alert
         status={AlertStatus.ERROR}
         title={error.message}
