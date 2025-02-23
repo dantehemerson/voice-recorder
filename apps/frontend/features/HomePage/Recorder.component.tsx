@@ -62,6 +62,14 @@ export function RecorderComponent(props: RecorderProps) {
   useEffect(() => {
     timer.reset();
     dispatch.startNewRecording();
+
+    return () => {
+      try {
+        recorder.recording.abort();
+        timer.reset();
+        recorder.clearRecording();
+      } catch {}
+    };
   }, []);
 
   async function startRecording() {
