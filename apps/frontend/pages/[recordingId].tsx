@@ -1,7 +1,7 @@
 import { RecordingPage } from '@features/RecordingPage';
+import { MediaInfoDto } from '@lib/dto/media-info.dto';
 import { getRecordingById } from '@lib/services/recording.service';
 import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
-import { MediaInfoDto } from '@voice-recorder/shared-types';
 
 export default function RecordPage(props: { media: MediaInfoDto }) {
   return <RecordingPage media={props.media} />;

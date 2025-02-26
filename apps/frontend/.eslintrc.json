@@ -1,32 +1,5 @@
 {
-  "extends": [
-    "plugin:@nrwl/nx/react-typescript",
-    "next",
-    "next/core-web-vitals",
-    "../../.eslintrc.json"
-  ],
-  "ignorePatterns": ["!**/*"],
-  "overrides": [
-    {
-      "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
-      "rules": {
-        "@next/next/no-html-link-for-pages": ["error", "apps/frontend/pages"]
-      }
-    },
-    {
-      "files": ["*.ts", "*.tsx"],
-      "rules": {
-        "react-hooks/exhaustive-deps": "off"
-      }
-    },
-    {
-      "files": ["*.js", "*.jsx"],
-      "rules": {}
-    }
-  ],
-  "rules": {
-    "@next/next/no-html-link-for-pages": "off"
-  },
+  "extends": "next/core-web-vitals",
   "env": {
     "jest": true
   }

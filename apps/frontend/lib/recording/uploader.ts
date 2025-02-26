@@ -1,4 +1,3 @@
-import { MediaInfoDto } from '@voice-recorder/shared-types';
 import { Utils } from '@lib/helpers/utils.helper';
 import { MaxChunkCountError } from './errors/max-chunk-count.error';
 import { NoChunksFoundError } from './errors/no-chunk-found.error';
@@ -9,6 +8,7 @@ import { MediaInfo } from './interfaces/media-info.interface';
 import { OnUploaderProgressPayload } from './interfaces/on-uploader-progress-payload.interface';
 import { UploaderOptions } from './interfaces/uploader-options.interface';
 import { UploadQueue } from './upload-queue';
+import { MediaInfoDto } from '@lib/dto/media-info.dto';
 
 export class Uploader {
   private chunks: Blob[] = [];
@@ -177,7 +177,7 @@ export class Uploader {
     } catch (error) {
       console.error('Error finalizing upload', { error });
       if (!this.aborted) {
-        this.onFinalizeError?.(error);
+        this.onFinalizeError?.(error as Error);
       }
     }
   }

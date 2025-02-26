@@ -13,7 +13,7 @@ export function Slider({ min = 0, ...props }: SliderProps) {
         type="range"
         {...props}
         min={min}
-        onChange={e => props.onChange?.(Number(e.target.value))}
+        onChange={(e) => props.onChange?.(Number(e.target.value))}
       ></StyledSlider>
     </Wrapper>
   );
@@ -27,7 +27,7 @@ const Wrapper = styled.div`
   align-items: center;
 `;
 
-const StyledSlider = styled.input<SliderProps>`
+const StyledSlider = styled.input`
   -webkit-appearance: none;
   width: 100%;
   height: 6px;
