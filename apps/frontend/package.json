@@ -11,7 +11,7 @@
     "test:ci": "jest --ci"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=20"
   },
   "private": true,
   "dependencies": {
